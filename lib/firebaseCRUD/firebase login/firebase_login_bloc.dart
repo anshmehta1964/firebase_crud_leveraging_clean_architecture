@@ -11,10 +11,12 @@ part 'firebase_login_state.dart';
 class FirebaseLoginBloc extends Bloc<FirebaseLoginEvent, FirebaseLoginState> {
   final _auth = AuthService();
 
-  FirebaseLoginBloc() : super(LoginInvalidState(errorMessage: "Empty Fields!")) {
+  FirebaseLoginBloc() : super(LoginInitialState()) {
     on<LoginEmailChangedEvent>((event,emit){
       if(!(EmailValidator.validate(event.email))){
         emit(LoginInvalidState(errorMessage: "Please enter a valid email!"));
+      } else {
+        emit(LoginInitialState());
       }
     });
     on<LoginPasswordChangedEvent>((event,emit){

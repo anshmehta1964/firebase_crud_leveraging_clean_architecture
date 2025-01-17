@@ -6,10 +6,12 @@ part 'firebase_signup_event.dart';
 part 'firebase_signup_state.dart';
 
 class FirebaseSignupBloc extends Bloc<FirebaseSignupEvent, FirebaseSignupState> {
-  FirebaseSignupBloc() : super(SignupInvalidState(errorMessage: "Empty Fields!")) {
+  FirebaseSignupBloc() : super(SigninInitialState()) {
     on<SignupEmailChangedEvent>((event,emit){
       if(!(EmailValidator.validate(event.email))){
         emit(SignupInvalidState(errorMessage: "Please enter a valid email!"));
+      } else {
+        emit(SigninInitialState());
       }
     });
     on<SignupPasswordChangedEvent>((event,emit){

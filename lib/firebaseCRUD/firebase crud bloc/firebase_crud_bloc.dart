@@ -53,7 +53,7 @@ class FirebaseCrudBloc extends Bloc<FirebaseCrudEvent, FirebaseCrudState> {
 
     on<TextChangedEvent>((event,emit){
       print('Text Changed Event Fired!!');
-      if(event.name == "" || event.phone == "" || event.email == "" || !(EmailValidator.validate(event.email)) || event.phone.length < 10){
+      if(event.name == "" || event.phone == "" || event.email == "" || !(EmailValidator.validate(event.email)) || event.phone.length < 10 || event.phone.length > 10){
         emit(InvalidTextState());
       } else {
         emit(ValidTextState());

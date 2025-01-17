@@ -14,3 +14,5 @@ class LoginInvalidState extends FirebaseLoginState {
 class LoginValidState extends FirebaseLoginState{}
 
 class CredentialsVerifiedState extends FirebaseLoginState{}
+
+class LoginInitialState extends FirebaseLoginState{}

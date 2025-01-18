@@ -4,12 +4,17 @@ class FirebaseSignupEvent {}
 
 class SignupEmailChangedEvent extends FirebaseSignupEvent{
   String email;
-  SignupEmailChangedEvent({required this.email});
+  // String password;
+  SignupEmailChangedEvent({
+    required this.email,
+    // required this.password
+  });
 }
 
 class SignupPasswordChangedEvent extends FirebaseSignupEvent{
+  String email;
   String password;
-  SignupPasswordChangedEvent({required this.password});
+  SignupPasswordChangedEvent({required this.password, required this.email});
 }
 
 class SingupSubmittedEvent extends FirebaseSignupEvent{

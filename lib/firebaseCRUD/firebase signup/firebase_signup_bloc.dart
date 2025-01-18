@@ -17,14 +17,17 @@ class FirebaseSignupBloc extends Bloc<FirebaseSignupEvent, FirebaseSignupState> 
     on<SignupPasswordChangedEvent>((event,emit){
       if(event.password.length < 8){
         emit(SignupInvalidState(errorMessage: "Please enter a valid password"));
-      } else{
+      } else if(!(EmailValidator.validate(event.email))){
+        emit(SignupInvalidState(errorMessage: "Please enter a valid email"));
+      } else {
         emit(SignupValidState());
       }
     });
     on<SingupSubmittedEvent>((event,emit){
-      if(EmailValidator.validate(event.email) && event.password.length < 8){
+      if(EmailValidator.validate(event.email) && event.password.length > 8){
+
+      } else {
         emit(SignupInvalidState(errorMessage: "Email or password is not Valid"));
-      } else{
 
       }
     });

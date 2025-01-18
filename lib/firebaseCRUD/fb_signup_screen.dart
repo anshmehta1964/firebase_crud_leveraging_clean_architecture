@@ -96,6 +96,7 @@ class _FbSignUpState extends State<FbSignUp> {
                   onChanged: (val) {
                     BlocProvider.of<FirebaseSignupBloc>(context).add(
                         SignupPasswordChangedEvent(
+                            email: emailController.text,
                             password: passController.text));
                   },
                 ),
@@ -118,7 +119,7 @@ class _FbSignUpState extends State<FbSignUp> {
                               passController.clear();
                             }
                           : () {},
-                      color: (state is SignupInvalidState) ? Colors.grey : Theme.of(context).colorScheme.primary,
+                      color: (state is SignupInvalidState || state is SigninInitialState) ? Colors.grey : Theme.of(context).colorScheme.primary,
                       child: Text(
                         'Sign in',
                         style: TextStyle(color: Theme.of(context).colorScheme.secondary),

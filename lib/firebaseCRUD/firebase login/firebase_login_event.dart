@@ -9,7 +9,8 @@ class LoginEmailChangedEvent extends FirebaseLoginEvent{
 
 class LoginPasswordChangedEvent extends FirebaseLoginEvent{
   String password;
-  LoginPasswordChangedEvent({required this.password});
+  String email;
+  LoginPasswordChangedEvent({required this.password, required this.email});
 }
 
 class LoginSubmittedEvent extends FirebaseLoginEvent{

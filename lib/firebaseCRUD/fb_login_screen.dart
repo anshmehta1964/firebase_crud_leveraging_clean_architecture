@@ -97,6 +97,7 @@ class _FbLoginState extends State<FbLogin> {
                   onChanged: (val) {
                     BlocProvider.of<FirebaseLoginBloc>(context).add(
                         LoginPasswordChangedEvent(
+                          email: emailController.text,
                             password: passController.text));
                   },
                 ),
@@ -126,7 +127,7 @@ class _FbLoginState extends State<FbLogin> {
                                   email: emailController.text,
                                   password: passController.text));
                         },
-                        color: (state is LoginInvalidState)
+                        color: (state is LoginInvalidState || state is LoginInitialState)
                             ? Colors.grey
                             : Theme.of(context).colorScheme.primary,
                         child: Text(

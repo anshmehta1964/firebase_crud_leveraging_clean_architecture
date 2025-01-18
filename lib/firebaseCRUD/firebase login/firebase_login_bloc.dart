@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:api_handling/firebaseCRUD/auth_service.dart';
+import 'package:api_handling/firebaseCRUD/firebase%20signup/firebase_signup_bloc.dart';
 import 'package:bloc/bloc.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:meta/meta.dart';
@@ -22,6 +23,8 @@ class FirebaseLoginBloc extends Bloc<FirebaseLoginEvent, FirebaseLoginState> {
     on<LoginPasswordChangedEvent>((event,emit){
       if(event.password.length < 8){
         emit(LoginInvalidState(errorMessage: "Please enter a valid password"));
+      } else if(!(EmailValidator.validate(event.email))){
+        emit(LoginInvalidState(errorMessage: "Please enter a valid email"));
       } else {
         emit(LoginValidState());
       }

@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:api_handling/firebaseCRUD/auth_service.dart';
 import 'package:api_handling/firebaseCRUD/components/MyTextField.dart';
+import 'package:api_handling/firebaseCRUD/components/MyTitles.dart';
 import 'package:api_handling/firebaseCRUD/crud_screen.dart';
 import 'package:api_handling/firebaseCRUD/firebase%20crud%20bloc/firebase_crud_bloc.dart';
 import 'package:flutter/cupertino.dart';
@@ -39,13 +40,7 @@ class _FbLoginState extends State<FbLogin> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  'Login',
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold),
-                ),
+                MyTitle(title: 'Login'),
                 SizedBox(height: 20),
                 BlocBuilder<FirebaseLoginBloc, FirebaseLoginState>(
                     builder: (context, state) {
@@ -68,23 +63,6 @@ class _FbLoginState extends State<FbLogin> {
                       BlocProvider.of<FirebaseLoginBloc>(context).add(
                           LoginEmailChangedEvent(email: emailController.text));
                     }),
-                // TextField(
-                //   controller: emailController,
-                //   decoration: InputDecoration(
-                //       enabledBorder: const OutlineInputBorder(
-                //         borderSide: BorderSide(color: Colors.white),
-                //       ),
-                //       focusedBorder: OutlineInputBorder(
-                //           borderSide: BorderSide(color: Colors.grey.shade400)),
-                //       fillColor: Theme.of(context).colorScheme.tertiary,
-                //       filled: true,
-                //       hintText: 'Email',
-                //       hintStyle: TextStyle(color: Colors.grey[500])),
-                //   onChanged: (val) {
-                //     BlocProvider.of<FirebaseLoginBloc>(context).add(
-                //         LoginEmailChangedEvent(email: emailController.text));
-                //   },
-                // ),
                 SizedBox(height: 10),
                 MyTextField(
                     obscureText: true,
@@ -96,27 +74,6 @@ class _FbLoginState extends State<FbLogin> {
                               email: emailController.text,
                               password: passController.text));
                     }),
-                // TextField(
-                //   obscureText: true,
-                //   obscuringCharacter: '*',
-                //   controller: passController,
-                //   decoration: InputDecoration(
-                //       enabledBorder: const OutlineInputBorder(
-                //         borderSide: BorderSide(color: Colors.white),
-                //       ),
-                //       focusedBorder: OutlineInputBorder(
-                //           borderSide: BorderSide(color: Colors.grey.shade400)),
-                //       fillColor: Theme.of(context).colorScheme.tertiary,
-                //       filled: true,
-                //       hintText: 'Password',
-                //       hintStyle: TextStyle(color: Colors.grey[500])),
-                //   onChanged: (val) {
-                //     BlocProvider.of<FirebaseLoginBloc>(context).add(
-                //         LoginPasswordChangedEvent(
-                //           email: emailController.text,
-                //             password: passController.text));
-                //   },
-                // ),
                 SizedBox(height: 20),
                 BlocListener<FirebaseLoginBloc, FirebaseLoginState>(
                   listener: (context, state) {
@@ -157,7 +114,8 @@ class _FbLoginState extends State<FbLogin> {
               ],
             ),
           ),
-        ));
+        )
+    );
   }
   
 }

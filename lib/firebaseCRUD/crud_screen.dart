@@ -1,4 +1,8 @@
+import 'package:api_handling/firebaseCRUD/components/MyTextFormField.dart';
+import 'package:api_handling/firebaseCRUD/components/MyTitles.dart';
 import 'package:api_handling/firebaseCRUD/firebase%20crud%20bloc/firebase_crud_bloc.dart';
+import 'package:api_handling/firebaseCRUD/routes/routes.dart';
+import 'package:api_handling/firebaseCRUD/routes/routes_name.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
@@ -22,19 +26,15 @@ class CrudScreen extends StatefulWidget {
 
 class _CrudScreenState extends State<CrudScreen> {
   // final CollectionReference _collectionReference = FirebaseFirestore.instance.collection("anshDatabase");
+
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   final Connectivity _connectivity = Connectivity();
-  bool isConnected = false;
+  bool isConnected  = false;
   bool hasData = false;
   bool updateButtonEnabled = false;
 
-  // List<List<String>> userData = [];
-
-  // String name = "";
-  // String email = "";
-  // String phone = "";
   List<String> temp = [];
 
   @override
@@ -69,12 +69,8 @@ class _CrudScreenState extends State<CrudScreen> {
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.secondary,
-          title: Text(
-            'Firebase Crud',
-            style: TextStyle(
-                color: Theme.of(context).colorScheme.primary,
-                fontWeight: FontWeight.bold),
-          ),
+          title:
+          MyTitle(title: 'Firebase Crud',size: 20),
         ),
         body: SafeArea(
           child: Padding(
@@ -97,63 +93,26 @@ class _CrudScreenState extends State<CrudScreen> {
                     );
                   }
                 }),
-                TextFormField(
-                  controller: nameController,
-                  decoration: InputDecoration(
-                      labelText: "Name",
-                      fillColor: Theme.of(context).colorScheme.tertiary,
-                      labelStyle: TextStyle(color: Colors.grey[500]),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.grey.shade400, width: 2),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey)
-                      )
-                  ),
-                  onChanged: (val){
-                    BlocProvider.of<FirebaseCrudBloc>(context).add(TextChangedEvent(name: nameController.text, email: emailController.text, phone: phoneController.text));
-                  },
-                ),
-                TextFormField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                      labelText: "Email",
-                      fillColor: Theme.of(context).colorScheme.tertiary,
-                      labelStyle: TextStyle(color: Colors.grey[500]),
-                      focusedBorder: OutlineInputBorder(
-                        borderSide:
-                            BorderSide(color: Colors.grey.shade400, width: 2),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey)
-                      )
-                  ),
-                  onChanged: (val){
-                    BlocProvider.of<FirebaseCrudBloc>(context).add(TextChangedEvent(name: nameController.text, email: emailController.text, phone: phoneController.text));
-                  },
-                ),
-                TextFormField(
-                  keyboardType: TextInputType.number,
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.digitsOnly
-                  ],
-                  decoration: InputDecoration(
-                    labelText: "Phone",
-                    fillColor: Theme.of(context).colorScheme.tertiary,
-                    labelStyle: TextStyle(color: Colors.grey[500]),
-                    focusedBorder: OutlineInputBorder(
-                      borderSide:
-                          BorderSide(color: Colors.grey.shade400, width: 2),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.grey)),
-                  ),
-                  controller: phoneController,
-                  onChanged: (val){
-                    BlocProvider.of<FirebaseCrudBloc>(context).add(TextChangedEvent(name: nameController.text, email: emailController.text, phone: phoneController.text));
-                  },
-                ),
+                MyTextFormField(
+                    controller: nameController,
+                    hintText: "Name",
+                    onTextChanged: (val){
+                      BlocProvider.of<FirebaseCrudBloc>(context).add(TextChangedEvent(name: nameController.text, email: emailController.text, phone: phoneController.text));
+                    }),
+                MyTextFormField(
+                    controller: emailController,
+                    hintText: "Email",
+                    onTextChanged: (val){
+                      BlocProvider.of<FirebaseCrudBloc>(context).add(TextChangedEvent(name: nameController.text, email: emailController.text, phone: phoneController.text));
+                    }),
+                MyTextFormField(
+                    type: TextInputType.number,
+                    controller: phoneController,
+                    hintText: "Phone",
+                    formatter: FilteringTextInputFormatter.digitsOnly,
+                    onTextChanged: (val){
+                      BlocProvider.of<FirebaseCrudBloc>(context).add(TextChangedEvent(name: nameController.text, email: emailController.text, phone: phoneController.text));
+                    }),
                 // CREATE BUTTON
                 Row(
                   spacing: 20,

@@ -1,4 +1,5 @@
 import 'package:api_handling/firebaseCRUD/components/MyTextField.dart';
+import 'package:api_handling/firebaseCRUD/components/MyTitles.dart';
 import 'package:api_handling/firebaseCRUD/fb_login_screen.dart';
 import 'package:api_handling/firebaseCRUD/firebase%20login/firebase_login_bloc.dart';
 import 'package:flutter/material.dart';
@@ -40,13 +41,7 @@ class _FbSignUpState extends State<FbSignUp> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  'Signup',
-                  style: TextStyle(
-                      color: Theme.of(context).colorScheme.primary,
-                      fontSize: 40,
-                      fontWeight: FontWeight.bold),
-                ),
+                MyTitle(title: 'Signup'),
                 SizedBox(height: 20),
                 BlocBuilder<FirebaseSignupBloc, FirebaseSignupState>(
                     builder: (context, state) {
@@ -70,7 +65,7 @@ class _FbSignUpState extends State<FbSignUp> {
                 ),
                 SizedBox(height: 10),
                 MyTextField(
-                  obscureText: true,
+                    obscureText: true,
                     controller: passController,
                     hintText: 'Password',
                     onTextChanged: (val){

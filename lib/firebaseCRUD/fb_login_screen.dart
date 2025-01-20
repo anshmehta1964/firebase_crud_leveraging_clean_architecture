@@ -17,14 +17,12 @@ class FbLogin extends StatefulWidget {
 }
 
 class _FbLoginState extends State<FbLogin> {
-  final _auth = AuthService();
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
 
   @override
   void dispose() {
-    // TODO: implement dispose
     super.dispose();
     emailController.dispose();
     passController.dispose();

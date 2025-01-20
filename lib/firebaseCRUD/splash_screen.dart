@@ -1,35 +1,46 @@
-import 'package:animated_splash_screen/animated_splash_screen.dart';
-import 'package:api_handling/firebaseCRUD/fb_home_screen.dart';
-import 'package:api_handling/firebaseCRUD/fb_login_screen.dart';
-import 'package:api_handling/firebaseCRUD/firebase%20signup/firebase_signup_bloc.dart';
+import 'dart:async';
+import 'package:api_handling/firebaseCRUD/routes/routes_name.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-class SplashScreen extends StatelessWidget {
+class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
   @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
+
+  late final AnimationController animationController = AnimationController(
+      duration: const Duration(seconds: 5),
+      vsync: this);
+
+  @override
+  void initState() {
+    animationController.forward();
+    isLogin(context);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    animationController.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
-    return AnimatedSplashScreen(
-        splash: Container(
-          height: double.infinity,
-          width: double.infinity,
-          child: Center(
-            child: Image(
-              image: AssetImage("assets/firebase_logo.png"),
-              height: 200,
-              width: 200,
-            ),
-          ),
-        ),
-        // splashIconSize: 100.0,
-        centered: true,
-        duration: 3100,
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        disableNavigation: false,
-        splashTransition: SplashTransition.fadeTransition,
-        animationDuration: Duration(seconds: 3),
-        nextScreen:fbHomeScreen(),
-        );
+    final Animation<double> fadeAnimator = CurvedAnimation(parent: animationController, curve: Curves.fastEaseInToSlowEaseOut);
+    return Scaffold(
+      body: Center(
+        child: FadeTransition(
+          opacity: fadeAnimator,
+          child: Image.asset('assets/firebase_logo.png', height: 50, width: 50,)
+        )
+        )
+      );
+  }
+  void isLogin(BuildContext context){
+    Timer(const Duration(seconds: 5),
+            () => Navigator.pushNamedAndRemoveUntil(context,RoutesName.homeScreen, (route) => false) );
   }
 }

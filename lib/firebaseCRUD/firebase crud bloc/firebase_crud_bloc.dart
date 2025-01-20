@@ -1,9 +1,7 @@
-import 'package:api_handling/firebaseCRUD/firebase_crud.dart';
 import 'package:bloc/bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:meta/meta.dart';
 
 part 'firebase_crud_event.dart';
 part 'firebase_crud_state.dart';
@@ -25,25 +23,28 @@ class FirebaseCrudBloc extends Bloc<FirebaseCrudEvent, FirebaseCrudState> {
       // List<String>nameList = querySnapshot.docs.map((doc) => doc.get("name")).toList() ;
       //  = querySnapshot.docs.map((doc) => doc.get("email")).toList() ;
       // List<dynamic>phoneList = querySnapshot.docs.map((doc) => doc.get("phone")).toList();
-
-      emit(FetchingDataState(
-          nameList: nameList, emailList: emailList, phoneList: phoneList));
+      print('FetchingDataState');
+      emit(FetchingDataState(nameList: nameList, emailList: emailList, phoneList: phoneList));
     });
     on<InsertDataEvent>((event, emit) {
       print('InsertDataEventFired');
       if (event.name == "" || event.email == "" || event.phone == "" ||
           !(EmailValidator.validate(event.email)) || event.phone.length < 10 || event.phone.length > 10) {
+        print('DataInvalidState');
         emit(DataInvalidState());
       } else {
+        print('DataValidState');
         emit(DataValidState());
       }
     });
     on<ConnectionGainedEvent>((event, emit) {
       print('ConnectionGainedEvent Fired!');
+      print('InternetConnectedState');
       emit(InternetConnectedState());
     });
     on<ConnectionLostEvent>((event, emit) {
       print('ConnectionLostEvent Fired!');
+      print('InternetLostState');
       emit(InternetLostState());
     });
     // on<CardClickedEvent>((event, emit) {

@@ -1,5 +1,3 @@
-import 'package:api_handling/components/MyDialogBox.dart';
-import 'package:api_handling/components/theme_provider.dart';
 import 'package:api_handling/firebaseCRUD/firebase%20crud%20bloc/firebase_crud_bloc.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:email_validator/email_validator.dart';
@@ -11,7 +9,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:shared_preferences_android/shared_preferences_android.dart';
+
+import 'components/MyDialogBox.dart';
+import 'components/theme_provider.dart';
 
 class CrudScreen extends StatefulWidget {
   const CrudScreen({super.key});
@@ -88,7 +88,7 @@ class _CrudScreenState extends State<CrudScreen> {
                     print('Insert data called from blocBuilder');
                     insertData();
                     return Container();
-                  } else if (state is FetchingDataState) {
+                  } else if (state is FetchingDataState || state is FirebaseCrudInitialState || state is InternetConnectedState) {
                     return Container();
                   } else {
                     return Text(

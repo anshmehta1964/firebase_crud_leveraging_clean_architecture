@@ -1,14 +1,11 @@
 import 'dart:math';
 
-import 'package:api_handling/components/temp_screen.dart';
-import 'package:api_handling/components/theme_provider.dart';
 import 'package:api_handling/data/models/post_model.dart';
 import 'package:api_handling/data/repositories/post_repository.dart';
 import 'package:api_handling/firebaseCRUD/crud_screen.dart';
 import 'package:api_handling/firebaseCRUD/fb_login_screen.dart';
-import 'package:api_handling/firebaseCRUD/firebase_crud.dart';
 import 'package:api_handling/firebaseCRUD/networkController/dependency_injection.dart';
-import 'package:api_handling/firebaseCRUD/splash_screen.dart';
+import 'package:api_handling/firebaseCRUD/routes/routes_name.dart';
 import 'package:api_handling/logic/cubits/post_cubit/post_cubit.dart';
 import 'package:api_handling/presentation/screens/home_screen.dart';
 import 'package:api_handling/rxdart/rx_home.dart';
@@ -20,8 +17,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
+import 'firebaseCRUD/components/theme_provider.dart';
+import 'firebaseCRUD/routes/routes.dart';
 import 'firebase_options.dart';
-import 'package:api_handling/components/theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -50,10 +48,8 @@ class MyApp extends StatelessWidget {
       // darkTheme: darkMode,
       // themeMode: ThemeMode.system,
       debugShowCheckedModeBanner: false,
-       home: BlocProvider(
-         create: (context) => PostCubit(),
-        child: SplashScreen(),
-       ),
+      initialRoute: RoutesName.splashScreen,
+      onGenerateRoute: Routes.generateRoutes,
     );
   }
 }

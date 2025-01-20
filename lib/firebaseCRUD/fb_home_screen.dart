@@ -4,7 +4,6 @@ import 'package:api_handling/firebaseCRUD/firebase%20signup/firebase_signup_bloc
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:api_handling/components/theme.dart' as a;
 
 import 'fb_login_screen.dart';
 

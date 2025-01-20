@@ -1,7 +1,9 @@
-import 'package:api_handling/components/MyDialogBox.dart';
+// import 'package:api_handling/components/MyDialogBox.dart';
 import 'package:api_handling/firebaseCRUD/crud_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+
+import 'MyDialogBox.dart';
 
 class TempScreen extends StatelessWidget {
 

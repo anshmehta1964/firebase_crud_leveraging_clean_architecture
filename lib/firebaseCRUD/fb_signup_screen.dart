@@ -1,3 +1,4 @@
+import 'package:api_handling/firebaseCRUD/components/MyTextField.dart';
 import 'package:api_handling/firebaseCRUD/fb_login_screen.dart';
 import 'package:api_handling/firebaseCRUD/firebase%20login/firebase_login_bloc.dart';
 import 'package:flutter/material.dart';
@@ -58,48 +59,26 @@ class _FbSignUpState extends State<FbSignUp> {
                     return Container();
                   }
                 }),
-                SizedBox(
-                  height: 20,
-                ),
-                TextField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                      enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey.shade400)),
-                      fillColor: Theme.of(context).colorScheme.tertiary,
-                      filled: true,
-                      hintText: 'Email',
-                      hintStyle: TextStyle(color: Colors.grey[500])),
-                  onChanged: (val) {
-                    BlocProvider.of<FirebaseSignupBloc>(context).add(
-                        SignupEmailChangedEvent(email: emailController.text));
-                  },
+                SizedBox(height: 20),
+                MyTextField(
+                    controller: emailController,
+                    hintText: 'Email',
+                    onTextChanged: (val){
+                      BlocProvider.of<FirebaseSignupBloc>(context).add(
+                          SignupEmailChangedEvent(email: emailController.text));
+                    }
                 ),
                 SizedBox(height: 10),
-                TextField(
+                MyTextField(
                   obscureText: true,
-                  obscuringCharacter: '*',
-                  controller: passController,
-                  decoration: InputDecoration(
-                      enabledBorder: const OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey.shade400)),
-                      fillColor: Theme.of(context).colorScheme.tertiary,
-                      filled: true,
-                      hintText: 'Password',
-                      hintStyle: TextStyle(color: Colors.grey[500])),
-                  onChanged: (val) {
-                    BlocProvider.of<FirebaseSignupBloc>(context).add(
-                        SignupPasswordChangedEvent(
-                            email: emailController.text,
-                            password: passController.text));
-                  },
-                ),
+                    controller: passController,
+                    hintText: 'Password',
+                    onTextChanged: (val){
+                      BlocProvider.of<FirebaseSignupBloc>(context).add(
+                          SignupPasswordChangedEvent(
+                              email: emailController.text,
+                              password: passController.text));
+                    }),
                 SizedBox(height: 20),
                 BlocBuilder<FirebaseSignupBloc, FirebaseSignupState>(
                   builder: (context, state) {

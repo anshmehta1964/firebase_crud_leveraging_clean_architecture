@@ -20,7 +20,7 @@ class Routes{
   static Widget _buildScreen(RouteSettings settings){
     switch(settings.name){
       case RoutesName.splashScreen:
-        return _withBloc(SplashScreen(), FirebaseCrudBloc());
+        return _withBloc(SplashScreen());
       case RoutesName.loginScreen:
         return _withBloc(FbLogin(), FirebaseLoginBloc());
       case RoutesName.signUpScreen:
@@ -38,7 +38,7 @@ class Routes{
   static _withBloc(Widget screen, [BlocBase? bloc]){
     if(bloc != null){
       return BlocProvider(
-          create: (context) => bloc,
+          create: (_) => bloc,
           child: screen
       );
     } else {

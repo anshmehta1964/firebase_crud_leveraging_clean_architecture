@@ -5,6 +5,7 @@ import 'package:api_handling/firebaseCRUD/components/MyTextField.dart';
 import 'package:api_handling/firebaseCRUD/components/MyTitles.dart';
 import 'package:api_handling/firebaseCRUD/crud_screen.dart';
 import 'package:api_handling/firebaseCRUD/firebase%20crud%20bloc/firebase_crud_bloc.dart';
+import 'package:api_handling/firebaseCRUD/routes/routes_name.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -78,15 +79,7 @@ class _FbLoginState extends State<FbLogin> {
                 BlocListener<FirebaseLoginBloc, FirebaseLoginState>(
                   listener: (context, state) {
                     if (state is CredentialsVerifiedState) {
-                      Navigator.push(
-                          context,
-                          CupertinoPageRoute(
-                              builder: (context) => BlocProvider(
-                                    create: (context) => FirebaseCrudBloc(),
-                                    child: CrudScreen(),
-                                  )
-                          )
-                      );
+                      Navigator.pushNamed(context, RoutesName.crudScreen);
                       emailController.clear();
                       passController.clear();
                     }

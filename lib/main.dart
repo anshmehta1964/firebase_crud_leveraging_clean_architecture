@@ -18,6 +18,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'firebaseCRUD/components/theme_provider.dart';
+import 'firebaseCRUD/firebase crud bloc/firebase_crud_bloc.dart';
+import 'firebaseCRUD/firebase login/firebase_login_bloc.dart';
+import 'firebaseCRUD/firebase signup/firebase_signup_bloc.dart';
 import 'firebaseCRUD/routes/routes.dart';
 import 'firebase_options.dart';
 
@@ -43,13 +46,26 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      theme: Provider.of<ThemeProvider>(context).themeData,
-      // darkTheme: darkMode,
-      // themeMode: ThemeMode.system,
-      debugShowCheckedModeBanner: false,
-      initialRoute: RoutesName.splashScreen,
-      onGenerateRoute: Routes.generateRoutes,
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider<FirebaseLoginBloc>(
+            create: (context) => FirebaseLoginBloc(),
+          ),
+          BlocProvider<FirebaseSignupBloc>(
+            create: (context) => FirebaseSignupBloc(),
+          ),
+          BlocProvider<FirebaseCrudBloc>(
+            create: (context) => FirebaseCrudBloc(),
+          ),
+        ],
+        child: GetMaterialApp(
+        theme: Provider.of<ThemeProvider>(context).themeData,
+    // darkTheme: darkMode,
+    // themeMode: ThemeMode.system,
+    debugShowCheckedModeBanner: false,
+    initialRoute: RoutesName.splashScreen,
+    onGenerateRoute: Routes.generateRoutes,
+      )
     );
   }
 }

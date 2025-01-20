@@ -1,14 +1,11 @@
 import 'package:api_handling/firebaseCRUD/components/MyTextField.dart';
 import 'package:api_handling/firebaseCRUD/components/MyTitles.dart';
-import 'package:api_handling/firebaseCRUD/fb_login_screen.dart';
-import 'package:api_handling/firebaseCRUD/firebase%20login/firebase_login_bloc.dart';
+import 'package:api_handling/firebaseCRUD/crud%20services/crud_services.dart';
+import 'package:api_handling/firebaseCRUD/routes/routes_name.dart';
 import 'package:flutter/material.dart';
-import 'dart:developer';
-
 import 'package:api_handling/firebaseCRUD/auth_service.dart';
 import 'package:api_handling/firebaseCRUD/firebase%20signup/firebase_signup_bloc.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FbSignUp extends StatefulWidget {
@@ -19,6 +16,7 @@ class FbSignUp extends StatefulWidget {
 }
 
 class _FbSignUpState extends State<FbSignUp> {
+  CrudServices va = CrudServices();
   final _auth = AuthService();
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
@@ -78,21 +76,12 @@ class _FbSignUpState extends State<FbSignUp> {
                 BlocBuilder<FirebaseSignupBloc, FirebaseSignupState>(
                   builder: (context, state) {
                     return CupertinoButton(
-                      onPressed: (state is SignupValidState)
-                          ? () {
-                              Navigator.push(
-                                  context,
-                                  CupertinoPageRoute(
-                                      builder: (context) => BlocProvider(
-                                            create: (context) =>
-                                                FirebaseLoginBloc(),
-                                            child: FbLogin(),
-                                          )));
-                              signUp();
+                      onPressed: (state is SignupValidState) ? () {
+                        Navigator.pushNamed(context,RoutesName.loginScreen);
+                              va.signUp(emailController.text,passController.text);
                               emailController.clear();
                               passController.clear();
-                            }
-                          : () {},
+                            } : () { },
                       color: (state is SignupInvalidState || state is SigninInitialState) ? Colors.grey : Theme.of(context).colorScheme.primary,
                       child: Text(
                         'Sign in',
@@ -106,13 +95,5 @@ class _FbSignUpState extends State<FbSignUp> {
           ),
         )
     );
-  }
-  signUp() async {
-    final user = await _auth.createUserWithEmailAndPassword(emailController.text, passController.text);
-    if(user != null){
-      log("user created successfully");
-    } else {
-      log("user not created");
-    }
   }
 }

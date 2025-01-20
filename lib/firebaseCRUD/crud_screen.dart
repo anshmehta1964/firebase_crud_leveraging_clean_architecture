@@ -236,8 +236,7 @@ class _CrudScreenState extends State<CrudScreen> {
                           context: context,
                           builder: (context) => Mydialogbox(
                               title: "Lost Connection!",
-                              content:
-                                  "Data will be stored offline without connection",
+                              content: "Data will be stored offline without connection",
                               btnText1: "Yes",
                               btnText2: "No",
                               onBtn1pressed: () {

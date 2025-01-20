@@ -2,12 +2,12 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 
 class MyTextField extends StatelessWidget{
-  TextEditingController controller;
-  String hintText;
-  bool? obscureText;
-  Function(String) onTextChanged;
+  final TextEditingController controller;
+  final String hintText;
+  final bool? obscureText;
+  final Function(String) onTextChanged;
 
-  MyTextField({
+  const MyTextField({
     super.key,
     required this.controller,
     required this.hintText,

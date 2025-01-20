@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class MyTextFormField extends StatelessWidget{
-  TextEditingController controller;
-  String hintText;
-  Function(String) onTextChanged;
-  TextInputType? type;
-  TextInputFormatter? formatter;
-  MyTextFormField({
+  final TextEditingController controller;
+  final String hintText;
+  final Function(String) onTextChanged;
+  final TextInputType? type;
+  final TextInputFormatter? formatter;
+
+  const MyTextFormField({
   super.key,
   required this.controller,
   required this.hintText,
@@ -16,6 +17,7 @@ class MyTextFormField extends StatelessWidget{
   this.formatter
   });
 
+  @override
   Widget build(BuildContext context){
     return TextFormField(
       keyboardType: type ?? TextInputType.text,

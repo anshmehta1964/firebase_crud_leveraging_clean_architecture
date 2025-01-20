@@ -1,3 +1,4 @@
+import 'package:api_handling/firebaseCRUD/components/MyCupertinoButton.dart';
 import 'package:api_handling/firebaseCRUD/components/MyTextFormField.dart';
 import 'package:api_handling/firebaseCRUD/components/MyTitles.dart';
 import 'package:api_handling/firebaseCRUD/firebase%20crud%20bloc/firebase_crud_bloc.dart';
@@ -118,55 +119,36 @@ class _CrudScreenState extends State<CrudScreen> {
                   spacing: 20,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    CupertinoButton(
-                      color: Theme.of(context).colorScheme.primary,
-                      onPressed: () {
-                        if (isConnected) {
-                          BlocProvider.of<FirebaseCrudBloc>(context)
-                              .add(InsertDataEvent(
-                            name: nameController.text,
-                            email: emailController.text,
-                            phone: phoneController.text,
-                          ));
-                        } else {
-                          saveUserData(); // -- For Offline Connectivity
+                    MyCupertinoButton(
+                        onPress: (){
+                      if (isConnected) {
+                        BlocProvider.of<FirebaseCrudBloc>(context).add(InsertDataEvent(
+                        name: nameController.text,
+                        email: emailController.text,
+                        phone: phoneController.text));
+                      } else {
+                      saveUserData(); // -- For Offline Connectivity
                         }
-                      },
-                      child: Text('Create',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary,
-                            fontWeight: FontWeight.bold,
-                          )),
-                    ),
-                    CupertinoButton(
-                      color: Theme.of(context).colorScheme.primary,
-                      onPressed: () {
-                        BlocProvider.of<FirebaseCrudBloc>(context)
-                            .add(DataFetchEvent());
-                      },
-                      child: Text('Read',
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.secondary,
-                            fontWeight: FontWeight.bold,
-                          )),
-                    ),
+                      }, title: 'Create' ),
+
+                    MyCupertinoButton(
+                        onPress: (){
+                          BlocProvider.of<FirebaseCrudBloc>(context)
+                              .add(DataFetchEvent());
+                        },
+                        title: 'Read'),
                     BlocBuilder<FirebaseCrudBloc, FirebaseCrudState>(
                       builder: (context, state) {
-                        return CupertinoButton(
-                          color: state is ValidTextState
-                              ? Theme.of(context).colorScheme.primary
-                              : Colors.grey,
-                          onPressed: () {
-                            if (state is ValidTextState) {
-                              updateData();
-                            } else { }
-                          },
-                          child: Text('Update',
-                              style: TextStyle(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  fontWeight: FontWeight.bold)),
-                        );
+                        return MyCupertinoButton(
+                            color: state is ValidTextState
+                                ? Theme.of(context).colorScheme.primary
+                                : Colors.grey,
+                              onPress: (){ if (state is ValidTextState) {
+                          updateData();
+                              } else { }
+                            },
+                              title: 'Update'
+                          );
                       },
                     ),
                   ],
@@ -276,14 +258,11 @@ class _CrudScreenState extends State<CrudScreen> {
 
   Future<void> saveUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    // await prefs.setString('name', nameController.text);
-    // await prefs.setString('email', emailController.text);
-    // await prefs.setString('phone', phoneController.text);
     // Storing multiple user data
     temp.add(nameController.text);
     temp.add(emailController.text);
     temp.add(phoneController.text);
-    // userData.add(temp);
+
     await prefs.setStringList('userData', temp);
     nameController.clear();
     emailController.clear();
@@ -342,19 +321,6 @@ class _CrudScreenState extends State<CrudScreen> {
       };
       documentReference.set(data);
     }
-    // name = prefs.getString('name')!;
-    // email = prefs.getString('email')!;
-    // phone = prefs.getString('phone')!;
-    // DocumentReference documentReference = FirebaseFirestore.instance
-    //     .collection("anshDatabase")
-    //     .doc(name);
-    // Map<String, dynamic> data = {
-    //   "name": name,
-    //   "email": email,
-    //   "phone": phone
-    // };
-    // documentReference.set(data);
-
     print('offlineDataInserted is called');
   }
 
@@ -394,11 +360,5 @@ class _CrudScreenState extends State<CrudScreen> {
         FirebaseFirestore.instance.collection('anshDatabase');
     df.doc(docName).delete();
   }
-  // void a(int index){
-  // print('Yes Button clicked with index $index');
-  // }
 
-  // void b() {
-  //   print('No Button clicked');
-  // }
 }

@@ -3,12 +3,11 @@ import 'package:api_handling/firebaseCRUD/components/MyTextFormField.dart';
 import 'package:api_handling/firebaseCRUD/components/MyTitles.dart';
 import 'package:api_handling/firebaseCRUD/firebase%20crud%20bloc/firebase_crud_bloc.dart';
 import 'package:api_handling/firebaseCRUD/firebase%20services/firebase_services.dart';
+import 'package:api_handling/firebaseCRUD/internet%20services/internet_services.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
@@ -26,14 +25,14 @@ class _CrudScreenState extends State<CrudScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   final Connectivity _connectivity = Connectivity();
-  bool isConnected  = false;
+  static bool isConnected  = false;
   bool hasData = false;
+  InternetServices intS = InternetServices();
 
   @override
   void initState() {
     //Checking initial connectivity
-    checkInitialStatus();
-    _connectivity.onConnectivityChanged.listen(_crudConnectivityStatus);
+    intS.checkInitialStatus();
     super.initState();
   }
 
@@ -249,28 +248,5 @@ class _CrudScreenState extends State<CrudScreen> {
             ),
           ),
         ));
-  }
-
-  Future<void> checkInitialStatus() async {
-    try {
-      List<ConnectivityResult> result = await _connectivity.checkConnectivity();
-      print('Initial crudScreen connectivity result: $result');
-      _crudConnectivityStatus(result);
-    } catch (e) {
-      print('Error in crud Screen: $e');
-    }
-  }
-
-  void _crudConnectivityStatus(List<ConnectivityResult> result) {
-    print('crudScreen: Connectivity Changed');
-    if (result.first == ConnectivityResult.none) {
-      BlocProvider.of<FirebaseCrudBloc>(context).add(ConnectionLostEvent());
-      print('crudScreen: No Connection');
-      isConnected = false;
-    } else {
-      BlocProvider.of<FirebaseCrudBloc>(context).add(ConnectionGainedEvent());
-      isConnected = true;
-      print('crudScreen Connected result : {$result}');
-    }
   }
 }

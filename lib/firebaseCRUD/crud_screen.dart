@@ -1,12 +1,12 @@
-import 'dart:nativewrappers/_internal/vm/lib/async_patch.dart';
-
 import 'package:api_handling/firebaseCRUD/components/MyCupertinoButton.dart';
 import 'package:api_handling/firebaseCRUD/components/MyTextFormField.dart';
 import 'package:api_handling/firebaseCRUD/components/MyTitles.dart';
 import 'package:api_handling/firebaseCRUD/firebase%20crud%20bloc/firebase_crud_bloc.dart';
+import 'package:api_handling/firebaseCRUD/firebase%20services/firebase_services.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -46,6 +46,7 @@ class _CrudScreenState extends State<CrudScreen> {
     super.initState();
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,7 +84,7 @@ class _CrudScreenState extends State<CrudScreen> {
                     builder: (context, state) {
                   if (state is DataValidState && isConnected) {
                     print('Insert data called from blocBuilder');
-                    insertData();
+                    FirebaseServices.insertData(nameController.text, emailController.text, phoneController.text);
                     return Container();
                   } else if (state is FetchingDataState || state is FirebaseCrudInitialState || state is InternetConnectedState) {
                     return Container();
@@ -120,14 +121,20 @@ class _CrudScreenState extends State<CrudScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     MyCupertinoButton(
-                        onPress: (){
+                        onPress: () async {
                       if (isConnected) {
                         BlocProvider.of<FirebaseCrudBloc>(context).add(InsertDataEvent(
                         name: nameController.text,
                         email: emailController.text,
                         phone: phoneController.text));
                       } else {
-                        saveUserData(); // -- For Offline Connectivity
+                        print('calling saveUserData');
+                        hasData = await FirebaseServices.saveUserData(nameController.text, emailController.text, phoneController.text);
+                        if(hasData){
+                          print('hasData is true');// -- For Offline Connectivity
+                          } else {
+                          print('hasData is false');
+                        }
                         }
                       }, title: 'Create' ),
                     MyCupertinoButton(
@@ -225,7 +232,8 @@ class _CrudScreenState extends State<CrudScreen> {
                     }
                     if (state is InternetConnectedState && hasData) {
                       print('Inserted data from InternetConnectedState');
-                      offlineDataInserted();
+                      FirebaseServices.offlineDataInserted();
+                      // offlineDataInserted();
                     } else if (state is InternetLostState) {
                       // print('Internet Lost state listened');
                       showDialog(
@@ -251,22 +259,6 @@ class _CrudScreenState extends State<CrudScreen> {
         ));
   }
 
-
-  Future<void> saveUserData() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    // Storing multiple user data
-    temp.add(nameController.text);
-    temp.add(emailController.text);
-    temp.add(phoneController.text);
-
-    await prefs.setStringList('userData', temp);
-    nameController.clear();
-    emailController.clear();
-    phoneController.clear();
-    hasData = true;
-    print('uploadData called & pref values are set');
-  }
-
   Future<void> checkInitialStatus() async {
     try {
       List<ConnectivityResult> result = await _connectivity.checkConnectivity();
@@ -288,36 +280,6 @@ class _CrudScreenState extends State<CrudScreen> {
       isConnected = true;
       print('crudScreen Connected result : {$result}');
     }
-  }
-
-  insertData() {
-    DocumentReference documentReference = FirebaseFirestore.instance
-        .collection("anshDatabase")
-        .doc(nameController.text);
-    Map<String, dynamic> data = {
-      "name": nameController.text,
-      "email": emailController.text,
-      "phone": phoneController.text
-    };
-    documentReference.set(data);
-    print("data inserted successfully");
-  }
-
-  Future<void> offlineDataInserted() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    List<String> userDataList = prefs.getStringList('userData')!;
-    for (int i = 0; i < userDataList.length; i += 3) {
-      DocumentReference documentReference = FirebaseFirestore.instance
-          .collection("anshDatabase")
-          .doc(userDataList[i]);
-      Map<String, dynamic> data = {
-        "name": userDataList[i],
-        "email": userDataList[i + 1],
-        "phone": userDataList[i + 2]
-      };
-      documentReference.set(data);
-    }
-    print('offlineDataInserted is called');
   }
 
   updateData() {

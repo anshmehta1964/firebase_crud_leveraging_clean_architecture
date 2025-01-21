@@ -24,8 +24,7 @@ class _CrudScreenState extends State<CrudScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
-  final Connectivity _connectivity = Connectivity();
-  bool isConnected  = false;
+  bool isConnected  = InternetServices.checkIsConnected();
   bool hasData = false;
   InternetServices intS = InternetServices();
 

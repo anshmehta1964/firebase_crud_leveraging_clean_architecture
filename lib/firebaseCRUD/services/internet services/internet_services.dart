@@ -1,7 +1,5 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import '../firebase crud bloc/firebase_crud_bloc.dart';
+import '../../screens/crud screen/bloc/firebase_crud_bloc.dart';
 
 class InternetServices{
   final Connectivity _connectivity = Connectivity();
@@ -15,18 +13,18 @@ class InternetServices{
   Future<void> checkInitialStatus() async {
     try {
       List<ConnectivityResult> result = await _connectivity.checkConnectivity();
-      print('Internet Services : Initial crudScreen connectivity result: $result');
+      // print('Internet Services : Initial crudScreen connectivity result: $result');
       _crudConnectivityStatus(result);
     } catch (e) {
-      print('Internet Services : Error in crud Screen: $e');
+      // print('Internet Services : Error in crud Screen: $e');
     }
   }
 
   void _crudConnectivityStatus(List<ConnectivityResult> result,) {
-    print('Internet Services : Connectivity Changed');
+    // print('Internet Services : Connectivity Changed');
     if (result.first == ConnectivityResult.none) {
       firebaseCrudBloc.add(ConnectionLostEvent());
-      print('Internet Services :  No Connection');
+      // print('Internet Services :  No Connection');
       // isConnected = false;
     } else {
       firebaseCrudBloc.add(ConnectionGainedEvent());

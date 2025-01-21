@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:meta/meta.dart';
 
 part 'firebase_signup_event.dart';
 part 'firebase_signup_state.dart';

@@ -1,6 +1,7 @@
 import 'dart:async';
-import 'package:api_handling/firebaseCRUD/routes/routes_name.dart';
 import 'package:flutter/material.dart';
+
+import '../../../core/routes/routes_name.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});

@@ -1,10 +1,8 @@
 import 'dart:developer';
 
-import 'package:api_handling/firebaseCRUD/auth_service.dart';
-import 'package:api_handling/firebaseCRUD/firebase%20signup/firebase_signup_bloc.dart';
+import 'package:api_handling/firebaseCRUD/services/authentication%20service/auth_service.dart';
 import 'package:bloc/bloc.dart';
 import 'package:email_validator/email_validator.dart';
-import 'package:meta/meta.dart';
 
 part 'firebase_login_event.dart';
 part 'firebase_login_state.dart';

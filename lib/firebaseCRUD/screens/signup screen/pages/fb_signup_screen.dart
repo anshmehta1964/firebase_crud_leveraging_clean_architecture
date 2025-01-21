@@ -1,12 +1,12 @@
 import 'package:api_handling/firebaseCRUD/components/MyTextField.dart';
 import 'package:api_handling/firebaseCRUD/components/MyTitles.dart';
-import 'package:api_handling/firebaseCRUD/crud%20services/crud_services.dart';
-import 'package:api_handling/firebaseCRUD/routes/routes_name.dart';
 import 'package:flutter/material.dart';
-import 'package:api_handling/firebaseCRUD/auth_service.dart';
-import 'package:api_handling/firebaseCRUD/firebase%20signup/firebase_signup_bloc.dart';
+import 'package:api_handling/firebaseCRUD/screens/signup%20screen/bloc/firebase_signup_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../core/routes/routes_name.dart';
+import '../../../services/authentication service/crud_services.dart';
 
 class FbSignUp extends StatefulWidget {
   const FbSignUp({super.key});
@@ -16,8 +16,7 @@ class FbSignUp extends StatefulWidget {
 }
 
 class _FbSignUpState extends State<FbSignUp> {
-  CrudServices va = CrudServices();
-  final _auth = AuthService();
+  CrudServices crudService = CrudServices();
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
 
@@ -78,7 +77,7 @@ class _FbSignUpState extends State<FbSignUp> {
                     return CupertinoButton(
                       onPressed: (state is SignupValidState) ? () {
                         Navigator.pushNamed(context,RoutesName.loginScreen);
-                              va.signUp(emailController.text,passController.text);
+                              crudService.signUp(emailController.text,passController.text);
                               emailController.clear();
                               passController.clear();
                             } : () { },

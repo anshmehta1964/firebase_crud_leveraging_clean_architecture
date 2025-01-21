@@ -1,11 +1,11 @@
 import 'package:api_handling/firebaseCRUD/components/MyTextField.dart';
 import 'package:api_handling/firebaseCRUD/components/MyTitles.dart';
-import 'package:api_handling/firebaseCRUD/routes/routes_name.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'firebase login/firebase_login_bloc.dart';
+import '../../../core/routes/routes_name.dart';
+import '../bloc/firebase_login_bloc.dart';
 
 class FbLogin extends StatefulWidget {
   const FbLogin({super.key});

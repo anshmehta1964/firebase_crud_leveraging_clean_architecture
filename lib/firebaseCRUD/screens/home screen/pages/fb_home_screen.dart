@@ -1,16 +1,9 @@
 import 'package:api_handling/firebaseCRUD/components/MyCupertinoButton.dart';
-import 'package:api_handling/firebaseCRUD/fb_signup_screen.dart';
-import 'package:api_handling/firebaseCRUD/firebase%20login/firebase_login_bloc.dart';
-import 'package:api_handling/firebaseCRUD/firebase%20signup/firebase_signup_bloc.dart';
-import 'package:api_handling/firebaseCRUD/routes/routes_name.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../../core/routes/routes_name.dart';
 
-import '../../fb_login_screen.dart';
-
-class fbHomeScreen extends StatelessWidget {
-  const fbHomeScreen({super.key});
+class FbHomeScreen extends StatelessWidget {
+  const FbHomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,9 +1,7 @@
 import 'package:api_handling/firebaseCRUD/components/MyCupertinoButton.dart';
 import 'package:api_handling/firebaseCRUD/components/MyTextFormField.dart';
 import 'package:api_handling/firebaseCRUD/components/MyTitles.dart';
-import 'package:api_handling/firebaseCRUD/firebase%20crud%20bloc/firebase_crud_bloc.dart';
-import 'package:api_handling/firebaseCRUD/firebase%20services/firebase_services.dart';
-import 'package:api_handling/firebaseCRUD/internet%20services/internet_services.dart';
+import 'package:api_handling/firebaseCRUD/screens/crud%20screen/bloc/firebase_crud_bloc.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +9,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
-import 'components/MyDialogBox.dart';
-import 'components/theme_provider.dart';
+import '../../../components/MyDialogBox.dart';
+import '../../../core/theme/theme_provider.dart';
+import '../../../services/firebase services/firebase_services.dart';
+import '../../../services/internet services/internet_services.dart';
 
 class CrudScreen extends StatefulWidget {
   const CrudScreen({super.key});
@@ -72,7 +72,7 @@ class _CrudScreenState extends State<CrudScreen> {
                 BlocBuilder<FirebaseCrudBloc, FirebaseCrudState>(
                     builder: (context, state) {
                   if (state is DataValidState && isConnected) {
-                    print('Insert data called from blocBuilder');
+                    // print('Insert data called from blocBuilder');
                     FirebaseServices.insertData(nameController.text, emailController.text, phoneController.text);
                     return SizedBox();
                   } else if (state is FetchingDataState || state is FirebaseCrudInitialState || state is InternetConnectedState || state is InternetLostState) {
@@ -117,13 +117,8 @@ class _CrudScreenState extends State<CrudScreen> {
                         email: emailController.text,
                         phone: phoneController.text));
                       } else {
-                        print('calling saveUserData');
+                        // print('calling saveUserData');
                         hasData = await FirebaseServices.saveUserData(nameController.text, emailController.text, phoneController.text);
-                        if(hasData){
-                          print('hasData is true');// -- For Offline Connectivity
-                          } else {
-                          print('hasData is false');
-                        }
                         }
                       }, title: 'Create' ),
                     MyCupertinoButton(
@@ -152,9 +147,9 @@ class _CrudScreenState extends State<CrudScreen> {
                 BlocBuilder<FirebaseCrudBloc, FirebaseCrudState>(
                     builder: (context, state) {
                   if (state is FetchingDataState) {
-                    print("Name List : ${state.nameList}");
-                    print("Email List : ${state.emailList}");
-                    print("Phone List : ${state.phoneList}");
+                    // print("Name List : ${state.nameList}");
+                    // print("Email List : ${state.emailList}");
+                    // print("Phone List : ${state.phoneList}");
                     return Expanded(
                       child: ListView.builder(
                           itemCount: state.nameList.length,
@@ -174,7 +169,7 @@ class _CrudScreenState extends State<CrudScreen> {
                                               btnText2: "No",
                                               onBtn1pressed: () {
                                                 FirebaseServices.deleteData(state.nameList[index]);
-                                                print('Data deleted fired from alert');
+                                                // print('Data deleted fired from alert');
                                                 Navigator.pop(context);
                                               },
                                               onBtn2pressed: () {
@@ -218,7 +213,7 @@ class _CrudScreenState extends State<CrudScreen> {
                 BlocListener<FirebaseCrudBloc, FirebaseCrudState>(
                   listener: (context, state) {
                     if (state is InternetConnectedState && hasData) {
-                      print('Inserted data from InternetConnectedState');
+                      // print('Inserted data from InternetConnectedState');
                       FirebaseServices.offlineDataInserted();
                     } else if (state is InternetLostState) {
                       // print('Internet Lost state listened');

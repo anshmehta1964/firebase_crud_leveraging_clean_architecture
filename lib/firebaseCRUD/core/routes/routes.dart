@@ -1,16 +1,15 @@
-import 'package:api_handling/firebaseCRUD/crud_screen.dart';
-import 'package:api_handling/firebaseCRUD/screens/home%20screen/fb_home_screen.dart';
-import 'package:api_handling/firebaseCRUD/fb_login_screen.dart';
-import 'package:api_handling/firebaseCRUD/fb_signup_screen.dart';
-import 'package:api_handling/firebaseCRUD/firebase%20crud%20bloc/firebase_crud_bloc.dart';
-import 'package:api_handling/firebaseCRUD/firebase%20login/firebase_login_bloc.dart';
-import 'package:api_handling/firebaseCRUD/firebase%20signup/firebase_signup_bloc.dart';
-import 'package:api_handling/firebaseCRUD/routes/routes_name.dart';
-import 'package:api_handling/firebaseCRUD/splash_screen.dart';
-import 'package:bloc/bloc.dart';
+import 'package:api_handling/firebaseCRUD/core/routes/routes_name.dart';
+import 'package:api_handling/firebaseCRUD/screens/crud%20screen/pages/crud_screen.dart';
+import 'package:api_handling/firebaseCRUD/screens/home%20screen/pages/fb_home_screen.dart';
+import 'package:api_handling/firebaseCRUD/screens/login%20screen/pages/fb_login_screen.dart';
+import 'package:api_handling/firebaseCRUD/screens/signup%20screen/pages/fb_signup_screen.dart';
+import 'package:api_handling/firebaseCRUD/screens/crud%20screen/bloc/firebase_crud_bloc.dart';
+import 'package:api_handling/firebaseCRUD/screens/login%20screen/bloc/firebase_login_bloc.dart';
+import 'package:api_handling/firebaseCRUD/screens/signup%20screen/bloc/firebase_signup_bloc.dart';
+import 'package:api_handling/firebaseCRUD/screens/splash%20screen/pages/splash_screen.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 class Routes{
   static Route<dynamic> generateRoutes(RouteSettings settings){
     return CupertinoPageRoute(
@@ -27,13 +26,10 @@ class Routes{
         return _withBloc(FbSignUp(), FirebaseSignupBloc());
       case RoutesName.crudScreen:
         return _withBloc(CrudScreen(), FirebaseCrudBloc());
-      // case RoutesName.tempSplashScreen:
-      //   return _withBloc(SplashScreenTemp());
       default:
-        return _withBloc(fbHomeScreen());
+        return _withBloc(FbHomeScreen());
     }
   }
-  
 
   static _withBloc(Widget screen, [BlocBase? bloc]){
     if(bloc != null){

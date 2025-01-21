@@ -1,4 +1,4 @@
-import 'package:api_handling/firebaseCRUD/components/theme.dart';
+import 'package:api_handling/firebaseCRUD/core/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class ThemeProvider with ChangeNotifier{

@@ -2,13 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class Mydialogbox extends StatelessWidget {
-  String title;
-  String content;
-  String btnText1;
-  String btnText2;
-  VoidCallback onBtn1pressed;
-  VoidCallback onBtn2pressed;
-  Mydialogbox({
+  final String title;
+  final String content;
+  final String btnText1;
+  final String btnText2;
+  final VoidCallback onBtn1pressed;
+  final VoidCallback onBtn2pressed;
+  const Mydialogbox({
     super.key,
     required this.title,
     required this.content,

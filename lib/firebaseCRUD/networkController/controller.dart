@@ -1,5 +1,4 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -28,10 +27,10 @@ class InternetController extends GetxController {
   }
 
   void _updateConnectionStatus(List<ConnectivityResult> result) {
-    print('Network Status Changed!');
+    // print('Network Status Changed!');
     // print('List: $result');
     if (result.first == ConnectivityResult.none) {
-      print("Connectivity Lost");
+      // print("Connectivity Lost");
       Get.rawSnackbar(
         messageText: const Text(
           'PLEASE CONNECT TO THE INTERNET',

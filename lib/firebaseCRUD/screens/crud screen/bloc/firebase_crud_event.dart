@@ -19,8 +19,6 @@ class ConnectionLostEvent extends FirebaseCrudEvent{}
 
 class ConnectionGainedEvent extends FirebaseCrudEvent{}
 
-// class CardClickedEvent extends FirebaseCrudEvent{}
-
 class TextChangedEvent extends FirebaseCrudEvent{
   String name;
   String email;

@@ -1,5 +1,5 @@
 import 'package:api_handling/firebaseCRUD/crud_screen.dart';
-import 'package:api_handling/firebaseCRUD/fb_home_screen.dart';
+import 'package:api_handling/firebaseCRUD/screens/home%20screen/fb_home_screen.dart';
 import 'package:api_handling/firebaseCRUD/fb_login_screen.dart';
 import 'package:api_handling/firebaseCRUD/fb_signup_screen.dart';
 import 'package:api_handling/firebaseCRUD/firebase%20crud%20bloc/firebase_crud_bloc.dart';

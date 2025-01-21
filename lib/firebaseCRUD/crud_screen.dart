@@ -25,7 +25,7 @@ class _CrudScreenState extends State<CrudScreen> {
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   final Connectivity _connectivity = Connectivity();
-  static bool isConnected  = false;
+  bool isConnected  = false;
   bool hasData = false;
   InternetServices intS = InternetServices();
 
@@ -51,8 +51,7 @@ class _CrudScreenState extends State<CrudScreen> {
                       TextStyle(color: Theme.of(context).colorScheme.secondary),
                 ),
                 onTap: () {
-                  Provider.of<ThemeProvider>(context, listen: false)
-                      .toggleTheme();
+                  Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
                 },
               )
             ],
@@ -75,7 +74,7 @@ class _CrudScreenState extends State<CrudScreen> {
                   if (state is DataValidState && isConnected) {
                     print('Insert data called from blocBuilder');
                     FirebaseServices.insertData(nameController.text, emailController.text, phoneController.text);
-                    return Container();
+                    return SizedBox();
                   } else if (state is FetchingDataState || state is FirebaseCrudInitialState || state is InternetConnectedState || state is InternetLostState) {
                     return Container();
                   } else {
@@ -218,13 +217,9 @@ class _CrudScreenState extends State<CrudScreen> {
                 }),
                 BlocListener<FirebaseCrudBloc, FirebaseCrudState>(
                   listener: (context, state) {
-                    if(nameController.text.toString() == "" || emailController.text.toString() == "" || phoneController.text.toString() == ""){
-                      // BlocProvider.of<FirebaseCrudBloc>(context).add()
-                    }
                     if (state is InternetConnectedState && hasData) {
                       print('Inserted data from InternetConnectedState');
                       FirebaseServices.offlineDataInserted();
-                      // offlineDataInserted();
                     } else if (state is InternetLostState) {
                       // print('Internet Lost state listened');
                       showDialog(

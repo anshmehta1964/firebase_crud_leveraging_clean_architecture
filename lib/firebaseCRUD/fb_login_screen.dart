@@ -1,10 +1,5 @@
-import 'dart:developer';
-
-import 'package:api_handling/firebaseCRUD/auth_service.dart';
 import 'package:api_handling/firebaseCRUD/components/MyTextField.dart';
 import 'package:api_handling/firebaseCRUD/components/MyTitles.dart';
-import 'package:api_handling/firebaseCRUD/crud_screen.dart';
-import 'package:api_handling/firebaseCRUD/firebase%20crud%20bloc/firebase_crud_bloc.dart';
 import 'package:api_handling/firebaseCRUD/routes/routes_name.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

@@ -1,9 +1,9 @@
+import 'dart:nativewrappers/_internal/vm/lib/async_patch.dart';
+
 import 'package:api_handling/firebaseCRUD/components/MyCupertinoButton.dart';
 import 'package:api_handling/firebaseCRUD/components/MyTextFormField.dart';
 import 'package:api_handling/firebaseCRUD/components/MyTitles.dart';
 import 'package:api_handling/firebaseCRUD/firebase%20crud%20bloc/firebase_crud_bloc.dart';
-import 'package:api_handling/firebaseCRUD/routes/routes.dart';
-import 'package:api_handling/firebaseCRUD/routes/routes_name.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
@@ -127,10 +127,9 @@ class _CrudScreenState extends State<CrudScreen> {
                         email: emailController.text,
                         phone: phoneController.text));
                       } else {
-                      saveUserData(); // -- For Offline Connectivity
+                        saveUserData(); // -- For Offline Connectivity
                         }
                       }, title: 'Create' ),
-
                     MyCupertinoButton(
                         onPress: (){
                           BlocProvider.of<FirebaseCrudBloc>(context)
@@ -173,15 +172,12 @@ class _CrudScreenState extends State<CrudScreen> {
                                           context: context,
                                           builder: (context) => Mydialogbox(
                                               title: "Confirm Delete",
-                                              content:
-                                                  "Are you sure to delete the data?",
+                                              content: "Are you sure to delete the data?",
                                               btnText1: "Yes",
                                               btnText2: "No",
                                               onBtn1pressed: () {
-                                                deleteData(
-                                                    state.nameList[index]);
-                                                print(
-                                                    'Data deleted fired from alert');
+                                                deleteData(state.nameList[index]);
+                                                print('Data deleted fired from alert');
                                                 Navigator.pop(context);
                                               },
                                               onBtn2pressed: () {
@@ -227,7 +223,7 @@ class _CrudScreenState extends State<CrudScreen> {
                     if(nameController.text.toString() == "" || emailController.text.toString() == "" || phoneController.text.toString() == ""){
                       // BlocProvider.of<FirebaseCrudBloc>(context).add()
                     }
-                    if (state is InternetConnectedState) {
+                    if (state is InternetConnectedState && hasData) {
                       print('Inserted data from InternetConnectedState');
                       offlineDataInserted();
                     } else if (state is InternetLostState) {
@@ -254,6 +250,7 @@ class _CrudScreenState extends State<CrudScreen> {
           ),
         ));
   }
+
 
   Future<void> saveUserData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

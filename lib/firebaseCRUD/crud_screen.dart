@@ -6,37 +6,28 @@ import 'package:api_handling/firebaseCRUD/firebase%20services/firebase_services.
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
 import 'components/MyDialogBox.dart';
 import 'components/theme_provider.dart';
 
 class CrudScreen extends StatefulWidget {
   const CrudScreen({super.key});
-
   @override
   State<CrudScreen> createState() => _CrudScreenState();
 }
 
 class _CrudScreenState extends State<CrudScreen> {
-  // final CollectionReference _collectionReference = FirebaseFirestore.instance.collection("anshDatabase");
-
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   final Connectivity _connectivity = Connectivity();
   bool isConnected  = false;
   bool hasData = false;
-  bool updateButtonEnabled = false;
-
-  List<String> temp = [];
 
   @override
   void initState() {
@@ -86,7 +77,7 @@ class _CrudScreenState extends State<CrudScreen> {
                     print('Insert data called from blocBuilder');
                     FirebaseServices.insertData(nameController.text, emailController.text, phoneController.text);
                     return Container();
-                  } else if (state is FetchingDataState || state is FirebaseCrudInitialState || state is InternetConnectedState) {
+                  } else if (state is FetchingDataState || state is FirebaseCrudInitialState || state is InternetConnectedState || state is InternetLostState) {
                     return Container();
                   } else {
                     return Text(
@@ -150,7 +141,8 @@ class _CrudScreenState extends State<CrudScreen> {
                                 ? Theme.of(context).colorScheme.primary
                                 : Colors.grey,
                               onPress: (){ if (state is ValidTextState) {
-                          updateData();
+                          // updateData();
+                                FirebaseServices.updateData(nameController.text, emailController.text, phoneController.text);
                               } else { }
                             },
                               title: 'Update'
@@ -183,7 +175,7 @@ class _CrudScreenState extends State<CrudScreen> {
                                               btnText1: "Yes",
                                               btnText2: "No",
                                               onBtn1pressed: () {
-                                                deleteData(state.nameList[index]);
+                                                FirebaseServices.deleteData(state.nameList[index]);
                                                 print('Data deleted fired from alert');
                                                 Navigator.pop(context);
                                               },
@@ -281,42 +273,4 @@ class _CrudScreenState extends State<CrudScreen> {
       print('crudScreen Connected result : {$result}');
     }
   }
-
-  updateData() {
-    DocumentReference documentReference = FirebaseFirestore.instance
-        .collection("anshDatabase")
-        .doc(nameController.text);
-    Map<String, dynamic> data = {
-      "name": nameController.text,
-      "email": emailController.text,
-      "phone": phoneController.text
-    };
-    documentReference.update(data);
-    nameController.clear();
-    emailController.clear();
-    phoneController.clear();
-  }
-
-  bool validateData({
-    required String name,
-    required String email,
-    required String phone,
-  }) {
-    if (name == "" ||
-        email == "" ||
-        phone == "" ||
-        !(EmailValidator.validate(email)) ||
-        phone.length < 10) {
-      return false;
-    } else {
-      return true;
-    }
-  }
-
-  deleteData(String docName) {
-    CollectionReference df =
-        FirebaseFirestore.instance.collection('anshDatabase');
-    df.doc(docName).delete();
-  }
-
 }

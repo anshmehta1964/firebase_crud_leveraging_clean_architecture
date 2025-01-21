@@ -47,4 +47,22 @@ class FirebaseServices{
     }
     print('offlineDataInserted is called : FirebaseServices');
   }
+  static void updateData(String name, String email, String phone) {
+    DocumentReference documentReference = FirebaseFirestore.instance
+        .collection("anshDatabase")
+        .doc(name);
+    Map<String, dynamic> data = {
+      "name": name,
+      "email": email,
+      "phone": phone
+    };
+    documentReference.update(data);
+    print('UpdateData is called : FirebaseServices');
+  }
+  static void deleteData(String docName) {
+    CollectionReference df =
+    FirebaseFirestore.instance.collection('anshDatabase');
+    df.doc(docName).delete();
+    print('Delete Data called : FirebaseServices');
+  }
 }

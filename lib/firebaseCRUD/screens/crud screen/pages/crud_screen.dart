@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:api_handling/firebaseCRUD/components/MyCupertinoButton.dart';
 import 'package:api_handling/firebaseCRUD/components/MyTextFormField.dart';
 import 'package:api_handling/firebaseCRUD/components/MyTitles.dart';
@@ -24,12 +26,18 @@ class _CrudScreenState extends State<CrudScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
-  bool isConnected  = InternetServices.checkIsConnected();
+  bool isConnected = false;
+  late StreamSubscription<bool> subscription;
   bool hasData = false;
   InternetServices intS = InternetServices();
 
   @override
   void initState() {
+    subscription = InternetServices.streamController.stream.listen((value){
+      print('Stream listened : $value');
+      isConnected = value;
+      print('Value of isConnected variable is: $isConnected');
+    });
     //Checking initial connectivity
     intS.checkInitialStatus();
     super.initState();

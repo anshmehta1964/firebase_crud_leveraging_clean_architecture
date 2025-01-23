@@ -4,7 +4,6 @@ import 'package:api_handling/firebaseCRUD/components/MyCupertinoButton.dart';
 import 'package:api_handling/firebaseCRUD/components/MyTextFormField.dart';
 import 'package:api_handling/firebaseCRUD/components/MyTitles.dart';
 import 'package:api_handling/firebaseCRUD/screens/crud%20screen/bloc/firebase_crud_bloc.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -42,7 +41,6 @@ class _CrudScreenState extends State<CrudScreen> {
     intS.checkInitialStatus();
     super.initState();
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +81,7 @@ class _CrudScreenState extends State<CrudScreen> {
                     FirebaseServices.insertData(nameController.text, emailController.text, phoneController.text);
                     return SizedBox();
                   } else if (state is FetchingDataState || state is FirebaseCrudInitialState || state is InternetConnectedState || state is InternetLostState) {
-                    return Container();
+                    return SizedBox();
                   } else {
                     return Text(
                       'Data is not Valid',
@@ -214,7 +212,7 @@ class _CrudScreenState extends State<CrudScreen> {
                           }),
                     );
                   } else {
-                    return Container();
+                    return SizedBox();
                   }
                 }),
                 BlocListener<FirebaseCrudBloc, FirebaseCrudState>(
@@ -237,9 +235,9 @@ class _CrudScreenState extends State<CrudScreen> {
                               onBtn2pressed: () {
                                 Navigator.of(context).pop();
                               }));
-                    }
-                  },
-                  child: Container(),
+                        }
+                      },
+                  child: SizedBox(),
                 ),
               ],
             ),

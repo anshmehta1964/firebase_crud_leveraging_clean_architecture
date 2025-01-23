@@ -66,6 +66,7 @@ class MyApp extends StatelessWidget {
     initialRoute: RoutesName.splashScreen,
     onGenerateRoute: Routes.generateRoutes,
           // checking the branch
+          // testing
       )
     );
   }

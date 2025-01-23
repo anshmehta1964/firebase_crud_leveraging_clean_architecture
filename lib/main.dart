@@ -65,6 +65,7 @@ class MyApp extends StatelessWidget {
     debugShowCheckedModeBanner: false,
     initialRoute: RoutesName.splashScreen,
     onGenerateRoute: Routes.generateRoutes,
+          // checking the branch
       )
     );
   }

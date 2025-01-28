@@ -1,16 +1,15 @@
-import 'package:api_handling/firebaseCRUD/features/Auth/data/datasource/auth_local_data_source.dart';
 import 'package:api_handling/firebaseCRUD/features/Auth/domain/repository/crud_repository.dart';
-
-import '../datasource/auth_remote_data_source.dart';
+import '../datasource/crud_local_datasource.dart';
+import '../datasource/crud_remote_datasource.dart';
 
 class CrudRepositoryImpl implements CrudRepository{
-  final AuthRemoteDatasource remoteDatasource;
-  final AuthLocalDataSource localDataSource;
+  final CrudRemoteDataSource remoteDatasource;
+  final CrudLocalDataSource localDataSource;
   CrudRepositoryImpl(this.remoteDatasource, this.localDataSource);
   @override
   void insertData({required String name, required String email, required String phone}) {
     print('Crud Repo Impl : InsertData()');
-   remoteDatasource.insertData(name: name, email: email, phone: phone);
+    remoteDatasource.insertData(name: name, email: email, phone: phone);
   }
 
   @override
@@ -33,7 +32,7 @@ class CrudRepositoryImpl implements CrudRepository{
   @override
   void storeOfflineData({required String name, required String email, required String phone}) {
     print('Crud Repo Impl : Storing offline data()');
-   localDataSource.storeOfflineData(name, email, phone);
+    localDataSource.storeOfflineData(name, email, phone);
   }
 
   @override

@@ -58,3 +58,5 @@ class StoreOfflineDataEvent extends TempCrudEvent{
     required this.phone,
   });
 }
+
+class RetrievingOfflineDataEvent extends TempCrudEvent{}

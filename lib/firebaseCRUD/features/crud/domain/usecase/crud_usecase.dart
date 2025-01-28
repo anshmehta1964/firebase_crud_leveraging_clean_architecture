@@ -1,29 +1,6 @@
-import 'package:api_handling/firebaseCRUD/core/usecase/usecase.dart';
-import 'package:api_handling/firebaseCRUD/features/Auth/domain/repository/auth_repository.dart';
-import 'package:api_handling/firebaseCRUD/features/Auth/domain/repository/crud_repository.dart';
 
-class UserSignUp implements UseCaseWithParams<Type,Parameters>{
-  final AuthRepository authRepository;
-  const UserSignUp(this.authRepository);
-
-  @override
-  call(Parameters params) {
-    // print('UseCase : User Signup called');
-    authRepository.signInWithEmailPassword(email: params.email, password: params.password);
-  }
-}
-
-class UserLogIn implements UseCaseWithParams<Type,Parameters>{
-  final AuthRepository authRepository;
-  const UserLogIn(this.authRepository);
-
-  @override
-  Future<bool> call(Parameters params) async {
-    // print('UseCase : User Signup called');
-    bool user = await authRepository.logInWithEmailPassword(email: params.email, password: params.password);
-    return user;
-  }
-}
+import '../../../../core/usecase/usecase.dart';
+import '../../../Auth/domain/repository/crud_repository.dart';
 
 class InsertDataUseCase implements UseCaseWithParams<Type,CrudParameters>{
   final CrudRepository crudRepository;

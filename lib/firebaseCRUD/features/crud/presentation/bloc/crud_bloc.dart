@@ -1,7 +1,5 @@
-import 'package:api_handling/firebaseCRUD/features/Auth/data/repository/crud_repository_impl.dart';
 import 'package:api_handling/firebaseCRUD/features/Auth/domain/usecase/domain_usercase.dart';
 import 'package:bloc/bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:meta/meta.dart';
 
@@ -13,15 +11,18 @@ class TempCrudBloc extends Bloc<TempCrudEvent, TempCrudState> {
   final ReadDataUseCase readDUC;
   final DeleteDataUseCase deleteDUC;
   final OfflineDataUseCase offlineDataDUC;
+  final OfflineDataRetrievalUseCase dataRetrievalDUC;
   TempCrudBloc({
     required InsertDataUseCase insertusecase,
     required ReadDataUseCase Readusecase,
     required DeleteDataUseCase deleteusecase,
     required OfflineDataUseCase offlineusecase,
+    required OfflineDataRetrievalUseCase dataRetDUC
    }) : insertDUC = insertusecase,
         readDUC = Readusecase, 
         deleteDUC = deleteusecase,
-        offlineDataDUC = offlineusecase, super(TempCrudInitialState()) {
+        offlineDataDUC = offlineusecase,
+        dataRetrievalDUC = dataRetDUC, super(TempCrudInitialState()) {
     on<TempDataFetchEvent>((event, emit) async {
       // CollectionReference colReference = FirebaseFirestore.instance.collection(
       //     "anshDatabase");
@@ -57,7 +58,7 @@ class TempCrudBloc extends Bloc<TempCrudEvent, TempCrudState> {
     });
     on<TempConnectionLostEvent>((event, emit) {
       // print('ConnectionLostEvent Fired!');
-      // print('InternetLostState');
+      print('TempInternetLostState');
       emit(TempInternetLostState());
     });
 
@@ -82,6 +83,11 @@ class TempCrudBloc extends Bloc<TempCrudEvent, TempCrudState> {
     on<StoreOfflineDataEvent>((event,emit){
       print('Store Offline Data event fired');
       offlineDataDUC.call(CrudParameters(name: event.name, email: event.email, phone: event.phone));
+    });
+
+    on<RetrievingOfflineDataEvent>((event,emit){
+      print('Retrieving Offline Data event fired');
+      dataRetrievalDUC.call();
     });
   }
 }

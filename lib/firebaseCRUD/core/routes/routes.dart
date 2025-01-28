@@ -2,7 +2,7 @@ import 'package:api_handling/firebaseCRUD/core/routes/routes_name.dart';
 import 'package:api_handling/firebaseCRUD/features/Auth/presentation/bloc/signup/signup_bloc.dart';
 import 'package:api_handling/firebaseCRUD/features/Auth/presentation/pages/login_screen.dart';
 import 'package:api_handling/firebaseCRUD/features/Auth/presentation/pages/signup_screen.dart';
-import 'package:api_handling/firebaseCRUD/features/Auth/presentation/pages/temp_crud_screen.dart';
+import 'package:api_handling/firebaseCRUD/features/crud/presentation/pages/temp_crud_screen.dart';
 import 'package:api_handling/firebaseCRUD/features/splashscreen/splash_screen.dart';
 import 'package:api_handling/firebaseCRUD/screens/crud%20screen/pages/crud_screen.dart';
 import 'package:api_handling/firebaseCRUD/screens/home%20screen/pages/fb_home_screen.dart';

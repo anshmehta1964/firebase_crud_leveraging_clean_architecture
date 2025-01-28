@@ -3,13 +3,7 @@ import 'dart:async';
 import 'package:api_handling/firebaseCRUD/components/MyCupertinoButton.dart';
 import 'package:api_handling/firebaseCRUD/components/MyTextFormField.dart';
 import 'package:api_handling/firebaseCRUD/components/MyTitles.dart';
-import 'package:api_handling/firebaseCRUD/features/Auth/data/datasource/auth_remote_data_source.dart';
-import 'package:api_handling/firebaseCRUD/features/Auth/data/repository/crud_repository_impl.dart';
-import 'package:api_handling/firebaseCRUD/features/Auth/domain/usecase/domain_usercase.dart';
-import 'package:api_handling/firebaseCRUD/features/Auth/presentation/bloc/crud/crud_bloc.dart';
-import 'package:api_handling/firebaseCRUD/screens/crud%20screen/bloc/firebase_crud_bloc.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:api_handling/firebaseCRUD/features/crud/presentation/bloc/crud_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,10 +11,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/theme/theme_provider.dart';
-import '../../../../services/firebase services/firebase_services.dart';
 import '../../../../services/internet services/internet_services.dart';
-import '../widgets/auth_cupertino_button.dart';
-import '../widgets/auth_dialogbox.dart';
+import '../../../Auth/presentation/widgets/auth_cupertino_button.dart';
+import '../../../Auth/presentation/widgets/auth_dialogbox.dart';
 
 class TempCrudScreen extends StatefulWidget {
   const TempCrudScreen({super.key});
@@ -40,9 +33,9 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
   @override
   void initState() {
     subscription = InternetServices.streamController.stream.listen((value){
-      print('Stream listened : $value');
+      // print('Stream listened : $value');
       isConnected = value;
-      print('Value of isConnected variable is: $isConnected');
+      // print('Value of isConnected variable is: $isConnected');
     });
     //Checking initial connectivity
     intS.checkInitialStatus();
@@ -131,6 +124,7 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                             // print('calling saveUserData');'
                             BlocProvider.of<TempCrudBloc>(context).add(StoreOfflineDataEvent(name: nameController.text, email: emailController.text, phone: phoneController.text));
                             hasData = true;
+                            print('Value of has data is : $hasData');
                             // hasData = await TempServices.saveUserData(nameController.text, emailController.text, phoneController.text);
                           }
                         }, title: 'Create' ),
@@ -228,8 +222,10 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                     if (state is TempInternetConnectedState && hasData) {
                       // print('Inserted data from InternetConnectedState');
                       // FirebaseServices.offlineDataInserted();
+                      print('Internet connected and has data');
+                      BlocProvider.of<TempCrudBloc>(context).add(RetrievingOfflineDataEvent());
                     } else if (state is TempInternetLostState) {
-                      // print('Internet Lost state listened');
+                      print('Internet Lost state listened');
                       showDialog(
                           context: context,
                           builder: (context) => Authdialogbox(

@@ -60,3 +60,14 @@ class StoreOfflineDataEvent extends TempCrudEvent{
 }
 
 class RetrievingOfflineDataEvent extends TempCrudEvent{}
+
+class UpdateDataEvent extends TempCrudEvent{
+  final String name;
+  final String email;
+  final String phone;
+  UpdateDataEvent({
+    required this.name,
+    required this.email,
+    required this.phone,
+  });
+}

@@ -18,14 +18,15 @@ import 'firebaseCRUD/core/routes/routes.dart';
 import 'firebaseCRUD/core/routes/routes_name.dart';
 import 'firebaseCRUD/core/theme/theme_provider.dart';
 import 'firebaseCRUD/features/crud/data/repository/crud_repository_impl.dart';
+import 'firebaseCRUD/features/crud/domain/usecase/crud_usecase.dart';
 import 'firebaseCRUD/features/crud/presentation/bloc/crud_bloc.dart';
 import 'firebaseCRUD/features/Auth/presentation/bloc/login/login_bloc.dart';
 import 'firebase_options.dart';
 
 late SharedPreferences prefs;
 void main() async {
-  await SingletonSharedPreference.instance.init();
   WidgetsFlutterBinding.ensureInitialized();
+  await SingletonSharedPreference.instance.init();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // final internetServices = await InternetServices.createInstance();
   // await NotificationService.instance.intialize();
@@ -77,6 +78,12 @@ class MyApp extends StatelessWidget {
               dataRetDUC: OfflineDataRetrievalUseCase(CrudRepositoryImpl(
                   CrudRemoteDataSourceImpl(FirebaseFirestore.instance),
                   CrudLocalDatasourceImpl(prefs))),
+              insertoffDUC: InsertingOfflineData(CrudRepositoryImpl(
+                CrudRemoteDataSourceImpl(FirebaseFirestore.instance),
+                CrudLocalDatasourceImpl(prefs))),
+              updateDataDUC: UpdateDataUseCase(CrudRepositoryImpl(
+                CrudRemoteDataSourceImpl(FirebaseFirestore.instance),
+                CrudLocalDatasourceImpl(prefs))),
             ),
           ),
           BlocProvider<TempSignUpBloc>(

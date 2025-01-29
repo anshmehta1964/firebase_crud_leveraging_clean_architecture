@@ -1,28 +1,35 @@
-import 'package:api_handling/firebaseCRUD/features/Auth/domain/usecase/domain_usercase.dart';
 import 'package:bloc/bloc.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:meta/meta.dart';
 
+import '../../domain/usecase/crud_usecase.dart';
+
 part 'crud_event.dart';
 part 'crud_state.dart';
-
+List<String>? userDataList;
 class TempCrudBloc extends Bloc<TempCrudEvent, TempCrudState> {
   final InsertDataUseCase insertDUC;
   final ReadDataUseCase readDUC;
   final DeleteDataUseCase deleteDUC;
   final OfflineDataUseCase offlineDataDUC;
   final OfflineDataRetrievalUseCase dataRetrievalDUC;
+  final InsertingOfflineData insertOfflineDataDUC;
+  final UpdateDataUseCase updateDUC;
   TempCrudBloc({
     required InsertDataUseCase insertusecase,
     required ReadDataUseCase Readusecase,
     required DeleteDataUseCase deleteusecase,
     required OfflineDataUseCase offlineusecase,
-    required OfflineDataRetrievalUseCase dataRetDUC
+    required OfflineDataRetrievalUseCase dataRetDUC,
+    required InsertingOfflineData insertoffDUC,
+    required UpdateDataUseCase updateDataDUC,
    }) : insertDUC = insertusecase,
         readDUC = Readusecase, 
         deleteDUC = deleteusecase,
         offlineDataDUC = offlineusecase,
-        dataRetrievalDUC = dataRetDUC, super(TempCrudInitialState()) {
+        dataRetrievalDUC = dataRetDUC,
+        insertOfflineDataDUC = insertoffDUC,
+        updateDUC = updateDataDUC, super(TempCrudInitialState()) {
     on<TempDataFetchEvent>((event, emit) async {
       // CollectionReference colReference = FirebaseFirestore.instance.collection(
       //     "anshDatabase");
@@ -85,9 +92,19 @@ class TempCrudBloc extends Bloc<TempCrudEvent, TempCrudState> {
       offlineDataDUC.call(CrudParameters(name: event.name, email: event.email, phone: event.phone));
     });
 
-    on<RetrievingOfflineDataEvent>((event,emit){
+    on<RetrievingOfflineDataEvent>((event,emit) async {
       print('Retrieving Offline Data event fired');
-      dataRetrievalDUC.call();
+      userDataList = await dataRetrievalDUC.call();
+      if(userDataList != null) {
+        print('Offline data retrieved: $userDataList');
+        insertOfflineDataDUC.call(userDataList!);
+      } else {
+        print("User data list is null");
+      }
+    });
+
+    on<UpdateDataEvent>((event, emit){
+      updateDataDUC.call(CrudParameters(name: event.name, email: event.email, phone: event.phone));
     });
   }
 }

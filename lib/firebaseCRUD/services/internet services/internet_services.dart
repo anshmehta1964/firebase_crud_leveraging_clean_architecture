@@ -7,6 +7,7 @@ import '../../features/Auth/domain/usecase/domain_usercase.dart';
 import '../../features/crud/data/datasource/crud_local_datasource.dart';
 import '../../features/crud/data/datasource/crud_remote_datasource.dart';
 import '../../features/crud/data/repository/crud_repository_impl.dart';
+import '../../features/crud/domain/usecase/crud_usecase.dart';
 import '../../screens/crud screen/bloc/firebase_crud_bloc.dart';
 
 class InternetServices {
@@ -14,23 +15,23 @@ class InternetServices {
   static bool isConnected = false;
   final Connectivity _connectivity = Connectivity();
   final FirebaseCrudBloc firebaseCrudBloc = FirebaseCrudBloc();
-  late TempCrudBloc tempCrudBloc = TempCrudBloc(
-    insertusecase: InsertDataUseCase(CrudRepositoryImpl(
-        CrudRemoteDataSourceImpl(FirebaseFirestore.instance),
-        CrudLocalDatasourceImpl(SingletonSharedPreference.instance.prefs))),
-    Readusecase: ReadDataUseCase(CrudRepositoryImpl(
-        CrudRemoteDataSourceImpl(FirebaseFirestore.instance),
-        CrudLocalDatasourceImpl(SingletonSharedPreference.instance.prefs))),
-    deleteusecase: DeleteDataUseCase(CrudRepositoryImpl(
-        CrudRemoteDataSourceImpl(FirebaseFirestore.instance),
-        CrudLocalDatasourceImpl(SingletonSharedPreference.instance.prefs))),
-    offlineusecase: OfflineDataUseCase(CrudRepositoryImpl(
-        CrudRemoteDataSourceImpl(FirebaseFirestore.instance),
-        CrudLocalDatasourceImpl(SingletonSharedPreference.instance.prefs))),
-    dataRetDUC: OfflineDataRetrievalUseCase(CrudRepositoryImpl(
-        CrudRemoteDataSourceImpl(FirebaseFirestore.instance),
-        CrudLocalDatasourceImpl(SingletonSharedPreference.instance.prefs))),
-  );
+  // late TempCrudBloc tempCrudBloc = TempCrudBloc(
+  //   insertusecase: InsertDataUseCase(CrudRepositoryImpl(
+  //       CrudRemoteDataSourceImpl(FirebaseFirestore.instance),
+  //       CrudLocalDatasourceImpl(SingletonSharedPreference.instance.prefs))),
+  //   Readusecase: ReadDataUseCase(CrudRepositoryImpl(
+  //       CrudRemoteDataSourceImpl(FirebaseFirestore.instance),
+  //       CrudLocalDatasourceImpl(SingletonSharedPreference.instance.prefs))),
+  //   deleteusecase: DeleteDataUseCase(CrudRepositoryImpl(
+  //       CrudRemoteDataSourceImpl(FirebaseFirestore.instance),
+  //       CrudLocalDatasourceImpl(SingletonSharedPreference.instance.prefs))),
+  //   offlineusecase: OfflineDataUseCase(CrudRepositoryImpl(
+  //       CrudRemoteDataSourceImpl(FirebaseFirestore.instance),
+  //       CrudLocalDatasourceImpl(SingletonSharedPreference.instance.prefs))),
+  //   dataRetDUC: OfflineDataRetrievalUseCase(CrudRepositoryImpl(
+  //       CrudRemoteDataSourceImpl(FirebaseFirestore.instance),
+  //       CrudLocalDatasourceImpl(SingletonSharedPreference.instance.prefs))),
+  // );
 
   InternetServices() {
     _connectivity.onConnectivityChanged.listen(_crudConnectivityStatus);
@@ -53,12 +54,12 @@ class InternetServices {
     print('Internet Services : Connectivity Changed');
     if (result.first == ConnectivityResult.none) {
       firebaseCrudBloc.add(ConnectionLostEvent());
-      tempCrudBloc.add(TempConnectionLostEvent());
+      // tempCrudBloc.add(TempConnectionLostEvent());
       print('Internet Services :  No Connection');
       streamController.add(false);
     } else {
       firebaseCrudBloc.add(ConnectionGainedEvent());
-      tempCrudBloc.add(TempConnectionGainedEvent());
+      // tempCrudBloc.add(TempConnectionGainedEvent());
       print('Internet Services :  Connected result  {$result}');
       streamController.add(true);
     }

@@ -11,6 +11,14 @@ abstract interface class CrudRemoteDataSource {
   Future<Map<String, List<String>>> readData();
 
   void deleteData(String name);
+
+  void offlineDataInserted(List<String> data);
+
+  void updateData({
+    required String name,
+    required String email,
+    required String phone
+  });
 }
 class CrudRemoteDataSourceImpl implements CrudRemoteDataSource{
   FirebaseFirestore firebaseFirestore;
@@ -28,6 +36,7 @@ class CrudRemoteDataSourceImpl implements CrudRemoteDataSource{
     print("Inserted Data is : {$name, $email, $phone}");
   }
 
+  @override
   void offlineDataInserted(List<String> userDataList)  {
     for (int i = 0; i < userDataList.length; i += 3) {
       DocumentReference documentReference =  firebaseFirestore.collection("anshDatabase").doc(userDataList[i]);
@@ -66,8 +75,22 @@ class CrudRemoteDataSourceImpl implements CrudRemoteDataSource{
   void deleteData(String docName) {
     print('Remote Data impl : DeleteData()');
     CollectionReference df =
-    FirebaseFirestore.instance.collection('anshDatabase');
+    firebaseFirestore.collection('anshDatabase');
     df.doc(docName).delete();
     // print('Delete Data called : FirebaseServices');
+  }
+
+  @override
+  void updateData({required String name,required String email,required String phone}) {
+    DocumentReference documentReference = firebaseFirestore
+        .collection("anshDatabase")
+        .doc(name);
+    Map<String, dynamic> data = {
+      "name": name,
+      "email": email,
+      "phone": phone
+    };
+    documentReference.update(data);
+    print('Remote Data Source Impl : UpdateData()');
   }
 }

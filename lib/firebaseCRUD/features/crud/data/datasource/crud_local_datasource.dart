@@ -7,7 +7,7 @@ abstract interface class CrudLocalDataSource{
       String email,
       String phone);
 
-  Future<void> offlineDataRetrieval();
+  Future<List<String>?> offlineDataRetrieval();
 }
 
 class CrudLocalDatasourceImpl implements CrudLocalDataSource{
@@ -28,18 +28,20 @@ class CrudLocalDatasourceImpl implements CrudLocalDataSource{
     await prefs?.setStringList('userData', temp);
     print('Local Data Source Impl : Store Offline Data');
     print('LocalDataImpl Values: {$name,$email, $phone}');
-    // print('saveUserData called & pref values are set : FirebaseServices');
-    // print('The values are: {$name, $email, $phone}');
+    print('saveUserData called & pref values are set : FirebaseServices');
+    print('The values are: {$name, $email, $phone}');
     return true;
   }
 
   @override
-  Future<void> offlineDataRetrieval() async {
+  Future<List<String>?> offlineDataRetrieval() async {
     if(prefs == null){
       print('prefs is null');
     }
     print('Local Data Impl : Offline Data Retrieval()');
     List<String>? userDataList = prefs?.getStringList('userData')!;
+    print('Local Data Impl: User data list contains this data = $userDataList');
+    return userDataList;
 
     // AuthRemoteDataSourceImpl(FirebaseAuth.instance, FirebaseFirestore.instance).offlineDataInserted(userDataList);
   }

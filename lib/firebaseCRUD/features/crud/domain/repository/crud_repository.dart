@@ -14,10 +14,14 @@ abstract interface class CrudRepository{
 
   Future<Map<String,List<String>>> readData();
 
-  void updateData(){}
-
   void deleteData(String name){}
 
-  void offlineDataRetrieval();
+  Future<List<String>?> offlineDataRetrieval();
 
+  void offlineDataInserted(List<String> data);
+
+  void updateData({
+    required String name,
+    required String email,
+    required String phone});
 }

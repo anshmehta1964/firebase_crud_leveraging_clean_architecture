@@ -1,4 +1,4 @@
-import 'package:api_handling/firebaseCRUD/features/Auth/domain/repository/crud_repository.dart';
+import '../../domain/repository/crud_repository.dart';
 import '../datasource/crud_local_datasource.dart';
 import '../datasource/crud_remote_datasource.dart';
 
@@ -19,8 +19,10 @@ class CrudRepositoryImpl implements CrudRepository{
   }
 
   @override
-  void updateData() {
-    // TODO: implement updateData
+  void updateData({required String name,required String email,required String phone}) {
+    print('Crud Repo Impl : updateData()');
+    remoteDatasource.updateData(name: name, email: email,phone: phone);
+    // print('UpdateData is called : FirebaseServices');
   }
 
   @override
@@ -36,8 +38,16 @@ class CrudRepositoryImpl implements CrudRepository{
   }
 
   @override
-  void offlineDataRetrieval() {
-    localDataSource.offlineDataRetrieval();
+  Future<List<String>?> offlineDataRetrieval() async {
+    List<String>? userDataList = await localDataSource.offlineDataRetrieval();
+    // print('Crud Repo Impl : userDataList has data : $userDataList');
+    return userDataList;
+  }
+
+  @override
+  void offlineDataInserted(List<String> data) {
+    print('Crud Repo Impl : Offline Data Inserted()');
+   remoteDatasource.offlineDataInserted(data);
   }
 
 }

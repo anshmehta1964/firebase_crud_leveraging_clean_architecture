@@ -1,6 +1,6 @@
 
 import '../../../../core/usecase/usecase.dart';
-import '../../../Auth/domain/repository/crud_repository.dart';
+import '../repository/crud_repository.dart';
 
 class InsertDataUseCase implements UseCaseWithParams<Type,CrudParameters>{
   final CrudRepository crudRepository;
@@ -47,10 +47,31 @@ class OfflineDataRetrievalUseCase implements UseCaseWithoutParams{
   final CrudRepository crudRepository;
   OfflineDataRetrievalUseCase(this.crudRepository);
   @override
-  call() {
+  Future<List<String>?> call() async {
     print('Use case : Offline Data Retrieval()');
-    crudRepository.offlineDataRetrieval();
+    List<String>? userDataList = await crudRepository.offlineDataRetrieval();
+    print('Use Case: userDataList has Data : $userDataList');
+    return userDataList;
   }
+}
+class InsertingOfflineData implements UseCaseWithParams<Type,List<String>>{
+  final CrudRepository crudRepository;
+  InsertingOfflineData(this.crudRepository);
+  @override
+  call(List<String> data){
+    print('Use case inserting following data: $data');
+    crudRepository.offlineDataInserted(data);
+  }
+}
+
+class UpdateDataUseCase implements UseCaseWithParams<Type,CrudParameters>{
+  final CrudRepository crudRepository;
+  UpdateDataUseCase(this.crudRepository);
+  @override
+  call(CrudParameters params) {
+    crudRepository.updateData(name: params.name,email: params.email, phone: params.phone);
+  }
+
 }
 
 class CrudParameters{

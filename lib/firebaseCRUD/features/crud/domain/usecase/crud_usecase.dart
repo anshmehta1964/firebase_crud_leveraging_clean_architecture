@@ -1,18 +1,18 @@
-
 import '../../../../core/usecase/usecase.dart';
 import '../repository/crud_repository.dart';
 
-class InsertDataUseCase implements UseCaseWithParams<Type,CrudParameters>{
+class InsertDataUseCase implements UseCaseWithParams<Type, CrudParameters> {
   final CrudRepository crudRepository;
   const InsertDataUseCase(this.crudRepository);
   @override
   call(CrudParameters params) {
     // print('Use Case : Insert data()');
-    crudRepository.insertData(name: params.name, email: params.email, phone: params.phone);
+    crudRepository.insertData(
+        name: params.name, email: params.email, phone: params.phone);
   }
 }
 
-class ReadDataUseCase implements UseCaseWithoutParams{
+class ReadDataUseCase implements UseCaseWithoutParams {
   final CrudRepository crudRepository;
   const ReadDataUseCase(this.crudRepository);
   @override
@@ -22,7 +22,7 @@ class ReadDataUseCase implements UseCaseWithoutParams{
   }
 }
 
-class DeleteDataUseCase implements UseCaseWithParams<Type,SingleParam>{
+class DeleteDataUseCase implements UseCaseWithParams<Type, SingleParam> {
   final CrudRepository crudRepository;
   DeleteDataUseCase(this.crudRepository);
   @override
@@ -32,18 +32,19 @@ class DeleteDataUseCase implements UseCaseWithParams<Type,SingleParam>{
   }
 }
 
-class OfflineDataUseCase implements UseCaseWithParams<Type,CrudParameters>{
+class OfflineDataUseCase implements UseCaseWithParams<Type, CrudParameters> {
   final CrudRepository crudRepository;
   OfflineDataUseCase(this.crudRepository);
 
   @override
   call(CrudParameters params) {
     print('Use case : Offline Data Storing()');
-    crudRepository.storeOfflineData(name: params.name, email: params.email, phone: params.phone);
+    crudRepository.storeOfflineData(
+        name: params.name, email: params.email, phone: params.phone);
   }
 }
 
-class OfflineDataRetrievalUseCase implements UseCaseWithoutParams{
+class OfflineDataRetrievalUseCase implements UseCaseWithoutParams {
   final CrudRepository crudRepository;
   OfflineDataRetrievalUseCase(this.crudRepository);
   @override
@@ -54,27 +55,28 @@ class OfflineDataRetrievalUseCase implements UseCaseWithoutParams{
     return userDataList;
   }
 }
-class InsertingOfflineData implements UseCaseWithParams<Type,List<String>>{
+
+class InsertingOfflineData implements UseCaseWithParams<Type, List<String>> {
   final CrudRepository crudRepository;
   InsertingOfflineData(this.crudRepository);
   @override
-  call(List<String> data){
+  call(List<String> data) {
     print('Use case inserting following data: $data');
     crudRepository.offlineDataInserted(data);
   }
 }
 
-class UpdateDataUseCase implements UseCaseWithParams<Type,CrudParameters>{
+class UpdateDataUseCase implements UseCaseWithParams<Type, CrudParameters> {
   final CrudRepository crudRepository;
   UpdateDataUseCase(this.crudRepository);
   @override
   call(CrudParameters params) {
-    crudRepository.updateData(name: params.name,email: params.email, phone: params.phone);
+    crudRepository.updateData(
+        name: params.name, email: params.email, phone: params.phone);
   }
-
 }
 
-class CrudParameters{
+class CrudParameters {
   final String name;
   final String email;
   final String phone;
@@ -91,7 +93,7 @@ class Parameters {
   Parameters({required this.email, required this.password});
 }
 
-class SingleParam{
+class SingleParam {
   final String name;
   SingleParam({required this.name});
 }

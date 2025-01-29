@@ -4,6 +4,8 @@ import 'package:api_handling/firebaseCRUD/components/MyCupertinoButton.dart';
 import 'package:api_handling/firebaseCRUD/components/MyTextFormField.dart';
 import 'package:api_handling/firebaseCRUD/components/MyTitles.dart';
 import 'package:api_handling/firebaseCRUD/features/crud/presentation/bloc/crud_bloc.dart';
+import 'package:api_handling/firebaseCRUD/features/crud/presentation/widgets/crud_cupertinobutton.dart';
+import 'package:api_handling/firebaseCRUD/features/crud/presentation/widgets/crud_textformfield.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +17,7 @@ import '../../../../core/theme/theme_provider.dart';
 import '../../../../services/internet services/internet_services.dart';
 import '../../../Auth/presentation/widgets/auth_cupertino_button.dart';
 import '../../../Auth/presentation/widgets/auth_dialogbox.dart';
+import '../widgets/crud_dialogbox.dart';
 
 final Connectivity _connectivity = Connectivity();
 StreamController<bool> streamController = StreamController();
@@ -88,7 +91,8 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                   } else if (state is TempFetchingDataState ||
                       state is TempCrudInitialState ||
                       state is TempInternetConnectedState ||
-                      state is TempInternetLostState) {
+                      state is TempInternetLostState ||
+                      state is TempValidTextState) {
                     return SizedBox();
                   } else {
                     return Text(
@@ -97,7 +101,7 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                     );
                   }
                 }),
-                MyTextFormField(
+                CrudTextFormField(
                     controller: nameController,
                     hintText: "Name",
                     onTextChanged: (val) {
@@ -107,7 +111,7 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                               email: emailController.text,
                               phone: phoneController.text));
                     }),
-                MyTextFormField(
+                CrudTextFormField(
                     controller: emailController,
                     hintText: "Email",
                     onTextChanged: (val) {
@@ -117,7 +121,7 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                               email: emailController.text,
                               phone: phoneController.text));
                     }),
-                MyTextFormField(
+                CrudTextFormField(
                     type: TextInputType.number,
                     controller: phoneController,
                     hintText: "Phone",
@@ -134,7 +138,7 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                   spacing: 20,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    AuthCupertinoButton(
+                    CrudCupertinoButton(
                         onPress: () async {
                           if (isConnected) {
                             BlocProvider.of<TempCrudBloc>(context).add(
@@ -155,7 +159,7 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                           }
                         },
                         title: 'Create'),
-                    MyCupertinoButton(
+                    CrudCupertinoButton(
                         onPress: () {
                           BlocProvider.of<TempCrudBloc>(context)
                               .add(TempDataFetchEvent());
@@ -163,7 +167,7 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                         title: 'Read'),
                     BlocBuilder<TempCrudBloc, TempCrudState>(
                       builder: (context, state) {
-                        return MyCupertinoButton(
+                        return CrudCupertinoButton(
                             color: state is TempValidTextState
                                 ? Theme.of(context).colorScheme.primary
                                 : Colors.grey,
@@ -201,7 +205,7 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                                     onPressed: (context) {
                                       showDialog(
                                           context: context,
-                                          builder: (context) => Authdialogbox(
+                                          builder: (context) => CrudDialogbox(
                                               title: "Confirm Delete",
                                               content:
                                                   "Are you sure to delete the data?",

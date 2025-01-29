@@ -11,7 +11,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/routes/routes_name.dart';
 import '../bloc/signup/signup_bloc.dart';
 
-
 class TempSignUp extends StatefulWidget {
   const TempSignUp({super.key});
 
@@ -46,22 +45,23 @@ class _TempSignUpState extends State<TempSignUp> {
                 SizedBox(height: 20),
                 BlocBuilder<TempSignUpBloc, TempSignUpState>(
                     builder: (context, state) {
-                      if (state is TempSignUpInvalidState) {
-                        return Text(
-                          state.errorMessage,
-                          style: TextStyle(color: Colors.red),
-                        );
-                      } else {
-                        return SizedBox();
-                      }
-                    }),
+                  if (state is TempSignUpInvalidState) {
+                    return Text(
+                      state.errorMessage,
+                      style: TextStyle(color: Colors.red),
+                    );
+                  } else {
+                    return SizedBox();
+                  }
+                }),
                 SizedBox(height: 20),
                 AuthTextField(
                     controller: emailController,
                     hintText: 'Email',
-                    onTextChanged: (val){
+                    onTextChanged: (val) {
                       BlocProvider.of<TempSignUpBloc>(context).add(
-                          TempSignUpEmailChangedEvent(email: emailController.text));
+                          TempSignUpEmailChangedEvent(
+                              email: emailController.text));
                     }),
                 // MyTextField(
                 //     controller: emailController,
@@ -76,7 +76,7 @@ class _TempSignUpState extends State<TempSignUp> {
                     obscureText: true,
                     controller: passController,
                     hintText: 'Password',
-                    onTextChanged: (val){
+                    onTextChanged: (val) {
                       BlocProvider.of<TempSignUpBloc>(context).add(
                           TempSignUpPasswordChangedEvent(
                               email: emailController.text,
@@ -86,17 +86,27 @@ class _TempSignUpState extends State<TempSignUp> {
                 BlocBuilder<TempSignUpBloc, TempSignUpState>(
                   builder: (context, state) {
                     return CupertinoButton(
-                      onPressed: (state is TempSignUpValidState) ? () {
-                        Navigator.pushNamed(context,RoutesName.tempLoginScreen);
-                        // crudService.signUp(emailController.text,passController.text);
-                        BlocProvider.of<TempSignUpBloc>(context).add(TempSignUpSubmittedEvent(email: emailController.text, password: passController.text));
-                        emailController.clear();
-                        passController.clear();
-                      } : () { },
-                      color: (state is TempSignUpInvalidState || state is TempSignInInitialState) ? Colors.grey : Theme.of(context).colorScheme.primary,
+                      onPressed: (state is TempSignUpValidState)
+                          ? () {
+                              Navigator.pushNamed(
+                                  context, RoutesName.tempLoginScreen);
+                              // crudService.signUp(emailController.text,passController.text);
+                              BlocProvider.of<TempSignUpBloc>(context).add(
+                                  TempSignUpSubmittedEvent(
+                                      email: emailController.text,
+                                      password: passController.text));
+                              emailController.clear();
+                              passController.clear();
+                            }
+                          : () {},
+                      color: (state is TempSignUpInvalidState ||
+                              state is TempSignInInitialState)
+                          ? Colors.grey
+                          : Theme.of(context).colorScheme.primary,
                       child: Text(
                         'Sign in',
-                        style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary),
                       ),
                     );
                   },
@@ -104,7 +114,6 @@ class _TempSignUpState extends State<TempSignUp> {
               ],
             ),
           ),
-        )
-    );
+        ));
   }
 }

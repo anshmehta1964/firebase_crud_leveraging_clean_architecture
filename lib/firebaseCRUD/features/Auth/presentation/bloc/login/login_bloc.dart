@@ -2,26 +2,30 @@ import 'package:bloc/bloc.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:meta/meta.dart';
 
-import '../../../domain/usecase/domain_usercase.dart';
+import '../../../domain/usecase/auth_usecase.dart';
 
 part 'login_event.dart';
 part 'login_state.dart';
 
 class TempLogInBloc extends Bloc<TempLogInEvent, TempLogInState> {
   late final UserLogIn _userLogIn;
-  TempLogInBloc({required UserLogIn userLogIn}) : _userLogIn = userLogIn, super(TempLogInInitialState()) {
-    on<TempLogInEmailChangedEvent>((event,emit){
-      if(!(EmailValidator.validate(event.email))){
-        emit(TempLogInInvalidState(errorMessage: "Please enter a valid email!"));
+  TempLogInBloc({required UserLogIn userLogIn})
+      : _userLogIn = userLogIn,
+        super(TempLogInInitialState()) {
+    on<TempLogInEmailChangedEvent>((event, emit) {
+      if (!(EmailValidator.validate(event.email))) {
+        emit(
+            TempLogInInvalidState(errorMessage: "Please enter a valid email!"));
       } else {
         emit(TempLogInInitialState());
       }
     });
-    on<TempLogInPasswordChangedEvent>((event,emit){
-      if(event.password.length < 8){
-        emit(TempLogInInvalidState(errorMessage: "Please enter a valid password"));
+    on<TempLogInPasswordChangedEvent>((event, emit) {
+      if (event.password.length < 8) {
+        emit(TempLogInInvalidState(
+            errorMessage: "Please enter a valid password"));
         print('login invalid state');
-      } else if(!(EmailValidator.validate(event.email))){
+      } else if (!(EmailValidator.validate(event.email))) {
         emit(TempLogInInvalidState(errorMessage: "Please enter a valid email"));
         print('login invalid state');
       } else {
@@ -29,15 +33,18 @@ class TempLogInBloc extends Bloc<TempLogInEvent, TempLogInState> {
         print('Login valid state');
       }
     });
-    on<TempLogInSubmittedEvent>((event,emit) async {
-      bool checkCredentials = await _userLogIn.call(Parameters(email: event.email, password: event.password));
+    on<TempLogInSubmittedEvent>((event, emit) async {
+      bool checkCredentials = await _userLogIn
+          .call(Parameters(email: event.email, password: event.password));
       // print('value of checkCredentials is : $checkCredentials');
-      if(EmailValidator.validate(event.email) && !(event.password.length < 8 && checkCredentials)){
+      if (EmailValidator.validate(event.email) &&
+          !(event.password.length < 8 && checkCredentials)) {
         emit(TempCredentialsVerifiedState());
         // print('credentials verified state');
-      } else{
+      } else {
         // print('Login invalid state');
-        emit(TempLogInInvalidState(errorMessage: "Email or password is not Valid"));
+        emit(TempLogInInvalidState(
+            errorMessage: "Email or password is not Valid"));
       }
     });
   }

@@ -1,16 +1,13 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-abstract interface class CrudLocalDataSource{
+abstract interface class CrudLocalDataSource {
   List<String> temp = [];
-  Future<bool> storeOfflineData(
-      String name,
-      String email,
-      String phone);
+  Future<bool> storeOfflineData(String name, String email, String phone);
 
   Future<List<String>?> offlineDataRetrieval();
 }
 
-class CrudLocalDatasourceImpl implements CrudLocalDataSource{
+class CrudLocalDatasourceImpl implements CrudLocalDataSource {
   SharedPreferences? prefs;
   CrudLocalDatasourceImpl(this.prefs);
 
@@ -19,7 +16,7 @@ class CrudLocalDatasourceImpl implements CrudLocalDataSource{
 
   @override
   Future<bool> storeOfflineData(String name, String email, String phone) async {
-    if(prefs == null){
+    if (prefs == null) {
       print('prefs is null');
     }
     temp.add(name);
@@ -35,7 +32,7 @@ class CrudLocalDatasourceImpl implements CrudLocalDataSource{
 
   @override
   Future<List<String>?> offlineDataRetrieval() async {
-    if(prefs == null){
+    if (prefs == null) {
       print('prefs is null');
     }
     print('Local Data Impl : Offline Data Retrieval()');
@@ -45,5 +42,4 @@ class CrudLocalDatasourceImpl implements CrudLocalDataSource{
 
     // AuthRemoteDataSourceImpl(FirebaseAuth.instance, FirebaseFirestore.instance).offlineDataInserted(userDataList);
   }
-
 }

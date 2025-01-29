@@ -3,7 +3,7 @@ part of 'signup_bloc.dart';
 @immutable
 sealed class TempSignUpEvent {}
 
-class TempSignUpEmailChangedEvent extends TempSignUpEvent{
+class TempSignUpEmailChangedEvent extends TempSignUpEvent {
   final String email;
   // String password;
   TempSignUpEmailChangedEvent({
@@ -12,13 +12,13 @@ class TempSignUpEmailChangedEvent extends TempSignUpEvent{
   });
 }
 
-class TempSignUpPasswordChangedEvent extends TempSignUpEvent{
+class TempSignUpPasswordChangedEvent extends TempSignUpEvent {
   final String email;
   final String password;
   TempSignUpPasswordChangedEvent({required this.password, required this.email});
 }
 
-class TempSignUpSubmittedEvent extends TempSignUpEvent{
+class TempSignUpSubmittedEvent extends TempSignUpEvent {
   final String email;
   final String password;
   TempSignUpSubmittedEvent({required this.email, required this.password});

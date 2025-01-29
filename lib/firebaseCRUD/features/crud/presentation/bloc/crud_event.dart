@@ -3,9 +3,9 @@ part of 'crud_bloc.dart';
 @immutable
 sealed class TempCrudEvent {}
 
-class TempDataFetchEvent extends TempCrudEvent{}
+class TempDataFetchEvent extends TempCrudEvent {}
 
-class TempInsertDataEvent extends TempCrudEvent{
+class TempInsertDataEvent extends TempCrudEvent {
   final String name;
   final String email;
   final String phone;
@@ -16,11 +16,11 @@ class TempInsertDataEvent extends TempCrudEvent{
   });
 }
 
-class TempConnectionLostEvent extends TempCrudEvent{}
+class TempConnectionLostEvent extends TempCrudEvent {}
 
-class TempConnectionGainedEvent extends TempCrudEvent{}
+class TempConnectionGainedEvent extends TempCrudEvent {}
 
-class TempTextChangedEvent extends TempCrudEvent{
+class TempTextChangedEvent extends TempCrudEvent {
   final String name;
   final String email;
   final String phone;
@@ -31,7 +31,7 @@ class TempTextChangedEvent extends TempCrudEvent{
   });
 }
 
-class TempDataValidAndConnectedEvent extends TempCrudEvent{
+class TempDataValidAndConnectedEvent extends TempCrudEvent {
   final String name;
   final String email;
   final String phone;
@@ -42,12 +42,12 @@ class TempDataValidAndConnectedEvent extends TempCrudEvent{
   });
 }
 
-class TempDeleteDataEvent extends TempCrudEvent{
+class TempDeleteDataEvent extends TempCrudEvent {
   final String name;
   TempDeleteDataEvent({required this.name});
 }
 
-class StoreOfflineDataEvent extends TempCrudEvent{
+class StoreOfflineDataEvent extends TempCrudEvent {
   final String name;
   final String email;
   final String phone;
@@ -59,9 +59,9 @@ class StoreOfflineDataEvent extends TempCrudEvent{
   });
 }
 
-class RetrievingOfflineDataEvent extends TempCrudEvent{}
+class RetrievingOfflineDataEvent extends TempCrudEvent {}
 
-class UpdateDataEvent extends TempCrudEvent{
+class UpdateDataEvent extends TempCrudEvent {
   final String name;
   final String email;
   final String phone;

@@ -15,33 +15,34 @@ class TempHomeScreen extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('Welcome',
+              Text(
+                'Welcome',
                 style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                     fontWeight: FontWeight.bold,
-                    fontSize: 40
-                ),
+                    fontSize: 40),
               ),
               SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  MyCupertinoButton(onPress: (){
-                    Navigator.pushNamed(context, RoutesName.tempSignUpScreen);
-                  },
+                  MyCupertinoButton(
+                      onPress: () {
+                        Navigator.pushNamed(
+                            context, RoutesName.tempSignUpScreen);
+                      },
                       title: 'Sign in'),
                   SizedBox(width: 15),
                   MyCupertinoButton(
-                      onPress: (){
-                        Navigator.pushNamed(context, RoutesName.tempLoginScreen);
+                      onPress: () {
+                        Navigator.pushNamed(
+                            context, RoutesName.tempLoginScreen);
                       },
-                      title: 'Login'
-                  )
+                      title: 'Login')
                 ],
               )
             ],
           ),
-        )
-    );
+        ));
   }
 }

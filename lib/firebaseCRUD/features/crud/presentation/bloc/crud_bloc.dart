@@ -6,7 +6,9 @@ import '../../domain/usecase/crud_usecase.dart';
 
 part 'crud_event.dart';
 part 'crud_state.dart';
+
 List<String>? userDataList;
+
 class TempCrudBloc extends Bloc<TempCrudEvent, TempCrudState> {
   final InsertDataUseCase insertDUC;
   final ReadDataUseCase readDUC;
@@ -23,13 +25,14 @@ class TempCrudBloc extends Bloc<TempCrudEvent, TempCrudState> {
     required OfflineDataRetrievalUseCase dataRetDUC,
     required InsertingOfflineData insertoffDUC,
     required UpdateDataUseCase updateDataDUC,
-   }) : insertDUC = insertusecase,
-        readDUC = Readusecase, 
+  })  : insertDUC = insertusecase,
+        readDUC = Readusecase,
         deleteDUC = deleteusecase,
         offlineDataDUC = offlineusecase,
         dataRetrievalDUC = dataRetDUC,
         insertOfflineDataDUC = insertoffDUC,
-        updateDUC = updateDataDUC, super(TempCrudInitialState()) {
+        updateDUC = updateDataDUC,
+        super(TempCrudInitialState()) {
     on<TempDataFetchEvent>((event, emit) async {
       // CollectionReference colReference = FirebaseFirestore.instance.collection(
       //     "anshDatabase");
@@ -45,12 +48,17 @@ class TempCrudBloc extends Bloc<TempCrudEvent, TempCrudState> {
       //   phoneList.add(docSnapshot.get("phone"));
       // }
 
-      emit(TempFetchingDataState(nameList: nameList, emailList: emailList, phoneList: phoneList));
+      emit(TempFetchingDataState(
+          nameList: nameList, emailList: emailList, phoneList: phoneList));
     });
     on<TempInsertDataEvent>((event, emit) {
       // print('InsertDataEventFired');
-      if (event.name == "" || event.email == "" || event.phone == "" ||
-          !(EmailValidator.validate(event.email)) || event.phone.length < 10 || event.phone.length > 10) {
+      if (event.name == "" ||
+          event.email == "" ||
+          event.phone == "" ||
+          !(EmailValidator.validate(event.email)) ||
+          event.phone.length < 10 ||
+          event.phone.length > 10) {
         // print('DataInvalidState');
         emit(TempDataInvalidState());
       } else {
@@ -69,33 +77,40 @@ class TempCrudBloc extends Bloc<TempCrudEvent, TempCrudState> {
       emit(TempInternetLostState());
     });
 
-    on<TempTextChangedEvent>((event,emit){
+    on<TempTextChangedEvent>((event, emit) {
       // print('Text Changed Event Fired!!');
-      if(event.name == "" || event.phone == "" || event.email == "" || !(EmailValidator.validate(event.email)) || event.phone.length < 10 || event.phone.length > 10){
+      if (event.name == "" ||
+          event.phone == "" ||
+          event.email == "" ||
+          !(EmailValidator.validate(event.email)) ||
+          event.phone.length < 10 ||
+          event.phone.length > 10) {
         emit(TempInvalidTextState());
       } else {
         emit(TempValidTextState());
       }
     });
-    on<TempDataValidAndConnectedEvent>((event, emit){
+    on<TempDataValidAndConnectedEvent>((event, emit) {
       print('TempDataValidandConnectedEvent fired');
-      insertDUC.call(CrudParameters(name: event.name, email: event.email, phone: event.phone));
+      insertDUC.call(CrudParameters(
+          name: event.name, email: event.email, phone: event.phone));
     });
-    
-    on<TempDeleteDataEvent>((event, emit){
+
+    on<TempDeleteDataEvent>((event, emit) {
       print('Delete Data Event fired');
       deleteDUC.call(SingleParam(name: event.name));
     });
 
-    on<StoreOfflineDataEvent>((event,emit){
+    on<StoreOfflineDataEvent>((event, emit) {
       print('Store Offline Data event fired');
-      offlineDataDUC.call(CrudParameters(name: event.name, email: event.email, phone: event.phone));
+      offlineDataDUC.call(CrudParameters(
+          name: event.name, email: event.email, phone: event.phone));
     });
 
-    on<RetrievingOfflineDataEvent>((event,emit) async {
+    on<RetrievingOfflineDataEvent>((event, emit) async {
       print('Retrieving Offline Data event fired');
       userDataList = await dataRetrievalDUC.call();
-      if(userDataList != null) {
+      if (userDataList != null) {
         print('Offline data retrieved: $userDataList');
         insertOfflineDataDUC.call(userDataList!);
       } else {
@@ -103,8 +118,15 @@ class TempCrudBloc extends Bloc<TempCrudEvent, TempCrudState> {
       }
     });
 
-    on<UpdateDataEvent>((event, emit){
-      updateDataDUC.call(CrudParameters(name: event.name, email: event.email, phone: event.phone));
+    on<UpdateDataEvent>((event, emit) {
+      updateDataDUC.call(CrudParameters(
+          name: event.name, email: event.email, phone: event.phone));
     });
+  }
+  @override
+  void onChange(Change<TempCrudState> change) {
+    print('Current state : ${change.currentState} to ${change.nextState}');
+    super.onChange(change);
+    print(change);
   }
 }

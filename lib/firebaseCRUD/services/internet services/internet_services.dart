@@ -3,7 +3,7 @@ import 'package:api_handling/firebaseCRUD/core/singletons/shared_pref_singleton.
 import 'package:api_handling/firebaseCRUD/features/crud/presentation/bloc/crud_bloc.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
-import '../../features/Auth/domain/usecase/domain_usercase.dart';
+import '../../features/Auth/domain/usecase/auth_usecase.dart';
 import '../../features/crud/data/datasource/crud_local_datasource.dart';
 import '../../features/crud/data/datasource/crud_remote_datasource.dart';
 import '../../features/crud/data/repository/crud_repository_impl.dart';

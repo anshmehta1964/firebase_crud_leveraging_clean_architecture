@@ -1,10 +1,6 @@
-abstract interface class CrudRepository{
-
-  void insertData({
-    required String name,
-    required String email,
-    required String phone
-  });
+abstract interface class CrudRepository {
+  void insertData(
+      {required String name, required String email, required String phone});
 
   void storeOfflineData({
     required String name,
@@ -12,16 +8,14 @@ abstract interface class CrudRepository{
     required String phone,
   });
 
-  Future<Map<String,List<String>>> readData();
+  Future<Map<String, List<String>>> readData();
 
-  void deleteData(String name){}
+  void deleteData(String name) {}
 
   Future<List<String>?> offlineDataRetrieval();
 
   void offlineDataInserted(List<String> data);
 
-  void updateData({
-    required String name,
-    required String email,
-    required String phone});
+  void updateData(
+      {required String name, required String email, required String phone});
 }

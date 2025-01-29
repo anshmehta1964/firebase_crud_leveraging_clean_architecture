@@ -15,7 +15,6 @@ class TempLogin extends StatefulWidget {
 }
 
 class _FbLoginState extends State<TempLogin> {
-
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
 
@@ -40,31 +39,32 @@ class _FbLoginState extends State<TempLogin> {
                 SizedBox(height: 20),
                 BlocBuilder<TempLogInBloc, TempLogInState>(
                     builder: (context, state) {
-                      if (state is TempLogInInvalidState) {
-                        return Text(
-                          state.errorMessage,
-                          style: TextStyle(color: Colors.red),
-                        );
-                      } else {
-                        return Container();
-                      }
-                    }),
+                  if (state is TempLogInInvalidState) {
+                    return Text(
+                      state.errorMessage,
+                      style: TextStyle(color: Colors.red),
+                    );
+                  } else {
+                    return Container();
+                  }
+                }),
                 SizedBox(
                   height: 10,
                 ),
                 MyTextField(
                     controller: emailController,
                     hintText: 'Email',
-                    onTextChanged: (val){
+                    onTextChanged: (val) {
                       BlocProvider.of<TempLogInBloc>(context).add(
-                          TempLogInEmailChangedEvent(email: emailController.text));
+                          TempLogInEmailChangedEvent(
+                              email: emailController.text));
                     }),
                 SizedBox(height: 10),
                 MyTextField(
                     obscureText: true,
                     controller: passController,
                     hintText: 'Password',
-                    onTextChanged: (val){
+                    onTextChanged: (val) {
                       BlocProvider.of<TempLogInBloc>(context).add(
                           TempLogInPasswordChangedEvent(
                               email: emailController.text,
@@ -88,12 +88,14 @@ class _FbLoginState extends State<TempLogin> {
                                   email: emailController.text,
                                   password: passController.text));
                         },
-                        color: (state is TempLogInInvalidState || state is TempLogInInitialState)
+                        color: (state is TempLogInInvalidState ||
+                                state is TempLogInInitialState)
                             ? Colors.grey
                             : Theme.of(context).colorScheme.primary,
                         child: Text(
                           'Log in',
-                          style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.secondary),
                         ),
                       );
                     },
@@ -102,8 +104,6 @@ class _FbLoginState extends State<TempLogin> {
               ],
             ),
           ),
-        )
-    );
+        ));
   }
-
 }

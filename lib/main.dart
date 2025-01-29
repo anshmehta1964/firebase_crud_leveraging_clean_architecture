@@ -1,7 +1,7 @@
 import 'package:api_handling/firebaseCRUD/core/singletons/shared_pref_singleton.dart';
 import 'package:api_handling/firebaseCRUD/features/Auth/data/datasource/auth_remote_data_source.dart';
 import 'package:api_handling/firebaseCRUD/features/Auth/data/repository/auth_repository_impl.dart';
-import 'package:api_handling/firebaseCRUD/features/Auth/domain/usecase/domain_usercase.dart';
+import 'package:api_handling/firebaseCRUD/features/Auth/domain/usecase/auth_usecase.dart';
 import 'package:api_handling/firebaseCRUD/features/Auth/presentation/bloc/signup/signup_bloc.dart';
 import 'package:api_handling/firebaseCRUD/features/crud/data/datasource/crud_local_datasource.dart';
 import 'package:api_handling/firebaseCRUD/features/crud/data/datasource/crud_remote_datasource.dart';

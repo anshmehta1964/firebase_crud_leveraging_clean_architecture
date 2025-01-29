@@ -1,6 +1,8 @@
 import 'package:api_handling/firebaseCRUD/components/MyCupertinoButton.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
+import '../../../../core/localization/languages.dart';
 import '../../../../core/routes/routes_name.dart';
 
 class TempHomeScreen extends StatelessWidget {
@@ -16,7 +18,7 @@ class TempHomeScreen extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                'Welcome',
+                AppLocale.title.getString(context),
                 style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                     fontWeight: FontWeight.bold,
@@ -31,14 +33,14 @@ class TempHomeScreen extends StatelessWidget {
                         Navigator.pushNamed(
                             context, RoutesName.tempSignUpScreen);
                       },
-                      title: 'Sign in'),
+                      title: AppLocale.signIn.getString(context)),
                   SizedBox(width: 15),
                   MyCupertinoButton(
                       onPress: () {
                         Navigator.pushNamed(
                             context, RoutesName.tempLoginScreen);
                       },
-                      title: 'Login')
+                      title: AppLocale.logIn.getString(context))
                 ],
               )
             ],

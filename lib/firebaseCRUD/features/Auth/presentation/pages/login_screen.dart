@@ -3,7 +3,9 @@ import 'package:api_handling/firebaseCRUD/components/MyTitles.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 
+import '../../../../core/localization/languages.dart';
 import '../../../../core/routes/routes_name.dart';
 import '../bloc/login/login_bloc.dart';
 
@@ -35,7 +37,7 @@ class _FbLoginState extends State<TempLogin> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                MyTitle(title: 'Login'),
+                MyTitle(title: AppLocale.logIn.getString(context)),
                 SizedBox(height: 20),
                 BlocBuilder<TempLogInBloc, TempLogInState>(
                     builder: (context, state) {
@@ -53,7 +55,7 @@ class _FbLoginState extends State<TempLogin> {
                 ),
                 MyTextField(
                     controller: emailController,
-                    hintText: 'Email',
+                    hintText: AppLocale.email.getString(context),
                     onTextChanged: (val) {
                       BlocProvider.of<TempLogInBloc>(context).add(
                           TempLogInEmailChangedEvent(
@@ -63,7 +65,7 @@ class _FbLoginState extends State<TempLogin> {
                 MyTextField(
                     obscureText: true,
                     controller: passController,
-                    hintText: 'Password',
+                    hintText: AppLocale.pass.getString(context),
                     onTextChanged: (val) {
                       BlocProvider.of<TempLogInBloc>(context).add(
                           TempLogInPasswordChangedEvent(
@@ -93,7 +95,7 @@ class _FbLoginState extends State<TempLogin> {
                             ? Colors.grey
                             : Theme.of(context).colorScheme.primary,
                         child: Text(
-                          'Log in',
+                          AppLocale.logIn.getString(context),
                           style: TextStyle(
                               color: Theme.of(context).colorScheme.secondary),
                         ),

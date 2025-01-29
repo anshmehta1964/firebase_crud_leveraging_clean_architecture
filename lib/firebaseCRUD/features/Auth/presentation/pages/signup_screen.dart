@@ -1,13 +1,10 @@
-import 'package:api_handling/firebaseCRUD/features/Auth/data/datasource/auth_remote_data_source.dart';
-import 'package:api_handling/firebaseCRUD/features/Auth/data/repository/auth_repository_impl.dart';
 import 'package:api_handling/firebaseCRUD/features/Auth/presentation/widgets/auth_textfield.dart';
 import 'package:api_handling/firebaseCRUD/features/Auth/presentation/widgets/auth_title.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-// import 'package:api_handling/firebaseCRUD/screens/signup%20screen/bloc/firebase_signup_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:flutter_localization/flutter_localization.dart';
+import '../../../../core/localization/languages.dart';
 import '../../../../core/routes/routes_name.dart';
 import '../bloc/signup/signup_bloc.dart';
 
@@ -40,7 +37,7 @@ class _TempSignUpState extends State<TempSignUp> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                AuthTitle(title: 'Signup'),
+                AuthTitle(title: AppLocale.signUp.getString(context)),
                 // MyTitle(title: 'Signup'),
                 SizedBox(height: 20),
                 BlocBuilder<TempSignUpBloc, TempSignUpState>(
@@ -57,25 +54,17 @@ class _TempSignUpState extends State<TempSignUp> {
                 SizedBox(height: 20),
                 AuthTextField(
                     controller: emailController,
-                    hintText: 'Email',
+                    hintText: AppLocale.email.getString(context),
                     onTextChanged: (val) {
                       BlocProvider.of<TempSignUpBloc>(context).add(
                           TempSignUpEmailChangedEvent(
                               email: emailController.text));
                     }),
-                // MyTextField(
-                //     controller: emailController,
-                //     hintText: 'Email',
-                //     onTextChanged: (val){
-                //       BlocProvider.of<FirebaseSignupBloc>(context).add(
-                //           SignupEmailChangedEvent(email: emailController.text));
-                //     }
-                // ),
                 SizedBox(height: 10),
                 AuthTextField(
                     obscureText: true,
                     controller: passController,
-                    hintText: 'Password',
+                    hintText: AppLocale.pass.getString(context),
                     onTextChanged: (val) {
                       BlocProvider.of<TempSignUpBloc>(context).add(
                           TempSignUpPasswordChangedEvent(
@@ -104,7 +93,7 @@ class _TempSignUpState extends State<TempSignUp> {
                           ? Colors.grey
                           : Theme.of(context).colorScheme.primary,
                       child: Text(
-                        'Sign in',
+                        AppLocale.signIn.getString(context),
                         style: TextStyle(
                             color: Theme.of(context).colorScheme.secondary),
                       ),

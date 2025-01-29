@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:api_handling/firebaseCRUD/core/singletons/shared_pref_singleton.dart';
 import 'package:api_handling/firebaseCRUD/features/Auth/data/datasource/auth_remote_data_source.dart';
 import 'package:api_handling/firebaseCRUD/features/Auth/data/repository/auth_repository_impl.dart';
@@ -8,12 +10,14 @@ import 'package:api_handling/firebaseCRUD/features/crud/data/datasource/crud_rem
 import 'package:api_handling/firebaseCRUD/networkController/dependency_injection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'firebaseCRUD/core/localization/languages.dart';
 import 'firebaseCRUD/core/routes/routes.dart';
 import 'firebaseCRUD/core/routes/routes_name.dart';
 import 'firebaseCRUD/core/theme/theme_provider.dart';
@@ -24,9 +28,13 @@ import 'firebaseCRUD/features/Auth/presentation/bloc/login/login_bloc.dart';
 import 'firebase_options.dart';
 
 late SharedPreferences prefs;
+late final FlutterLocalization localization;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SingletonSharedPreference.instance.init();
+  await FlutterLocalization.instance.ensureInitialized();
+  Locale deviceLocale = PlatformDispatcher.instance.locale;
+  print("Device Language: ${deviceLocale.languageCode}");
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // final internetServices = await InternetServices.createInstance();
   // await NotificationService.instance.intialize();
@@ -40,14 +48,33 @@ void main() async {
   DependencyInjection.init();
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    localization = FlutterLocalization.instance;
+    localization.init(
+      mapLocales: [
+        const MapLocale('en', AppLocale.EN),
+        const MapLocale('hi', AppLocale.HI),
+        const MapLocale('gr', AppLocale.GR),
+      ],
+      initLanguageCode: 'hi',
+    );
+    localization.onTranslatedLanguage = _onTranslatedLanguage;
+    super.initState();
+  }
+  void _onTranslatedLanguage(Locale? locale) {
+    setState(() {});
+  }
   // SharedPreferences prefs;
-  //
-  // Future<void> getPrefInstance() async {
-  //   prefs = await SharedPreferences.getInstance();
-  // }
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -94,6 +121,8 @@ class MyApp extends StatelessWidget {
           ),
         ],
         child: GetMaterialApp(
+          supportedLocales: localization.supportedLocales,
+          localizationsDelegates: localization.localizationsDelegates,
           theme: Provider.of<ThemeProvider>(context).themeData,
           // darkTheme: darkMode,
           // themeMode: ThemeMode.system,

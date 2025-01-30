@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:api_handling/firebaseCRUD/components/MyCupertinoButton.dart';
 import 'package:api_handling/firebaseCRUD/components/MyTextFormField.dart';
 import 'package:api_handling/firebaseCRUD/components/MyTitles.dart';
+import 'package:api_handling/firebaseCRUD/core/localization/languages.dart';
 import 'package:api_handling/firebaseCRUD/features/crud/presentation/bloc/crud_bloc.dart';
 import 'package:api_handling/firebaseCRUD/features/crud/presentation/widgets/crud_cupertinobutton.dart';
 import 'package:api_handling/firebaseCRUD/features/crud/presentation/widgets/crud_textformfield.dart';
@@ -11,6 +12,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/theme/theme_provider.dart';
@@ -56,7 +58,7 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
             children: [
               ListTile(
                 title: Text(
-                  'Change Theme',
+                  AppLocale.themebutton.getString(context),
                   style:
                       TextStyle(color: Theme.of(context).colorScheme.secondary),
                 ),
@@ -71,7 +73,7 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.secondary,
-          title: MyTitle(title: 'Firebase Crud', size: 20),
+          title: MyTitle(title: AppLocale.appbar.getString(context), size: 20),
         ),
         body: SafeArea(
           child: Padding(
@@ -96,14 +98,14 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                     return SizedBox();
                   } else {
                     return Text(
-                      'Data is not Valid',
+                      AppLocale.dataerror.getString(context),
                       style: TextStyle(color: Colors.red),
                     );
                   }
                 }),
                 CrudTextFormField(
                     controller: nameController,
-                    hintText: "Name",
+                    hintText: AppLocale.name.getString(context),
                     onTextChanged: (val) {
                       BlocProvider.of<TempCrudBloc>(context).add(
                           TempTextChangedEvent(
@@ -113,7 +115,7 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                     }),
                 CrudTextFormField(
                     controller: emailController,
-                    hintText: "Email",
+                    hintText: AppLocale.email.getString(context),
                     onTextChanged: (val) {
                       BlocProvider.of<TempCrudBloc>(context).add(
                           TempTextChangedEvent(
@@ -124,7 +126,7 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                 CrudTextFormField(
                     type: TextInputType.number,
                     controller: phoneController,
-                    hintText: "Phone",
+                    hintText: AppLocale.phone.getString(context),
                     formatter: FilteringTextInputFormatter.digitsOnly,
                     onTextChanged: (val) {
                       BlocProvider.of<TempCrudBloc>(context).add(
@@ -147,24 +149,24 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                                     email: emailController.text,
                                     phone: phoneController.text));
                           } else {
-                            print('Storing offline data');
+                            // print('Storing offline data');
                             BlocProvider.of<TempCrudBloc>(context).add(
                                 StoreOfflineDataEvent(
                                     name: nameController.text,
                                     email: emailController.text,
                                     phone: phoneController.text));
                             hasData = true;
-                            print('Value of has data is : $hasData');
+                            // print('Value of has data is : $hasData');
                             // hasData = await TempServices.saveUserData(nameController.text, emailController.text, phoneController.text);
                           }
                         },
-                        title: 'Create'),
+                        title: AppLocale.create.getString(context)),
                     CrudCupertinoButton(
                         onPress: () {
                           BlocProvider.of<TempCrudBloc>(context)
                               .add(TempDataFetchEvent());
                         },
-                        title: 'Read'),
+                        title: AppLocale.read.getString(context)),
                     BlocBuilder<TempCrudBloc, TempCrudState>(
                       builder: (context, state) {
                         return CrudCupertinoButton(
@@ -182,7 +184,7 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                                 // FirebaseServices.updateData(nameController.text, emailController.text, phoneController.text);
                               } else {}
                             },
-                            title: 'Update');
+                            title: AppLocale.update.getString(context));
                       },
                     ),
                   ],
@@ -266,11 +268,11 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                     if (state is TempInternetConnectedState && hasData) {
                       // print('Inserted data from InternetConnectedState');
                       // FirebaseServices.offlineDataInserted();
-                      print('Internet connected and has data');
+                      // print('Internet connected and has data');
                       BlocProvider.of<TempCrudBloc>(context)
                           .add(RetrievingOfflineDataEvent());
                     } else if (state is TempInternetLostState) {
-                      print('Internet Lost state listened');
+                      // print('Internet Lost state listened');
                       showDialog(
                           context: context,
                           builder: (context) => Authdialogbox(
@@ -298,27 +300,26 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
   Future<void> checkInitialStatus() async {
     try {
       List<ConnectivityResult> result = await _connectivity.checkConnectivity();
-      print(
-          'Temp Crud Screen : Initial crudScreen connectivity result: $result');
+      // print('Temp Crud Screen : Initial crudScreen connectivity result: $result');
       _crudConnectivityStatus(result);
     } catch (e) {
-      print('Temp Crud Screen : Error in crud Screen: $e');
+      // print('Temp Crud Screen : Error in crud Screen: $e');
     }
   }
 
   void _crudConnectivityStatus(
     List<ConnectivityResult> result,
   ) {
-    print('Temp Crud Screen : Connectivity Changed');
+    // print('Temp Crud Screen : Connectivity Changed');
     if (result.first == ConnectivityResult.none) {
       // firebaseCrudBloc.add(ConnectionLostEvent());
       BlocProvider.of<TempCrudBloc>(context).add(TempConnectionLostEvent());
-      print('Temp Crud Screen :  No Connection');
+      // print('Temp Crud Screen :  No Connection');
       streamController.add(false);
     } else {
       // firebaseCrudBloc.add(ConnectionGainedEvent());
       BlocProvider.of<TempCrudBloc>(context).add(TempConnectionGainedEvent());
-      print('Temp Crud Screen :  Connected result  {$result}');
+      // print('Temp Crud Screen :  Connected result  {$result}');
       streamController.add(true);
     }
   }

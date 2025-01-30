@@ -58,7 +58,9 @@ class _TempSignUpState extends State<TempSignUp> {
                     onTextChanged: (val) {
                       BlocProvider.of<TempSignUpBloc>(context).add(
                           TempSignUpEmailChangedEvent(
-                              email: emailController.text));
+                              email: emailController.text,
+                              context: context
+                          ));
                     }),
                 SizedBox(height: 10),
                 AuthTextField(
@@ -69,7 +71,9 @@ class _TempSignUpState extends State<TempSignUp> {
                       BlocProvider.of<TempSignUpBloc>(context).add(
                           TempSignUpPasswordChangedEvent(
                               email: emailController.text,
-                              password: passController.text));
+                              password: passController.text,
+                              context: context
+                          ));
                     }),
                 SizedBox(height: 20),
                 BlocBuilder<TempSignUpBloc, TempSignUpState>(
@@ -83,7 +87,9 @@ class _TempSignUpState extends State<TempSignUp> {
                               BlocProvider.of<TempSignUpBloc>(context).add(
                                   TempSignUpSubmittedEvent(
                                       email: emailController.text,
-                                      password: passController.text));
+                                      password: passController.text,
+                                      context: context
+                                  ));
                               emailController.clear();
                               passController.clear();
                             }

@@ -29,11 +29,12 @@ import 'firebase_options.dart';
 
 late SharedPreferences prefs;
 late final FlutterLocalization localization;
+late Locale deviceLocale;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SingletonSharedPreference.instance.init();
   await FlutterLocalization.instance.ensureInitialized();
-  Locale deviceLocale = PlatformDispatcher.instance.locale;
+  deviceLocale = PlatformDispatcher.instance.locale;
   print("Device Language: ${deviceLocale.languageCode}");
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // final internetServices = await InternetServices.createInstance();
@@ -66,7 +67,8 @@ class _MyAppState extends State<MyApp> {
         const MapLocale('hi', AppLocale.HI),
         const MapLocale('gr', AppLocale.GR),
       ],
-      initLanguageCode: 'hi',
+      // initLanguageCode: deviceLocale.languageCode,
+      initLanguageCode: deviceLocale.languageCode,
     );
     localization.onTranslatedLanguage = _onTranslatedLanguage;
     super.initState();

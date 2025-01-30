@@ -15,6 +15,7 @@ mixin AppLocale {
   static const String emailerror = 'emailerror';
   static const String passerror = 'passerror';
   static const String dataerror = 'dataerror';
+  static const String emailAndPassError = 'emailAndPassError';
 
   static const Map<String, dynamic> EN = {
     title: 'Welcome',
@@ -33,6 +34,7 @@ mixin AppLocale {
     emailerror: 'Please enter a valid mail',
     passerror : 'Please enter a valid password',
     dataerror: 'Data is not valid',
+    emailAndPassError: 'Email or password is not valid'
   };
   static const Map<String, dynamic> HI = {
     title: 'नमस्ते',
@@ -51,6 +53,7 @@ mixin AppLocale {
     emailerror: 'कृपया एक मान्य ईमेल दर्ज करें',
     passerror : 'कृपया एक वैध पासवर्ड दर्ज करें',
     dataerror: 'डेटा मान्य नहीं है',
+    emailAndPassError: 'ईमेल या पासवर्ड मान्य नहीं है'
   };
   static const Map<String, dynamic> GR = {
     title: 'Willkommen',
@@ -69,5 +72,6 @@ mixin AppLocale {
     emailerror: 'Bitte geben Sie eine gültige E-Mail-Adresse ein',
     passerror : 'Bitte geben Sie ein gültiges Passwort ein',
     dataerror: 'Daten sind ungültig',
+    emailAndPassError: 'E-Mail oder Passwort ist ungültig'
   };
 }

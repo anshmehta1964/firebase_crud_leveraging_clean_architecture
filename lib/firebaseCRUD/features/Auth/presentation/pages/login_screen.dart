@@ -59,7 +59,7 @@ class _FbLoginState extends State<TempLogin> {
                     onTextChanged: (val) {
                       BlocProvider.of<TempLogInBloc>(context).add(
                           TempLogInEmailChangedEvent(
-                              email: emailController.text));
+                              email: emailController.text,context: context));
                     }),
                 SizedBox(height: 10),
                 MyTextField(
@@ -70,7 +70,9 @@ class _FbLoginState extends State<TempLogin> {
                       BlocProvider.of<TempLogInBloc>(context).add(
                           TempLogInPasswordChangedEvent(
                               email: emailController.text,
-                              password: passController.text));
+                              password: passController.text,
+                              context: context
+                          ));
                     }),
                 SizedBox(height: 20),
                 BlocListener<TempLogInBloc, TempLogInState>(
@@ -88,7 +90,9 @@ class _FbLoginState extends State<TempLogin> {
                           BlocProvider.of<TempLogInBloc>(context).add(
                               TempLogInSubmittedEvent(
                                   email: emailController.text,
-                                  password: passController.text));
+                                  password: passController.text,
+                                  context: context
+                              ));
                         },
                         color: (state is TempLogInInvalidState ||
                                 state is TempLogInInitialState)

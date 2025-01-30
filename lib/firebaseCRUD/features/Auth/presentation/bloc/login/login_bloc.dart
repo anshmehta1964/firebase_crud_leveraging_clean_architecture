@@ -1,5 +1,8 @@
+import 'package:api_handling/firebaseCRUD/core/localization/languages.dart';
 import 'package:bloc/bloc.dart';
 import 'package:email_validator/email_validator.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:meta/meta.dart';
 
 import '../../../domain/usecase/auth_usecase.dart';
@@ -15,7 +18,7 @@ class TempLogInBloc extends Bloc<TempLogInEvent, TempLogInState> {
     on<TempLogInEmailChangedEvent>((event, emit) {
       if (!(EmailValidator.validate(event.email))) {
         emit(
-            TempLogInInvalidState(errorMessage: "Please enter a valid email!"));
+            TempLogInInvalidState(errorMessage: AppLocale.emailerror.getString(event.context)));
       } else {
         emit(TempLogInInitialState());
       }
@@ -23,28 +26,27 @@ class TempLogInBloc extends Bloc<TempLogInEvent, TempLogInState> {
     on<TempLogInPasswordChangedEvent>((event, emit) {
       if (event.password.length < 8) {
         emit(TempLogInInvalidState(
-            errorMessage: "Please enter a valid password"));
-        print('login invalid state');
+            errorMessage: AppLocale.passerror.getString(event.context)));
+        // print('login invalid state');
       } else if (!(EmailValidator.validate(event.email))) {
-        emit(TempLogInInvalidState(errorMessage: "Please enter a valid email"));
-        print('login invalid state');
+        emit(TempLogInInvalidState(errorMessage: AppLocale.emailerror.getString(event.context)));
+        // print('login invalid state');
       } else {
         emit(TempLogInValidState());
-        print('Login valid state');
+        // print('Login valid state');
       }
     });
     on<TempLogInSubmittedEvent>((event, emit) async {
       bool checkCredentials = await _userLogIn
           .call(Parameters(email: event.email, password: event.password));
       // print('value of checkCredentials is : $checkCredentials');
-      if (EmailValidator.validate(event.email) &&
-          !(event.password.length < 8 && checkCredentials)) {
+      if (EmailValidator.validate(event.email) && !(event.password.length < 8) && checkCredentials) {
         emit(TempCredentialsVerifiedState());
         // print('credentials verified state');
       } else {
         // print('Login invalid state');
         emit(TempLogInInvalidState(
-            errorMessage: "Email or password is not Valid"));
+            errorMessage: AppLocale.emailAndPassError.getString(event.context)));
       }
     });
   }

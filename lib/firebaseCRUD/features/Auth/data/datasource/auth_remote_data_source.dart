@@ -25,7 +25,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDatasource {
         return true;
       }
     } catch (e) {
-      log("Error Occurred in auth_service.dart file loginUserMethod");
+      log("Error Occurred in auth_remote_data_source.dart file loginUserMethod");
     }
     return false;
   }

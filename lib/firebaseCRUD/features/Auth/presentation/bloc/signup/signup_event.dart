@@ -5,9 +5,11 @@ sealed class TempSignUpEvent {}
 
 class TempSignUpEmailChangedEvent extends TempSignUpEvent {
   final String email;
+  final BuildContext context;
   // String password;
   TempSignUpEmailChangedEvent({
     required this.email,
+    required this.context
     // required this.password
   });
 }
@@ -15,11 +17,21 @@ class TempSignUpEmailChangedEvent extends TempSignUpEvent {
 class TempSignUpPasswordChangedEvent extends TempSignUpEvent {
   final String email;
   final String password;
-  TempSignUpPasswordChangedEvent({required this.password, required this.email});
+  final BuildContext context;
+  TempSignUpPasswordChangedEvent({
+    required this.password,
+    required this.email,
+    required this.context
+  });
 }
 
 class TempSignUpSubmittedEvent extends TempSignUpEvent {
   final String email;
   final String password;
-  TempSignUpSubmittedEvent({required this.email, required this.password});
+  final BuildContext context;
+  TempSignUpSubmittedEvent({
+    required this.email,
+    required this.password,
+    required this.context
+  });
 }

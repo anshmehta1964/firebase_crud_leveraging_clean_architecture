@@ -16,6 +16,7 @@ ThemeData darkMode = ThemeData(
     surface: Colors.black12,
     primary: Colors.white,
     secondary: Colors.black,
-    tertiary: Colors.black
-  )
+    tertiary: Colors.black,
+
+  ),
 );

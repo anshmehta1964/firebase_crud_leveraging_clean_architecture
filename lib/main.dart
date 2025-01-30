@@ -74,7 +74,9 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
   void _onTranslatedLanguage(Locale? locale) {
-    setState(() {});
+    setState(() {
+      print('set state called');
+    });
   }
   // SharedPreferences prefs;
   @override

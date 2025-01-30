@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract interface class CrudRemoteDataSource {
@@ -27,8 +29,8 @@ class CrudRemoteDataSourceImpl implements CrudRemoteDataSource {
         firebaseFirestore.collection("anshDatabase").doc(name);
     Map<String, dynamic> data = {"name": name, "email": email, "phone": phone};
     documentReference.set(data);
-    print("Remote Data Source Impl : Insert Data()");
-    print("Inserted Data is : {$name, $email, $phone}");
+    // log("Remote Data Source Impl : Insert Data()");
+    // log("Inserted Data is : {$name, $email, $phone}");
   }
 
   @override
@@ -43,12 +45,12 @@ class CrudRemoteDataSourceImpl implements CrudRemoteDataSource {
       };
       documentReference.set(data);
     }
-    print('Remote Data Source Impl : OfflineDataInserted()');
+    // log('Remote Data Source Impl : OfflineDataInserted()');
   }
 
   @override
   Future<Map<String, List<String>>> readData() async {
-    print('Remote Data Source Impl : readData()');
+    // log('Remote Data Source Impl : readData()');
     CollectionReference colReference =
         firebaseFirestore.collection("anshDatabase");
     QuerySnapshot querySnapshot = await colReference.get();
@@ -69,10 +71,10 @@ class CrudRemoteDataSourceImpl implements CrudRemoteDataSource {
 
   @override
   void deleteData(String docName) {
-    print('Remote Data impl : DeleteData()');
+    // log('Remote Data impl : DeleteData()');
     CollectionReference df = firebaseFirestore.collection('anshDatabase');
     df.doc(docName).delete();
-    // print('Delete Data called : FirebaseServices');
+    // log('Delete Data called : FirebaseServices');
   }
 
   @override
@@ -82,6 +84,6 @@ class CrudRemoteDataSourceImpl implements CrudRemoteDataSource {
         firebaseFirestore.collection("anshDatabase").doc(name);
     Map<String, dynamic> data = {"name": name, "email": email, "phone": phone};
     documentReference.update(data);
-    print('Remote Data Source Impl : UpdateData()');
+    // log('Remote Data Source Impl : UpdateData()');
   }
 }

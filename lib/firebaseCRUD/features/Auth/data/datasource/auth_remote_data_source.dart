@@ -21,7 +21,7 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDatasource {
       final loginCredentials = await firebaseAuthInstance
           .signInWithEmailAndPassword(email: email, password: password);
       if (loginCredentials.user != null) {
-        print('Remote DataSource : user logged in successfully');
+        // log('Remote DataSource : user logged in successfully');
         return true;
       }
     } catch (e) {
@@ -37,11 +37,11 @@ class AuthRemoteDataSourceImpl implements AuthRemoteDatasource {
       final createCredentials = await firebaseAuthInstance
           .createUserWithEmailAndPassword(email: email, password: password);
       if (createCredentials.user != null) {
-        print('Remote Datasource : User Created Successfully');
+        // log('Remote Datasource : User Created Successfully');
       }
       return createCredentials.user;
     } catch (e) {
-      log("Remote Datasource : Error Occurred in auth_service.dart file createUserMethod");
+      // log("Remote Datasource : Error Occurred in auth_service.dart file createUserMethod");
     }
     return null;
   }

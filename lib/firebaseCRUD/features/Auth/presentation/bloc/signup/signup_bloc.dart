@@ -19,10 +19,11 @@ class TempSignUpBloc extends Bloc<TempSignUpEvent, TempSignUpState> {
         super(TempSignUpInitial()) {
     on<TempSignUpEmailChangedEvent>((event, emit) {
       if (!(EmailValidator.validate(event.email))) {
-        emit(TempSignUpInvalidState(
-            errorMessage: AppLocale.emailerror.getString(event.context)));
-      } else {
+        emit(TempSignUpInvalidState(errorMessage: AppLocale.emailerror.getString(event.context)));
+      } else if (EmailValidator.validate(event.email) && event.password.length < 8) {
         emit(TempSignInInitialState());
+       } else {
+        emit(TempSignUpValidState());
       }
     });
     on<TempSignUpPasswordChangedEvent>((event, emit) {

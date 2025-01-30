@@ -5,8 +5,12 @@ sealed class TempLogInEvent {}
 
 class TempLogInEmailChangedEvent extends TempLogInEvent {
   final String email;
+  final String password;
   final BuildContext context;
-  TempLogInEmailChangedEvent({required this.email, required this.context});
+  TempLogInEmailChangedEvent({
+    required this.email,
+    required this.password,
+    required this.context});
 }
 
 class TempLogInPasswordChangedEvent extends TempLogInEvent {

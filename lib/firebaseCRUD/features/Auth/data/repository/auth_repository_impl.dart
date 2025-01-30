@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:api_handling/firebaseCRUD/features/Auth/data/datasource/auth_remote_data_source.dart';
 import '../../domain/repository/auth_repository.dart';
 
@@ -7,7 +9,7 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<bool> logInWithEmailPassword(
       {required String email, required String password}) async {
-    print('Auth Repo Impl : Log In() called');
+    // log('Auth Repo Impl : Log In() called');
     return await remoteDatasource.logInWithEmailPassword(
         email: email, password: password);
   }
@@ -16,6 +18,6 @@ class AuthRepositoryImpl implements AuthRepository {
   void signInWithEmailPassword(
       {required String email, required String password}) {
     remoteDatasource.signInWithEmailPassword(email: email, password: password);
-    print('Auth Repo Impl : Sign In() called');
+    // log('Auth Repo Impl : Sign In() called');
   }
 }

@@ -1,7 +1,5 @@
 import 'dart:async';
-
-import 'package:api_handling/firebaseCRUD/components/MyCupertinoButton.dart';
-import 'package:api_handling/firebaseCRUD/components/MyTextFormField.dart';
+import 'dart:developer';
 import 'package:api_handling/firebaseCRUD/components/MyTitles.dart';
 import 'package:api_handling/firebaseCRUD/core/localization/languages.dart';
 import 'package:api_handling/firebaseCRUD/features/crud/presentation/bloc/crud_bloc.dart';
@@ -16,13 +14,11 @@ import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/theme/theme_provider.dart';
-import '../../../../services/internet services/internet_services.dart';
-import '../../../Auth/presentation/widgets/auth_cupertino_button.dart';
 import '../../../Auth/presentation/widgets/auth_dialogbox.dart';
 import '../widgets/crud_dialogbox.dart';
 
 final Connectivity _connectivity = Connectivity();
-StreamController<bool> streamController = StreamController();
+StreamController<bool> streamController = StreamController.broadcast();
 
 class TempCrudScreen extends StatefulWidget {
   const TempCrudScreen({super.key});
@@ -37,16 +33,25 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
   bool isConnected = false;
   late StreamSubscription<bool> subscription;
   bool hasData = false;
+  bool checkFirstTime = true;
   @override
   void initState() {
-    subscription = streamController.stream.listen((value) {
-      print('Stream listened : $value');
-      isConnected = value;
-      _connectivity.onConnectivityChanged.listen(_crudConnectivityStatus);
-      print('Value of isConnected variable is: $isConnected');
-    });
+      subscription = streamController.stream.listen((value) {
+        print('Stream listened: $value');
+        setState(() {
+          isConnected = value;
+        });
+        _connectivity.onConnectivityChanged.listen(_crudConnectivityStatus);
+        print('Value of isConnected variable is: $isConnected');
+      });
     checkInitialStatus();
     super.initState();
+  }
+  @override
+  void dispose() {
+    streamController.close();
+    subscription.cancel();
+    super.dispose();
   }
 
   @override
@@ -72,12 +77,27 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
         ),
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: AppBar(
+          scrolledUnderElevation: 0.0,
           backgroundColor: Theme.of(context).colorScheme.secondary,
           title: MyTitle(title: AppLocale.appbar.getString(context), size: 20),
         ),
-        body: SafeArea(
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+                colors: [
+                  // Color(0xfffdfbfb),
+                  Colors.white,
+                  Colors.grey.shade300,
+                  Colors.grey.shade600,
+                  Colors.grey.shade900
+                ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              transform: GradientRotation(5.80)
+             )
+          ),
           child: Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.only(top:16,left: 16,right: 16),
             child: Column(
               spacing: 10,
               children: <Widget>[
@@ -163,6 +183,14 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                         title: AppLocale.create.getString(context)),
                     CrudCupertinoButton(
                         onPress: () {
+                          showDialog(
+                              context: context,
+                              builder: (context){
+                                return Center(child: CircularProgressIndicator());
+                              });
+                          Future.delayed(Duration(milliseconds: 1500),(){
+                              Navigator.pop(context);
+                          });
                           BlocProvider.of<TempCrudBloc>(context)
                               .add(TempDataFetchEvent());
                         },
@@ -197,61 +225,84 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                     // print("Phone List : ${state.phoneList}");
                     return Expanded(
                       child: ListView.builder(
+                        padding: EdgeInsets.only(bottom: 0),
                           itemCount: state.nameList.length,
                           itemBuilder: (context, index) {
-                            return Slidable(
-                              startActionPane: ActionPane(
-                                motion: ScrollMotion(),
-                                children: [
-                                  SlidableAction(
-                                    onPressed: (context) {
-                                      showDialog(
-                                          context: context,
-                                          builder: (context) => CrudDialogbox(
-                                              title: "Confirm Delete",
-                                              content:
-                                                  "Are you sure to delete the data?",
-                                              btnText1: "Yes",
-                                              btnText2: "No",
-                                              onBtn1pressed: () {
-                                                BlocProvider.of<TempCrudBloc>(
-                                                        context)
-                                                    .add(TempDeleteDataEvent(
-                                                        name: state
-                                                            .nameList[index]));
-                                                Navigator.pop(context);
-                                              },
-                                              onBtn2pressed: () {
-                                                Navigator.pop(context);
-                                              }));
-                                    },
-                                    backgroundColor: Colors.red,
-                                    icon: CupertinoIcons.delete_solid,
-                                  )
-                                ],
-                              ),
-                              child: GestureDetector(
-                                onTap: () {
-                                  nameController.text = state.nameList[index];
-                                  emailController.text = state.emailList[index];
-                                  phoneController.text = state.phoneList[index];
-                                  BlocProvider.of<TempCrudBloc>(context).add(
-                                      TempTextChangedEvent(
-                                          name: nameController.text,
-                                          email: emailController.text,
-                                          phone: phoneController.text));
-                                },
-                                child: Card(
-                                  color:
-                                      Theme.of(context).colorScheme.secondary,
-                                  child: Padding(
-                                    padding: EdgeInsets.all(15.0),
-                                    child: Column(
-                                      children: [
-                                        Text(state.nameList[index]),
-                                        Text(state.emailList[index]),
-                                        Text(state.phoneList[index]),
-                                      ],
+                            return Padding(
+                              padding: const EdgeInsets.only(top: 10),
+                              child: Slidable(
+                                startActionPane: ActionPane(
+                                  motion: ScrollMotion(),
+                                  children: [
+                                    SlidableAction(
+                                      onPressed: (context) {
+                                        showDialog(
+                                            context: context,
+                                            builder: (context) => CrudDialogbox(
+                                                title: "Confirm Delete",
+                                                content:
+                                                    "Are you sure to delete the data?",
+                                                btnText1: "Yes",
+                                                btnText2: "No",
+                                                onBtn1pressed: () {
+                                                  BlocProvider.of<TempCrudBloc>(
+                                                          context)
+                                                      .add(TempDeleteDataEvent(
+                                                          name: state
+                                                              .nameList[index]));
+                                                  Navigator.pop(context);
+                                                },
+                                                onBtn2pressed: () {
+                                                  Navigator.pop(context);
+                                                })
+                                        );
+                                      },
+                                      borderRadius: BorderRadius.circular(10),
+                                      backgroundColor: Colors.red.shade500,
+                                      icon: Icons.delete,
+                                    ),
+                                  ],
+                                ),
+                                child: GestureDetector(
+                                  onTap: () {
+                                    nameController.text = state.nameList[index];
+                                    emailController.text = state.emailList[index];
+                                    phoneController.text = state.phoneList[index];
+                                    BlocProvider.of<TempCrudBloc>(context).add(
+                                        TempTextChangedEvent(
+                                            name: nameController.text,
+                                            email: emailController.text,
+                                            phone: phoneController.text));
+                                  },
+                                  child: Container(
+                                    width: double.infinity,
+                                    decoration: BoxDecoration(
+                                      gradient: LinearGradient(
+                                          colors: [
+                                            Colors.white,
+                                            Colors.grey,
+                                            Colors.black,
+                                          ],
+                                        stops: [0.42,1.2,0.16],
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight,
+                                        transform: GradientRotation(0.50)
+                                      ),
+                                      borderRadius: BorderRadius.circular(13),
+                                      color: Theme.of(context).colorScheme.secondary,
+                                    ),
+                                    // color:
+                                    //     Theme.of(context).colorScheme.secondary,
+                                    child: Padding(
+                                      padding: EdgeInsets.all(10.0),
+                                      child: Column(
+                                        spacing: 10,
+                                        children: [
+                                          Text(state.nameList[index]),
+                                          Text(state.emailList[index]),
+                                          Text(state.phoneList[index]),
+                                        ],
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -313,12 +364,16 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
     // print('Temp Crud Screen : Connectivity Changed');
     if (result.first == ConnectivityResult.none) {
       // firebaseCrudBloc.add(ConnectionLostEvent());
-      BlocProvider.of<TempCrudBloc>(context).add(TempConnectionLostEvent());
+      if(mounted) {
+        BlocProvider.of<TempCrudBloc>(context).add(TempConnectionLostEvent());
+      }
       // print('Temp Crud Screen :  No Connection');
       streamController.add(false);
     } else {
-      // firebaseCrudBloc.add(ConnectionGainedEvent());
-      BlocProvider.of<TempCrudBloc>(context).add(TempConnectionGainedEvent());
+      if(mounted) {
+        // firebaseCrudBloc.add(ConnectionGainedEvent());
+        BlocProvider.of<TempCrudBloc>(context).add(TempConnectionGainedEvent());
+      }
       // print('Temp Crud Screen :  Connected result  {$result}');
       streamController.add(true);
     }

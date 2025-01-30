@@ -12,15 +12,20 @@ part 'login_state.dart';
 
 class TempLogInBloc extends Bloc<TempLogInEvent, TempLogInState> {
   late final UserLogIn _userLogIn;
+  void onChange(Change<TempLogInState> change){
+    print('From : ${change.currentState} To : ${change.nextState}');
+    super.onChange(change);
+  }
   TempLogInBloc({required UserLogIn userLogIn})
       : _userLogIn = userLogIn,
         super(TempLogInInitialState()) {
     on<TempLogInEmailChangedEvent>((event, emit) {
       if (!(EmailValidator.validate(event.email))) {
-        emit(
-            TempLogInInvalidState(errorMessage: AppLocale.emailerror.getString(event.context)));
-      } else {
+        emit(TempLogInInvalidState(errorMessage: AppLocale.emailerror.getString(event.context)));
+      } else if (EmailValidator.validate(event.email) && event.password.length < 8){
         emit(TempLogInInitialState());
+      } else {
+        emit(TempLogInValidState());
       }
     });
     on<TempLogInPasswordChangedEvent>((event, emit) {

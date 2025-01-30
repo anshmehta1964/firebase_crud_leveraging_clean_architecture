@@ -59,7 +59,9 @@ class _FbLoginState extends State<TempLogin> {
                     onTextChanged: (val) {
                       BlocProvider.of<TempLogInBloc>(context).add(
                           TempLogInEmailChangedEvent(
-                              email: emailController.text,context: context));
+                              email: emailController.text,
+                              password: passController.text,
+                              context: context));
                     }),
                 SizedBox(height: 10),
                 MyTextField(
@@ -78,7 +80,7 @@ class _FbLoginState extends State<TempLogin> {
                 BlocListener<TempLogInBloc, TempLogInState>(
                   listener: (context, state) {
                     if (state is TempCredentialsVerifiedState) {
-                      Navigator.pushNamed(context, RoutesName.tempCrudScreen);
+                      Navigator.pushReplacementNamed(context, RoutesName.tempCrudScreen);
                       emailController.clear();
                       passController.clear();
                     }
@@ -87,6 +89,11 @@ class _FbLoginState extends State<TempLogin> {
                     builder: (context, state) {
                       return CupertinoButton(
                         onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (context){
+                                return Center(child: CircularProgressIndicator());
+                              });
                           BlocProvider.of<TempLogInBloc>(context).add(
                               TempLogInSubmittedEvent(
                                   email: emailController.text,

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:meta/meta.dart';
@@ -37,7 +39,7 @@ class TempCrudBloc extends Bloc<TempCrudEvent, TempCrudState> {
       // CollectionReference colReference = FirebaseFirestore.instance.collection(
       //     "anshDatabase");
       // QuerySnapshot querySnapshot = await colReference.get();
-      print('Data Fetch Event Fired');
+      // log('Data Fetch Event Fired');
       Map<String, List<String>> data = await readDUC.call();
       List<String> nameList = data['name']!;
       List<String> emailList = data['email']!;
@@ -73,7 +75,7 @@ class TempCrudBloc extends Bloc<TempCrudEvent, TempCrudState> {
     });
     on<TempConnectionLostEvent>((event, emit) {
       // print('ConnectionLostEvent Fired!');
-      print('TempInternetLostState');
+      // log('TempInternetLostState');
       emit(TempInternetLostState());
     });
 
@@ -91,30 +93,30 @@ class TempCrudBloc extends Bloc<TempCrudEvent, TempCrudState> {
       }
     });
     on<TempDataValidAndConnectedEvent>((event, emit) {
-      print('TempDataValidandConnectedEvent fired');
+      // log('TempDataValidandConnectedEvent fired');
       insertDUC.call(CrudParameters(
           name: event.name, email: event.email, phone: event.phone));
     });
 
     on<TempDeleteDataEvent>((event, emit) {
-      print('Delete Data Event fired');
+      // log('Delete Data Event fired');
       deleteDUC.call(SingleParam(name: event.name));
     });
 
     on<StoreOfflineDataEvent>((event, emit) {
-      print('Store Offline Data event fired');
+      // log('Store Offline Data event fired');
       offlineDataDUC.call(CrudParameters(
           name: event.name, email: event.email, phone: event.phone));
     });
 
     on<RetrievingOfflineDataEvent>((event, emit) async {
-      print('Retrieving Offline Data event fired');
+      // log('Retrieving Offline Data event fired');
       userDataList = await dataRetrievalDUC.call();
       if (userDataList != null) {
-        print('Offline data retrieved: $userDataList');
+        // log('Offline data retrieved: $userDataList');
         insertOfflineDataDUC.call(userDataList!);
       } else {
-        print("User data list is null");
+        // log("User data list is null");
       }
     });
 
@@ -123,10 +125,10 @@ class TempCrudBloc extends Bloc<TempCrudEvent, TempCrudState> {
           name: event.name, email: event.email, phone: event.phone));
     });
   }
-  @override
-  void onChange(Change<TempCrudState> change) {
-    print('Current state : ${change.currentState} to ${change.nextState}');
-    super.onChange(change);
-    print(change);
-  }
+  // @override
+  // void onChange(Change<TempCrudState> change) {
+  //   log('Current state : ${change.currentState} to ${change.nextState}');
+  //   super.onChange(change);
+  //   log(change.toString());
+  // }
 }

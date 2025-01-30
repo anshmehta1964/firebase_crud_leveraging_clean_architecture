@@ -59,6 +59,7 @@ class _TempSignUpState extends State<TempSignUp> {
                       BlocProvider.of<TempSignUpBloc>(context).add(
                           TempSignUpEmailChangedEvent(
                               email: emailController.text,
+                              password: passController.text,
                               context: context
                           ));
                     }),
@@ -81,8 +82,14 @@ class _TempSignUpState extends State<TempSignUp> {
                     return CupertinoButton(
                       onPressed: (state is TempSignUpValidState)
                           ? () {
-                              Navigator.pushNamed(
-                                  context, RoutesName.tempLoginScreen);
+                        showDialog(
+                            context: context,
+                            builder: (context){
+                              return Center(child: CircularProgressIndicator());
+                            });
+                             Future.delayed(Duration(seconds: 1),(){
+                               Navigator.pushNamed(context, RoutesName.tempLoginScreen);
+                             });
                               // crudService.signUp(emailController.text,passController.text);
                               BlocProvider.of<TempSignUpBloc>(context).add(
                                   TempSignUpSubmittedEvent(

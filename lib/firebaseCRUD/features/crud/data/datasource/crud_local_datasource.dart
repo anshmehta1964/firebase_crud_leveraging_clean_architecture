@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 abstract interface class CrudLocalDataSource {
@@ -23,21 +25,21 @@ class CrudLocalDatasourceImpl implements CrudLocalDataSource {
     temp.add(email);
     temp.add(phone);
     await prefs?.setStringList('userData', temp);
-    print('Local Data Source Impl : Store Offline Data');
-    print('LocalDataImpl Values: {$name,$email, $phone}');
-    print('saveUserData called & pref values are set : FirebaseServices');
-    print('The values are: {$name, $email, $phone}');
+    // log('Local Data Source Impl : Store Offline Data');
+    // log('LocalDataImpl Values: {$name,$email, $phone}');
+    // log('saveUserData called & pref values are set : FirebaseServices');
+    // log('The values are: {$name, $email, $phone}');
     return true;
   }
 
   @override
   Future<List<String>?> offlineDataRetrieval() async {
     if (prefs == null) {
-      print('prefs is null');
+      // log('prefs is null');
     }
-    print('Local Data Impl : Offline Data Retrieval()');
+    // log('Local Data Impl : Offline Data Retrieval()');
     List<String>? userDataList = prefs?.getStringList('userData')!;
-    print('Local Data Impl: User data list contains this data = $userDataList');
+    // log('Local Data Impl: User data list contains this data = $userDataList');
     return userDataList;
 
     // AuthRemoteDataSourceImpl(FirebaseAuth.instance, FirebaseFirestore.instance).offlineDataInserted(userDataList);

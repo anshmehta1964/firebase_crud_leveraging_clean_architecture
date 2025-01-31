@@ -95,11 +95,7 @@ class _FbLoginState extends State<TempLogin> {
                   BlocListener<TempLogInBloc, TempLogInState>(
                     listener: (context, state) {
                       if (state is TempCredentialsVerifiedState) {
-                        showDialog(
-                            context: context,
-                            builder: (context){
-                              return Center(child: CircularProgressIndicator());
-                            });
+
                         Navigator.pushNamedAndRemoveUntil(context, RoutesName.tempCrudScreen,(route)=> false );
                         emailController.clear();
                         passController.clear();
@@ -121,6 +117,9 @@ class _FbLoginState extends State<TempLogin> {
                                   builder: (context){
                                     return Center(child: CircularProgressIndicator());
                                   });
+                              Future.delayed(Duration(milliseconds: 1000),(){
+                                Navigator.pop(context);
+                              });
                             }
                           },
                           color: (state is TempLogInInvalidState || state is TempLogInInitialState)

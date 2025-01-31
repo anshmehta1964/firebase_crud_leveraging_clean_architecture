@@ -105,6 +105,7 @@ class TempCrudBloc extends Bloc<TempCrudEvent, TempCrudState> {
     on<TempDeleteDataEvent>((event, emit) {
       // log('Delete Data Event fired');
       deleteDUC.call(SingleParam(name: event.name));
+      emit(DataUpdatedState());
     });
 
     on<StoreOfflineDataEvent>((event, emit) {

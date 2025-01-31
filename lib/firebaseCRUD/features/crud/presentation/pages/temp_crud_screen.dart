@@ -36,17 +36,18 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
   bool checkFirstTime = true;
   @override
   void initState() {
-      subscription = streamController.stream.listen((value) {
-        print('Stream listened: $value');
-        setState(() {
-          isConnected = value;
-        });
-        _connectivity.onConnectivityChanged.listen(_crudConnectivityStatus);
-        print('Value of isConnected variable is: $isConnected');
+    subscription = streamController.stream.listen((value) {
+      log('Stream listened: $value');
+      setState(() {
+        isConnected = value;
       });
+      _connectivity.onConnectivityChanged.listen(_crudConnectivityStatus);
+      log('Value of isConnected variable is: $isConnected');
+    });
     checkInitialStatus();
     super.initState();
   }
+
   @override
   void dispose() {
     streamController.close();
@@ -83,22 +84,20 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
         ),
         body: Container(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [
-                  // Color(0xfffdfbfb),
-                  Colors.white,
-                  Colors.grey.shade300,
-                  Colors.grey.shade500,
-                  Colors.grey.shade900
-                ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              transform: GradientRotation(5.80)
-             )
-          ),
+              gradient: LinearGradient(
+                  colors: [
+                // Color(0xfffdfbfb),
+                Colors.white,
+                Colors.grey.shade300,
+                Colors.grey.shade500,
+                Colors.grey.shade900
+              ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  transform: GradientRotation(5.80))),
           // hello temp
           child: Padding(
-            padding: const EdgeInsets.only(top:16,left: 16,right: 16),
+            padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
             child: Column(
               spacing: 10,
               children: <Widget>[
@@ -189,12 +188,15 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                           phoneController.clear();
                           showDialog(
                               context: context,
-                              builder: (context){
-                                return Center(child: CircularProgressIndicator());
+                              builder: (context) {
+                                return Center(
+                                    child: CircularProgressIndicator());
                               });
-                          Future.delayed(Duration(milliseconds: 1500),(){
-                              Navigator.pop(context);
-                          });
+                          // Future.delayed(Duration(milliseconds: 400),(){
+                          //     Navigator.pop(context);
+                          // });
+                          Timer(const Duration(milliseconds: 1500),
+                              () => Navigator.pop(context));
                           BlocProvider.of<TempCrudBloc>(context)
                               .add(TempDataFetchEvent());
                         },
@@ -216,13 +218,14 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                                 // FirebaseServices.updateData(nameController.text, emailController.text, phoneController.text);
                                 showDialog(
                                     context: context,
-                                    builder: (context){
-                                      return Center(child: CircularProgressIndicator());
+                                    builder: (context) {
+                                      return Center(
+                                          child: CircularProgressIndicator());
                                     });
-                                Future.delayed(Duration(milliseconds: 1500),(){
+                                Timer(Duration(milliseconds: 600), () {
                                   Navigator.pop(context);
                                 });
-                                Future.delayed(Duration(seconds: 1),(){
+                                Future.delayed(Duration(seconds: 1), () {
                                   nameController.clear();
                                   emailController.clear();
                                   phoneController.clear();
@@ -242,7 +245,7 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                     // print("Phone List : ${state.phoneList}");
                     return Expanded(
                       child: ListView.builder(
-                        padding: EdgeInsets.only(bottom: 0),
+                          padding: EdgeInsets.only(bottom: 0),
                           itemCount: state.nameList.length,
                           itemBuilder: (context, index) {
                             return Padding(
@@ -265,14 +268,21 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                                                   BlocProvider.of<TempCrudBloc>(
                                                           context)
                                                       .add(TempDeleteDataEvent(
-                                                          name: state
-                                                              .nameList[index]));
+                                                          name: state.nameList[
+                                                              index]));
                                                   Navigator.pop(context);
+                                                  // showDialog(
+                                                  //     context: context,
+                                                  //     builder: (context){
+                                                  //       return Center(child: CircularProgressIndicator());
+                                                  //     });
+                                                  // Future.delayed(Duration(milliseconds: 600),(){
+                                                  //   Navigator.pop(context);
+                                                  // });
                                                 },
                                                 onBtn2pressed: () {
                                                   Navigator.pop(context);
-                                                })
-                                        );
+                                                }));
                                       },
                                       borderRadius: BorderRadius.circular(10),
                                       backgroundColor: Colors.red.shade500,
@@ -283,8 +293,10 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                                 child: GestureDetector(
                                   onTap: () {
                                     nameController.text = state.nameList[index];
-                                    emailController.text = state.emailList[index];
-                                    phoneController.text = state.phoneList[index];
+                                    emailController.text =
+                                        state.emailList[index];
+                                    phoneController.text =
+                                        state.phoneList[index];
                                     BlocProvider.of<TempCrudBloc>(context).add(
                                         TempTextChangedEvent(
                                             name: nameController.text,
@@ -300,13 +312,18 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                                             Colors.grey,
                                             Colors.black,
                                           ],
-                                        stops: [0.42,1.2,0.16],
-                                        begin: Alignment.topLeft,
-                                        end: Alignment.bottomRight,
-                                        transform: GradientRotation(0.50)
-                                      ),
+                                          stops: [
+                                            0.42,
+                                            1.2,
+                                            0.16
+                                          ],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                          transform: GradientRotation(0.50)),
                                       borderRadius: BorderRadius.circular(13),
-                                      color: Theme.of(context).colorScheme.secondary,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
                                     ),
                                     // color:
                                     //     Theme.of(context).colorScheme.secondary,
@@ -333,8 +350,9 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                 }),
                 BlocListener<TempCrudBloc, TempCrudState>(
                   listener: (context, state) {
-                    if(state is DataUpdatedState){
-                      BlocProvider.of<TempCrudBloc>(context).add(TempDataFetchEvent());
+                    if (state is DataUpdatedState) {
+                      BlocProvider.of<TempCrudBloc>(context)
+                          .add(TempDataFetchEvent());
                     }
                     if (state is TempInternetConnectedState && hasData) {
                       // print('Inserted data from InternetConnectedState');
@@ -384,13 +402,13 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
     // print('Temp Crud Screen : Connectivity Changed');
     if (result.first == ConnectivityResult.none) {
       // firebaseCrudBloc.add(ConnectionLostEvent());
-      if(mounted) {
+      if (mounted) {
         BlocProvider.of<TempCrudBloc>(context).add(TempConnectionLostEvent());
       }
       // print('Temp Crud Screen :  No Connection');
       streamController.add(false);
     } else {
-      if(mounted) {
+      if (mounted) {
         // firebaseCrudBloc.add(ConnectionGainedEvent());
         BlocProvider.of<TempCrudBloc>(context).add(TempConnectionGainedEvent());
       }

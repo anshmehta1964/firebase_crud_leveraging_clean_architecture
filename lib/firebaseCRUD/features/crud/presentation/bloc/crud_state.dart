@@ -31,3 +31,5 @@ class TempValidTextState extends TempCrudState {}
 class TempInvalidTextState extends TempCrudState {}
 
 class TempDataValidAndConnectedState extends TempCrudState {}
+
+class DataUpdatedState extends TempCrudState{}

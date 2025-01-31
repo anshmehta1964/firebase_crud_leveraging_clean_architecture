@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:api_handling/firebaseCRUD/core/singletons/shared_pref_singleton.dart';
@@ -35,7 +36,7 @@ void main() async {
   await SingletonSharedPreference.instance.init();
   await FlutterLocalization.instance.ensureInitialized();
   deviceLocale = PlatformDispatcher.instance.locale;
-  print("Device Language: ${deviceLocale.languageCode}");
+  log("Device Language: ${deviceLocale.languageCode}");
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // final internetServices = await InternetServices.createInstance();
   // await NotificationService.instance.intialize();

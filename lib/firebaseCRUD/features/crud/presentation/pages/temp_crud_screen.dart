@@ -88,7 +88,7 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                   // Color(0xfffdfbfb),
                   Colors.white,
                   Colors.grey.shade300,
-                  Colors.grey.shade600,
+                  Colors.grey.shade500,
                   Colors.grey.shade900
                 ],
               begin: Alignment.topLeft,
@@ -184,6 +184,9 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                         title: AppLocale.create.getString(context)),
                     CrudCupertinoButton(
                         onPress: () {
+                          nameController.clear();
+                          emailController.clear();
+                          phoneController.clear();
                           showDialog(
                               context: context,
                               builder: (context){
@@ -211,6 +214,19 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                                         phone: phoneController.text));
                                 // updateData();
                                 // FirebaseServices.updateData(nameController.text, emailController.text, phoneController.text);
+                                showDialog(
+                                    context: context,
+                                    builder: (context){
+                                      return Center(child: CircularProgressIndicator());
+                                    });
+                                Future.delayed(Duration(milliseconds: 1500),(){
+                                  Navigator.pop(context);
+                                });
+                                Future.delayed(Duration(seconds: 1),(){
+                                  nameController.clear();
+                                  emailController.clear();
+                                  phoneController.clear();
+                                });
                               } else {}
                             },
                             title: AppLocale.update.getString(context));
@@ -317,6 +333,9 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                 }),
                 BlocListener<TempCrudBloc, TempCrudState>(
                   listener: (context, state) {
+                    if(state is DataUpdatedState){
+                      BlocProvider.of<TempCrudBloc>(context).add(TempDataFetchEvent());
+                    }
                     if (state is TempInternetConnectedState && hasData) {
                       // print('Inserted data from InternetConnectedState');
                       // FirebaseServices.offlineDataInserted();

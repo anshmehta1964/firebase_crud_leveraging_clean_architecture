@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:api_handling/firebaseCRUD/core/localization/languages.dart';
 import 'package:bloc/bloc.dart';
 import 'package:email_validator/email_validator.dart';
@@ -12,15 +14,18 @@ part 'login_state.dart';
 
 class TempLogInBloc extends Bloc<TempLogInEvent, TempLogInState> {
   late final UserLogIn _userLogIn;
+  @override
   void onChange(Change<TempLogInState> change){
-    print('From : ${change.currentState} To : ${change.nextState}');
+    log('From : ${change.currentState} To : ${change.nextState}');
     super.onChange(change);
   }
   TempLogInBloc({required UserLogIn userLogIn})
       : _userLogIn = userLogIn,
         super(TempLogInInitialState()) {
     on<TempLogInEmailChangedEvent>((event, emit) {
-      if (!(EmailValidator.validate(event.email))) {
+      if(event.email == "" && event.password == ""){
+        emit(TempLogInInitialState());
+      } else if (!(EmailValidator.validate(event.email))) {
         emit(TempLogInInvalidState(errorMessage: AppLocale.emailerror.getString(event.context)));
       } else if (EmailValidator.validate(event.email) && event.password.length < 8){
         emit(TempLogInInitialState());
@@ -29,7 +34,9 @@ class TempLogInBloc extends Bloc<TempLogInEvent, TempLogInState> {
       }
     });
     on<TempLogInPasswordChangedEvent>((event, emit) {
-      if (event.password.length < 8) {
+      if(event.email == "" && event.password == ""){
+        emit(TempLogInInitialState());
+      } else if (event.password.length < 8) {
         emit(TempLogInInvalidState(
             errorMessage: AppLocale.passerror.getString(event.context)));
         // print('login invalid state');

@@ -32,89 +32,111 @@ class _FbLoginState extends State<TempLogin> {
     return Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
         body: SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.only(left: 15, right: 15),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                MyTitle(title: AppLocale.logIn.getString(context)),
-                SizedBox(height: 20),
-                BlocBuilder<TempLogInBloc, TempLogInState>(
-                    builder: (context, state) {
-                  if (state is TempLogInInvalidState) {
-                    return Text(
-                      state.errorMessage,
-                      style: TextStyle(color: Colors.red),
-                    );
-                  } else {
-                    return Container();
-                  }
-                }),
-                SizedBox(
-                  height: 10,
-                ),
-                MyTextField(
-                    controller: emailController,
-                    hintText: AppLocale.email.getString(context),
-                    onTextChanged: (val) {
-                      BlocProvider.of<TempLogInBloc>(context).add(
-                          TempLogInEmailChangedEvent(
-                              email: emailController.text,
-                              password: passController.text,
-                              context: context));
-                    }),
-                SizedBox(height: 10),
-                MyTextField(
-                    obscureText: true,
-                    controller: passController,
-                    hintText: AppLocale.pass.getString(context),
-                    onTextChanged: (val) {
-                      BlocProvider.of<TempLogInBloc>(context).add(
-                          TempLogInPasswordChangedEvent(
-                              email: emailController.text,
-                              password: passController.text,
-                              context: context
-                          ));
-                    }),
-                SizedBox(height: 20),
-                BlocListener<TempLogInBloc, TempLogInState>(
-                  listener: (context, state) {
-                    if (state is TempCredentialsVerifiedState) {
-                      Navigator.pushReplacementNamed(context, RoutesName.tempCrudScreen);
-                      emailController.clear();
-                      passController.clear();
-                    }
-                  },
-                  child: BlocBuilder<TempLogInBloc, TempLogInState>(
-                    builder: (context, state) {
-                      return CupertinoButton(
-                        onPressed: () {
-                          showDialog(
-                              context: context,
-                              builder: (context){
-                                return Center(child: CircularProgressIndicator());
-                              });
-                          BlocProvider.of<TempLogInBloc>(context).add(
-                              TempLogInSubmittedEvent(
-                                  email: emailController.text,
-                                  password: passController.text,
-                                  context: context
-                              ));
-                        },
-                        color: (state is TempLogInInvalidState ||
-                                state is TempLogInInitialState)
-                            ? Colors.grey
-                            : Theme.of(context).colorScheme.primary,
-                        child: Text(
-                          AppLocale.logIn.getString(context),
-                          style: TextStyle(
-                              color: Theme.of(context).colorScheme.secondary),
-                        ),
+          child: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  colors: [
+                    // Color(0xfffdfbfb),
+                    Colors.white,
+                    Colors.grey.shade300,
+                    Colors.grey.shade500,
+                    Colors.grey.shade900
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  transform: GradientRotation(5.80)
+              )
+            ),
+            child: Padding(
+              padding: const EdgeInsets.only(left: 15, right: 15),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  MyTitle(title: AppLocale.logIn.getString(context)),
+                  SizedBox(height: 20),
+                  BlocBuilder<TempLogInBloc, TempLogInState>(
+                      builder: (context, state) {
+                    if (state is TempLogInInvalidState) {
+                      return Text(
+                        state.errorMessage,
+                        style: TextStyle(color: Colors.red),
                       );
-                    },
+                    } else {
+                      return Container();
+                    }
+                  }),
+                  SizedBox(
+                    height: 10,
                   ),
-                ),
-              ],
+                  MyTextField(
+                      controller: emailController,
+                      hintText: AppLocale.email.getString(context),
+                      onTextChanged: (val) {
+                        BlocProvider.of<TempLogInBloc>(context).add(
+                            TempLogInEmailChangedEvent(
+                                email: emailController.text,
+                                password: passController.text,
+                                context: context));
+                      }),
+                  SizedBox(height: 10),
+                  MyTextField(
+                      obscureText: true,
+                      controller: passController,
+                      hintText: AppLocale.pass.getString(context),
+                      onTextChanged: (val) {
+                        BlocProvider.of<TempLogInBloc>(context).add(
+                            TempLogInPasswordChangedEvent(
+                                email: emailController.text,
+                                password: passController.text,
+                                context: context
+                            ));
+                      }),
+                  SizedBox(height: 20),
+                  BlocListener<TempLogInBloc, TempLogInState>(
+                    listener: (context, state) {
+                      if (state is TempCredentialsVerifiedState) {
+                        showDialog(
+                            context: context,
+                            builder: (context){
+                              return Center(child: CircularProgressIndicator());
+                            });
+                        Navigator.pushNamedAndRemoveUntil(context, RoutesName.tempCrudScreen,(route)=> false );
+                        emailController.clear();
+                        passController.clear();
+                      }
+                    },
+                    child: BlocBuilder<TempLogInBloc, TempLogInState>(
+                      builder: (context, state) {
+                        return CupertinoButton(
+                          onPressed: () {
+                            if(state is TempLogInValidState) {
+                              BlocProvider.of<TempLogInBloc>(context).add(
+                                  TempLogInSubmittedEvent(
+                                      email: emailController.text,
+                                      password: passController.text,
+                                      context: context
+                                  ));
+                              showDialog(
+                                  context: context,
+                                  builder: (context){
+                                    return Center(child: CircularProgressIndicator());
+                                  });
+                            }
+                          },
+                          color: (state is TempLogInInvalidState || state is TempLogInInitialState)
+                              ? Colors.grey
+                              : Theme.of(context).colorScheme.primary,
+                          child: Text(
+                            AppLocale.logIn.getString(context),
+                            style: TextStyle(
+                                color: Theme.of(context).colorScheme.secondary),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ));

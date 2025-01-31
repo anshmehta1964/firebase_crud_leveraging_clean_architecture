@@ -9,6 +9,7 @@ class AuthTitle extends StatelessWidget{
     this.size = 40});
 
 
+
   @override
   Widget build(BuildContext context){
     return Text(

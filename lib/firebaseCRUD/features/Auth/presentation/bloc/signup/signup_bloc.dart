@@ -14,33 +14,36 @@ class TempSignUpBloc extends Bloc<TempSignUpEvent, TempSignUpState> {
   late UserSignUp _userSignUp;
 
   @override
-  void onChange(Change<TempSignUpState> change){
+  void onChange(Change<TempSignUpState> change) {
     log('From : ${change.currentState} To ${change.nextState}');
     super.onChange(change);
   }
+
   TempSignUpBloc({required UserSignUp userSignUp})
       : _userSignUp = userSignUp,
         super(TempSignUpInitial()) {
     on<TempSignUpEmailChangedEvent>((event, emit) {
-      if(event.email == ""){
+      if (event.email == "") {
         emit(TempSignInInitialState());
       } else if (!(EmailValidator.validate(event.email))) {
-        emit(TempSignUpInvalidState(errorMessage: AppLocale.emailerror.getString(event.context)));
-      } else if (EmailValidator.validate(event.email) && event.password.length < 8) {
+        emit(TempSignUpInvalidState(
+            errorMessage: AppLocale.emailerror.getString(event.context)));
+      } else if (EmailValidator.validate(event.email) &&
+          event.password.length < 8) {
         emit(TempSignInInitialState());
-       } else {
+      } else {
         emit(TempSignUpValidState());
       }
     });
     on<TempSignUpPasswordChangedEvent>((event, emit) {
-      if(event.password == ""){
+      if (event.password == "") {
         emit(TempSignInInitialState());
       } else if (event.password.length < 8) {
         emit(TempSignUpInvalidState(
             errorMessage: AppLocale.passerror.getString(event.context)));
       } else if (!(EmailValidator.validate(event.email))) {
-        emit(
-            TempSignUpInvalidState(errorMessage: AppLocale.emailerror.getString(event.context)));
+        emit(TempSignUpInvalidState(
+            errorMessage: AppLocale.emailerror.getString(event.context)));
       } else {
         emit(TempSignUpValidState());
       }
@@ -52,7 +55,8 @@ class TempSignUpBloc extends Bloc<TempSignUpEvent, TempSignUpState> {
             .call(Parameters(email: event.email, password: event.password));
       } else {
         emit(TempSignUpInvalidState(
-            errorMessage: AppLocale.emailAndPassError.getString(event.context)));
+            errorMessage:
+                AppLocale.emailAndPassError.getString(event.context)));
       }
     });
   }

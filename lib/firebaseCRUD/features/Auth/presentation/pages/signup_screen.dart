@@ -48,19 +48,17 @@ class _TempSignUpState extends State<TempSignUp> {
         body: SafeArea(
           child: Container(
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [
-                    // Color(0xfffdfbfb),
-                    Colors.white,
-                    Colors.grey.shade300,
-                    Colors.grey.shade500,
-                    Colors.grey.shade900
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  transform: GradientRotation(5.80)
-              )
-            ),
+                gradient: LinearGradient(
+                    colors: [
+                  // Color(0xfffdfbfb),
+                  Colors.white,
+                  Colors.grey.shade300,
+                  Colors.grey.shade500,
+                  Colors.grey.shade900
+                ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    transform: GradientRotation(5.80))),
             child: Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: Column(
@@ -100,8 +98,7 @@ class _TempSignUpState extends State<TempSignUp> {
                             TempSignUpEmailChangedEvent(
                                 email: emailController.text,
                                 password: passController.text,
-                                context: context
-                            ));
+                                context: context));
                       }),
                   SizedBox(height: 10),
                   AuthTextField(
@@ -113,30 +110,31 @@ class _TempSignUpState extends State<TempSignUp> {
                             TempSignUpPasswordChangedEvent(
                                 email: emailController.text,
                                 password: passController.text,
-                                context: context
-                            ));
+                                context: context));
                       }),
                   SizedBox(height: 20),
                   BlocBuilder<TempSignUpBloc, TempSignUpState>(
                     builder: (context, state) {
                       return CupertinoButton(
+                        borderRadius: BorderRadius.circular(20),
                         onPressed: (state is TempSignUpValidState)
                             ? () {
-                          showDialog(
-                              context: context,
-                              builder: (context){
-                                return Center(child: CircularProgressIndicator());
-                              });
-                               Future.delayed(Duration(seconds: 1),(){
-                                 Navigator.pushNamed(context, RoutesName.tempLoginScreen);
-                               });
+                                showDialog(
+                                    context: context,
+                                    builder: (context) {
+                                      return Center(
+                                          child: CircularProgressIndicator());
+                                    });
+                                Future.delayed(Duration(seconds: 1), () {
+                                  Navigator.pushNamed(
+                                      context, RoutesName.tempLoginScreen);
+                                });
                                 // crudService.signUp(emailController.text,passController.text);
                                 BlocProvider.of<TempSignUpBloc>(context).add(
                                     TempSignUpSubmittedEvent(
                                         email: emailController.text,
                                         password: passController.text,
-                                        context: context
-                                    ));
+                                        context: context));
                                 emailController.clear();
                                 passController.clear();
                               }
@@ -145,7 +143,9 @@ class _TempSignUpState extends State<TempSignUp> {
                         //         state is TempSignInInitialState)
                         //     ? Colors.grey
                         //     : Theme.of(context).colorScheme.primary,
-                        color: (state is TempSignUpValidState) ? Theme.of(context).colorScheme.primary : Colors.grey,
+                        color: (state is TempSignUpValidState)
+                            ? Theme.of(context).colorScheme.primary
+                            : Colors.grey,
                         child: Text(
                           AppLocale.signIn.getString(context),
                           style: TextStyle(

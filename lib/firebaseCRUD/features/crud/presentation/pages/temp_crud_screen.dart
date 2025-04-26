@@ -27,6 +27,9 @@ class TempCrudScreen extends StatefulWidget {
 }
 
 class _TempCrudScreenState extends State<TempCrudScreen> {
+  FocusNode nameTextField = FocusNode();
+  FocusNode emailTextField = FocusNode();
+  FocusNode phoneTextField = FocusNode();
   TextEditingController nameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -53,6 +56,12 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
     streamController.close();
     subscription.cancel();
     super.dispose();
+  }
+
+  void unFocusAllNodes() {
+    nameTextField.unfocus();
+    emailTextField.unfocus();
+    phoneTextField.unfocus();
   }
 
   @override
@@ -87,15 +96,16 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
               gradient: LinearGradient(
                   colors: [
                 // Color(0xfffdfbfb),
-                Colors.white,
-                Colors.grey.shade300,
-                Colors.grey.shade500,
-                Colors.grey.shade900
+                // Colors.white,
+                // Colors.grey.shade300,
+                // Colors.grey.shade500,
+                // Colors.grey.shade900
+                Theme.of(context).colorScheme.inversePrimary,
+                Theme.of(context).colorScheme.inverseSurface
               ],
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   transform: GradientRotation(5.80))),
-          // hello temp
           child: Padding(
             padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
             child: Column(
@@ -124,6 +134,7 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                   }
                 }),
                 CrudTextFormField(
+                    focusNode: nameTextField,
                     controller: nameController,
                     hintText: AppLocale.name.getString(context),
                     onTextChanged: (val) {
@@ -134,6 +145,8 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                               phone: phoneController.text));
                     }),
                 CrudTextFormField(
+                    type: TextInputType.emailAddress,
+                    focusNode: emailTextField,
                     controller: emailController,
                     hintText: AppLocale.email.getString(context),
                     onTextChanged: (val) {
@@ -144,10 +157,14 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                               phone: phoneController.text));
                     }),
                 CrudTextFormField(
+                    focusNode: phoneTextField,
                     type: TextInputType.number,
                     controller: phoneController,
                     hintText: AppLocale.phone.getString(context),
-                    formatter: FilteringTextInputFormatter.digitsOnly,
+                    formatter: [
+                      LengthLimitingTextInputFormatter(10),
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
                     onTextChanged: (val) {
                       BlocProvider.of<TempCrudBloc>(context).add(
                           TempTextChangedEvent(
@@ -199,6 +216,7 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                               () => Navigator.pop(context));
                           BlocProvider.of<TempCrudBloc>(context)
                               .add(TempDataFetchEvent());
+                          unFocusAllNodes();
                         },
                         title: AppLocale.read.getString(context)),
                     BlocBuilder<TempCrudBloc, TempCrudState>(
@@ -308,14 +326,16 @@ class _TempCrudScreenState extends State<TempCrudScreen> {
                                     decoration: BoxDecoration(
                                       gradient: LinearGradient(
                                           colors: [
-                                            Colors.white,
-                                            Colors.grey,
-                                            Colors.black,
+                                            Theme.of(context)
+                                                .colorScheme
+                                                .inversePrimary,
+                                            Theme.of(context)
+                                                .colorScheme
+                                                .inverseSurface
                                           ],
                                           stops: [
                                             0.42,
                                             1.2,
-                                            0.16
                                           ],
                                           begin: Alignment.topLeft,
                                           end: Alignment.bottomRight,

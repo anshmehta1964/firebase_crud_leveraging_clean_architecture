@@ -14,19 +14,16 @@ class TempHomeScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).colorScheme.surface,
         body: Container(
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [
-                  // Color(0xfffdfbfb),
-                  Colors.white,
-                  Colors.grey.shade300,
-                  Colors.grey.shade500,
-                  Colors.grey.shade900
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                transform: GradientRotation(5.80)
-            )
-          ),
+              gradient: LinearGradient(
+                  colors: [
+                Colors.white,
+                Colors.grey.shade300,
+                Colors.grey.shade500,
+                Colors.grey.shade900
+              ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  transform: GradientRotation(5.80))),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

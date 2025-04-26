@@ -32,7 +32,7 @@ mixin AppLocale {
     appbar: 'Firebase Crud',
     themebutton: 'Change theme',
     emailerror: 'Please enter a valid mail',
-    passerror : 'Please enter a valid password',
+    passerror: 'Please enter a valid password',
     dataerror: 'Data is not valid',
     emailAndPassError: 'Email or password is not valid'
   };
@@ -51,7 +51,7 @@ mixin AppLocale {
     appbar: 'फायरबेस क्रूड',
     themebutton: 'थीम बदलना',
     emailerror: 'कृपया एक मान्य ईमेल दर्ज करें',
-    passerror : 'कृपया एक वैध पासवर्ड दर्ज करें',
+    passerror: 'कृपया एक वैध पासवर्ड दर्ज करें',
     dataerror: 'डेटा मान्य नहीं है',
     emailAndPassError: 'ईमेल या पासवर्ड मान्य नहीं है'
   };
@@ -70,7 +70,7 @@ mixin AppLocale {
     appbar: 'Firebase Crud',
     themebutton: 'Themenschaltfläche',
     emailerror: 'Bitte geben Sie eine gültige E-Mail-Adresse ein',
-    passerror : 'Bitte geben Sie ein gültiges Passwort ein',
+    passerror: 'Bitte geben Sie ein gültiges Passwort ein',
     dataerror: 'Daten sind ungültig',
     emailAndPassError: 'E-Mail oder Passwort ist ungültig'
   };

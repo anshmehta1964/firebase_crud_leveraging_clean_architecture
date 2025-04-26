@@ -10,11 +10,10 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderStateMixin {
-
-  late final AnimationController animationController = AnimationController(
-      duration: const Duration(seconds: 5),
-      vsync: this);
+class _SplashScreenState extends State<SplashScreen>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController animationController =
+      AnimationController(duration: const Duration(seconds: 5), vsync: this);
 
   @override
   void initState() {
@@ -28,20 +27,26 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
     animationController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
-    final Animation<double> fadeAnimator = CurvedAnimation(parent: animationController, curve: Curves.fastEaseInToSlowEaseOut);
+    final Animation<double> fadeAnimator = CurvedAnimation(
+        parent: animationController, curve: Curves.fastEaseInToSlowEaseOut);
     return Scaffold(
-      body: Center(
-        child: FadeTransition(
-          opacity: fadeAnimator,
-          child: Image.asset('assets/firebase_logo.png', height: 50, width: 50,)
-        )
-        )
-      );
+        body: Center(
+            child: FadeTransition(
+                opacity: fadeAnimator,
+                child: Image.asset(
+                  'assets/firebase_logo.png',
+                  height: 50,
+                  width: 50,
+                ))));
   }
-  void isLogin(BuildContext context){
-    Timer(const Duration(seconds: 5),
-            () => Navigator.pushNamedAndRemoveUntil(context,RoutesName.homeScreen, (route) => false) );
+
+  void isLogin(BuildContext context) {
+    Timer(
+        const Duration(seconds: 5),
+        () => Navigator.pushNamedAndRemoveUntil(
+            context, RoutesName.homeScreen, (route) => false));
   }
 }

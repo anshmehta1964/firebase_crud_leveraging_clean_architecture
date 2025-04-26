@@ -2,9 +2,9 @@ part of 'firebase_crud_bloc.dart';
 
 class FirebaseCrudEvent {}
 
-class DataFetchEvent extends FirebaseCrudEvent{}
+class DataFetchEvent extends FirebaseCrudEvent {}
 
-class InsertDataEvent extends FirebaseCrudEvent{
+class InsertDataEvent extends FirebaseCrudEvent {
   String name;
   String email;
   String phone;
@@ -15,11 +15,11 @@ class InsertDataEvent extends FirebaseCrudEvent{
   });
 }
 
-class ConnectionLostEvent extends FirebaseCrudEvent{}
+class ConnectionLostEvent extends FirebaseCrudEvent {}
 
-class ConnectionGainedEvent extends FirebaseCrudEvent{}
+class ConnectionGainedEvent extends FirebaseCrudEvent {}
 
-class TextChangedEvent extends FirebaseCrudEvent{
+class TextChangedEvent extends FirebaseCrudEvent {
   String name;
   String email;
   String phone;
@@ -27,5 +27,5 @@ class TextChangedEvent extends FirebaseCrudEvent{
     required this.name,
     required this.email,
     required this.phone,
-    });
+  });
 }

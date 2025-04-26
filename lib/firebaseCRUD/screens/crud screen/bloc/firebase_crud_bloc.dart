@@ -8,12 +8,12 @@ part 'firebase_crud_state.dart';
 class FirebaseCrudBloc extends Bloc<FirebaseCrudEvent, FirebaseCrudState> {
   FirebaseCrudBloc() : super(FirebaseCrudInitialState()) {
     on<DataFetchEvent>((event, emit) async {
-      CollectionReference colReference = FirebaseFirestore.instance.collection(
-          "anshDatabase");
+      CollectionReference colReference =
+          FirebaseFirestore.instance.collection("anshDatabase");
       QuerySnapshot querySnapshot = await colReference.get();
       List<String> nameList = [];
-      List<String>emailList = [];
-      List<String>phoneList = [];
+      List<String> emailList = [];
+      List<String> phoneList = [];
       for (var docSnapshot in querySnapshot.docs) {
         nameList.add(docSnapshot.get("name"));
         emailList.add(docSnapshot.get("email"));
@@ -23,12 +23,17 @@ class FirebaseCrudBloc extends Bloc<FirebaseCrudEvent, FirebaseCrudState> {
       //  = querySnapshot.docs.map((doc) => doc.get("email")).toList() ;
       // List<dynamic>phoneList = querySnapshot.docs.map((doc) => doc.get("phone")).toList();
       // print('FetchingDataState');
-      emit(FetchingDataState(nameList: nameList, emailList: emailList, phoneList: phoneList));
+      emit(FetchingDataState(
+          nameList: nameList, emailList: emailList, phoneList: phoneList));
     });
     on<InsertDataEvent>((event, emit) {
       // print('InsertDataEventFired');
-      if (event.name == "" || event.email == "" || event.phone == "" ||
-          !(EmailValidator.validate(event.email)) || event.phone.length < 10 || event.phone.length > 10) {
+      if (event.name == "" ||
+          event.email == "" ||
+          event.phone == "" ||
+          !(EmailValidator.validate(event.email)) ||
+          event.phone.length < 10 ||
+          event.phone.length > 10) {
         // print('DataInvalidState');
         emit(DataInvalidState());
       } else {
@@ -47,9 +52,14 @@ class FirebaseCrudBloc extends Bloc<FirebaseCrudEvent, FirebaseCrudState> {
       emit(InternetLostState());
     });
 
-    on<TextChangedEvent>((event,emit){
+    on<TextChangedEvent>((event, emit) {
       // print('Text Changed Event Fired!!');
-      if(event.name == "" || event.phone == "" || event.email == "" || !(EmailValidator.validate(event.email)) || event.phone.length < 10 || event.phone.length > 10){
+      if (event.name == "" ||
+          event.phone == "" ||
+          event.email == "" ||
+          !(EmailValidator.validate(event.email)) ||
+          event.phone.length < 10 ||
+          event.phone.length > 10) {
         emit(InvalidTextState());
       } else {
         emit(ValidTextState());

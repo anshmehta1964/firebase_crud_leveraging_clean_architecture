@@ -17,33 +17,33 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text('API Handling',style: TextStyle(color: Colors.white),),
+        title: Text(
+          'API Handling',
+          style: TextStyle(color: Colors.white),
+        ),
         backgroundColor: Colors.cyan,
       ),
       body: SafeArea(
-          child: BlocBuilder<PostCubit, PostState>(
-              builder:(context, state) {
-                if(state is PostLoadingState){
-                  return Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-                if(state is PostLoadedState){
-                  return ListView.builder(
-                      itemCount: state.posts.length,
-                    itemBuilder: (context, index){
-                        return ListTile(
-                          title: Text(state.posts[index].title.toString()),
-                        );
-                    },
-                  );
-                }
-                return Center(
-                  child: Text('Error Occurred'),
-                );
-              }
-          )
-      ),
+          child: BlocBuilder<PostCubit, PostState>(builder: (context, state) {
+        if (state is PostLoadingState) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        if (state is PostLoadedState) {
+          return ListView.builder(
+            itemCount: state.posts.length,
+            itemBuilder: (context, index) {
+              return ListTile(
+                title: Text(state.posts[index].title.toString()),
+              );
+            },
+          );
+        }
+        return Center(
+          child: Text('Error Occurred'),
+        );
+      })),
     );
   }
 }

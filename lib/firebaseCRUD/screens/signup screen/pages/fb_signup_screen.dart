@@ -55,17 +55,16 @@ class _FbSignUpState extends State<FbSignUp> {
                 MyTextField(
                     controller: emailController,
                     hintText: 'Email',
-                    onTextChanged: (val){
+                    onTextChanged: (val) {
                       BlocProvider.of<FirebaseSignupBloc>(context).add(
                           SignupEmailChangedEvent(email: emailController.text));
-                    }
-                ),
+                    }),
                 SizedBox(height: 10),
                 MyTextField(
                     obscureText: true,
                     controller: passController,
                     hintText: 'Password',
-                    onTextChanged: (val){
+                    onTextChanged: (val) {
                       BlocProvider.of<FirebaseSignupBloc>(context).add(
                           SignupPasswordChangedEvent(
                               email: emailController.text,
@@ -75,16 +74,24 @@ class _FbSignUpState extends State<FbSignUp> {
                 BlocBuilder<FirebaseSignupBloc, FirebaseSignupState>(
                   builder: (context, state) {
                     return CupertinoButton(
-                      onPressed: (state is SignupValidState) ? () {
-                        Navigator.pushNamed(context,RoutesName.loginScreen);
-                              crudService.signUp(emailController.text,passController.text);
+                      onPressed: (state is SignupValidState)
+                          ? () {
+                              Navigator.pushNamed(
+                                  context, RoutesName.loginScreen);
+                              crudService.signUp(
+                                  emailController.text, passController.text);
                               emailController.clear();
                               passController.clear();
-                            } : () { },
-                      color: (state is SignupInvalidState || state is SigninInitialState) ? Colors.grey : Theme.of(context).colorScheme.primary,
+                            }
+                          : () {},
+                      color: (state is SignupInvalidState ||
+                              state is SigninInitialState)
+                          ? Colors.grey
+                          : Theme.of(context).colorScheme.primary,
                       child: Text(
                         'Sign in',
-                        style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+                        style: TextStyle(
+                            color: Theme.of(context).colorScheme.secondary),
                       ),
                     );
                   },
@@ -92,7 +99,6 @@ class _FbSignUpState extends State<FbSignUp> {
               ],
             ),
           ),
-        )
-    );
+        ));
   }
 }

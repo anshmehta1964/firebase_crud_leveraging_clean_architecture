@@ -15,38 +15,32 @@ class _basicStreamState extends State<basicStream> {
     return Scaffold(
       body: SafeArea(
         child: Center(
-          child:StreamBuilder(
-              stream: counterController.stream,
-              builder: (context, snapshot) {
-                if(snapshot.hasData){
-                  return Text(snapshot.data.toString(),
-                  style: TextStyle(
-                    fontSize: 70,
-                    fontWeight: FontWeight.bold
-                    ),
-                  );
-                } else {
-                  return Text("0",
-                    style: TextStyle(
-                    fontSize: 70,
-                    fontWeight: FontWeight.bold
-                    )
-                  );
-                }
-              }
-          )
-        ),
+            child: StreamBuilder(
+                stream: counterController.stream,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Text(
+                      snapshot.data.toString(),
+                      style:
+                          TextStyle(fontSize: 70, fontWeight: FontWeight.bold),
+                    );
+                  } else {
+                    return Text("0",
+                        style: TextStyle(
+                            fontSize: 70, fontWeight: FontWeight.bold));
+                  }
+                })),
       ),
       persistentFooterButtons: [
         FloatingActionButton(
-          onPressed: (){
+          onPressed: () {
             // counter++;
             counterController.sink.add(counter++);
           },
           child: Icon(Icons.add),
         ),
         FloatingActionButton(
-          onPressed: (){
+          onPressed: () {
             // counter++;
             counterController.sink.add(counter--);
           },

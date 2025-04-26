@@ -5,9 +5,9 @@ class FirebaseCrudState {}
 class FirebaseCrudInitialState extends FirebaseCrudState {}
 
 class FetchingDataState extends FirebaseCrudState {
-  List<String>nameList;
-  List<String>emailList;
-  List<String>phoneList;
+  List<String> nameList;
+  List<String> emailList;
+  List<String> phoneList;
   FetchingDataState({
     required this.nameList,
     required this.emailList,
@@ -15,16 +15,16 @@ class FetchingDataState extends FirebaseCrudState {
   });
 }
 
-class DataValidState extends FirebaseCrudState{}
+class DataValidState extends FirebaseCrudState {}
 
-class DataInvalidState extends FirebaseCrudState{}
+class DataInvalidState extends FirebaseCrudState {}
 
-class InternetConnectedState extends FirebaseCrudState{}
+class InternetConnectedState extends FirebaseCrudState {}
 
-class InternetLostState extends FirebaseCrudState{}
+class InternetLostState extends FirebaseCrudState {}
 
 // class UpdateButtonEnableState extends FirebaseCrudState{}
 
-class ValidTextState extends FirebaseCrudState{}
+class ValidTextState extends FirebaseCrudState {}
 
-class InvalidTextState extends FirebaseCrudState{}
+class InvalidTextState extends FirebaseCrudState {}

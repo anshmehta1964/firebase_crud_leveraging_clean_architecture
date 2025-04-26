@@ -1,10 +1,12 @@
 import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 abstract interface class AuthRemoteDatasource {
   Future<User?> signInWithEmailPassword(
       {required String email, required String password});
+
   Future<bool> logInWithEmailPassword(
       {required String email, required String password});
 }
@@ -12,6 +14,7 @@ abstract interface class AuthRemoteDatasource {
 class AuthRemoteDataSourceImpl implements AuthRemoteDatasource {
   final FirebaseAuth firebaseAuthInstance;
   final FirebaseFirestore firebaseFirestore;
+
   AuthRemoteDataSourceImpl(this.firebaseAuthInstance, this.firebaseFirestore);
 
   @override

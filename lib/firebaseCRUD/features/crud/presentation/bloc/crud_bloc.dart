@@ -22,10 +22,11 @@ class TempCrudBloc extends Bloc<TempCrudEvent, TempCrudState> {
   final UpdateDataUseCase updateDUC;
 
   @override
-  void onChange(Change<TempCrudState> change){
+  void onChange(Change<TempCrudState> change) {
     log('From : ${change.currentState} to ${change.nextState}');
     super.onChange(change);
   }
+
   TempCrudBloc({
     required InsertDataUseCase insertusecase,
     required ReadDataUseCase Readusecase,
@@ -88,9 +89,11 @@ class TempCrudBloc extends Bloc<TempCrudEvent, TempCrudState> {
 
     on<TempTextChangedEvent>((event, emit) {
       // print('Text Changed Event Fired!!');
-      if (event.name == "" || event.phone == "" || event.email == ""){
+      if (event.name == "" || event.phone == "" || event.email == "") {
         emit(TempCrudInitialState());
-      } else if (!(EmailValidator.validate(event.email)) || event.phone.length < 10 || event.phone.length > 10) {
+      } else if (!(EmailValidator.validate(event.email)) ||
+          event.phone.length < 10 ||
+          event.phone.length > 10) {
         emit(TempInvalidTextState());
       } else {
         emit(TempValidTextState());
@@ -126,7 +129,8 @@ class TempCrudBloc extends Bloc<TempCrudEvent, TempCrudState> {
     });
 
     on<UpdateDataEvent>((event, emit) {
-      updateDataDUC.call(CrudParameters(name: event.name, email: event.email, phone: event.phone));
+      updateDataDUC.call(CrudParameters(
+          name: event.name, email: event.email, phone: event.phone));
       emit(DataUpdatedState());
     });
   }

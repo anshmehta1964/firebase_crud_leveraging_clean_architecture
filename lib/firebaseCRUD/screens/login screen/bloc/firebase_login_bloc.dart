@@ -11,34 +11,36 @@ class FirebaseLoginBloc extends Bloc<FirebaseLoginEvent, FirebaseLoginState> {
   final _auth = AuthService();
 
   FirebaseLoginBloc() : super(LoginInitialState()) {
-    on<LoginEmailChangedEvent>((event,emit){
-      if(!(EmailValidator.validate(event.email))){
+    on<LoginEmailChangedEvent>((event, emit) {
+      if (!(EmailValidator.validate(event.email))) {
         emit(LoginInvalidState(errorMessage: "Please enter a valid email!"));
       } else {
         emit(LoginInitialState());
       }
     });
-    on<LoginPasswordChangedEvent>((event,emit){
-      if(event.password.length < 8){
+    on<LoginPasswordChangedEvent>((event, emit) {
+      if (event.password.length < 8) {
         emit(LoginInvalidState(errorMessage: "Please enter a valid password"));
-      } else if(!(EmailValidator.validate(event.email))){
+      } else if (!(EmailValidator.validate(event.email))) {
         emit(LoginInvalidState(errorMessage: "Please enter a valid email"));
       } else {
         emit(LoginValidState());
       }
     });
-    on<LoginSubmittedEvent>((event,emit) async {
+    on<LoginSubmittedEvent>((event, emit) async {
       bool checkCredentials = await login(event.email, event.password);
-      if(EmailValidator.validate(event.email) && !(event.password.length < 8) && checkCredentials){
+      if (EmailValidator.validate(event.email) &&
+          !(event.password.length < 8) &&
+          checkCredentials) {
         emit(CredentialsVerifiedState());
-      } else{
+      } else {
         emit(LoginInvalidState(errorMessage: "Email or password is not Valid"));
       }
     });
   }
   Future<bool> login(String email, String password) async {
     final user = await _auth.loginUserWithEmailPassword(email, password);
-    if(user != null){
+    if (user != null) {
       log("User logged in Successfully");
       return true;
     } else {

@@ -5,15 +5,15 @@ import 'package:api_handling/data/repositories/api/api.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 
-class PostRepository{
+class PostRepository {
   API api = API();
-  Future<List<PostModel>> fetchPosts() async{
-      try{
-        Response response = await api.sendRequest.get("/posts");
-        List<dynamic> postMaps = response.data;
-        return postMaps.map((postMap)=> PostModel.fromJson(postMap)).toList();
-      } catch(ex){
-        throw ex;
-      }
+  Future<List<PostModel>> fetchPosts() async {
+    try {
+      Response response = await api.sendRequest.get("/posts");
+      List<dynamic> postMaps = response.data;
+      return postMaps.map((postMap) => PostModel.fromJson(postMap)).toList();
+    } catch (ex) {
+      throw ex;
     }
+  }
 }

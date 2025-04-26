@@ -1,12 +1,12 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-class SingletonSharedPreference{
-  static SingletonSharedPreference ? _preference;
+class SingletonSharedPreference {
+  static SingletonSharedPreference? _preference;
 
   SingletonSharedPreference._();
 
   static SingletonSharedPreference get instance {
-    if(SingletonSharedPreference._preference == null){
+    if (SingletonSharedPreference._preference == null) {
       _preference = SingletonSharedPreference._();
     }
     return _preference!;

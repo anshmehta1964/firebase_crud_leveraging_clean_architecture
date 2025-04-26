@@ -1,12 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
-class API{
+class API {
   // It is used to create a common dio instance which can be used anywhere
   final Dio _dio = Dio();
 
-  API(){
-    _dio.options.baseUrl="https://jsonplaceholder.typicode.com";
+  API() {
+    _dio.options.baseUrl = "https://jsonplaceholder.typicode.com";
     // _dio.interceptors.add(InterceptorsWrapper(
     //   onRequest: (RequestOptions options, RequestInterceptorHandler handler) {
     //     print("REQUEST [${options.method}] => PATH: ${options.path}");

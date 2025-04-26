@@ -18,14 +18,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../features/Auth/presentation/pages/temp_home_screen.dart';
 
-class Routes{
-  static Route<dynamic> generateRoutes(RouteSettings settings){
-    return CupertinoPageRoute(
-        builder: (context) => _buildScreen(settings));
+class Routes {
+  static Route<dynamic> generateRoutes(RouteSettings settings) {
+    return CupertinoPageRoute(builder: (context) => _buildScreen(settings));
   }
 
-  static Widget _buildScreen(RouteSettings settings){
-    switch(settings.name){
+  static Widget _buildScreen(RouteSettings settings) {
+    switch (settings.name) {
       case RoutesName.splashScreen:
         return _withBloc(SplashScreen());
       case RoutesName.loginScreen:
@@ -50,12 +49,9 @@ class Routes{
     }
   }
 
-  static _withBloc(Widget screen, [BlocBase? bloc]){
-    if(bloc != null){
-      return BlocProvider(
-          create: (_) => bloc,
-          child: screen
-      );
+  static _withBloc(Widget screen, [BlocBase? bloc]) {
+    if (bloc != null) {
+      return BlocProvider(create: (_) => bloc, child: screen);
     } else {
       return screen;
     }

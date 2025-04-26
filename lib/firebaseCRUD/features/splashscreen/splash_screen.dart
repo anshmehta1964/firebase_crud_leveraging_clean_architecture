@@ -9,11 +9,10 @@ class TempSplashScreen extends StatefulWidget {
   State<TempSplashScreen> createState() => _TempSplashScreenState();
 }
 
-class _TempSplashScreenState extends State<TempSplashScreen> with SingleTickerProviderStateMixin {
-
-  late final AnimationController animationController = AnimationController(
-      duration: const Duration(seconds: 5),
-      vsync: this);
+class _TempSplashScreenState extends State<TempSplashScreen>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController animationController =
+      AnimationController(duration: const Duration(seconds: 5), vsync: this);
 
   @override
   void initState() {
@@ -27,20 +26,26 @@ class _TempSplashScreenState extends State<TempSplashScreen> with SingleTickerPr
     animationController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
-    final Animation<double> fadeAnimator = CurvedAnimation(parent: animationController, curve: Curves.fastEaseInToSlowEaseOut);
+    final Animation<double> fadeAnimator = CurvedAnimation(
+        parent: animationController, curve: Curves.fastEaseInToSlowEaseOut);
     return Scaffold(
         body: Center(
             child: FadeTransition(
                 opacity: fadeAnimator,
-                child: Image.asset('assets/firebase_logo.png', height: 50, width: 50,)
-            )
-        )
-    );
+                child: Image.asset(
+                  'assets/firebase_logo.png',
+                  height: 50,
+                  width: 50,
+                ))));
   }
-  void isLogin(BuildContext context){
-    Timer(const Duration(seconds: 5),
-            () => Navigator.pushNamedAndRemoveUntil(context,RoutesName.tempHomeScreen, (route) => false) );
+
+  void isLogin(BuildContext context) {
+    Timer(
+        const Duration(seconds: 5),
+        () => Navigator.pushNamedAndRemoveUntil(
+            context, RoutesName.tempHomeScreen, (route) => false));
   }
 }

@@ -8,39 +8,38 @@ class FbHomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.surface,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text('Welcome',
+              Text(
+                'Welcome',
                 style: TextStyle(
                     color: Theme.of(context).colorScheme.primary,
                     fontWeight: FontWeight.bold,
-                    fontSize: 40
-                ),
+                    fontSize: 40),
               ),
               SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  MyCupertinoButton(onPress: (){
-                    Navigator.pushNamed(context, RoutesName.signUpScreen);
-                    },
+                  MyCupertinoButton(
+                      onPress: () {
+                        Navigator.pushNamed(context, RoutesName.signUpScreen);
+                      },
                       title: 'Sign in'),
                   SizedBox(width: 15),
                   MyCupertinoButton(
-                      onPress: (){
+                      onPress: () {
                         Navigator.pushNamed(context, RoutesName.loginScreen);
                       },
-                      title: 'Login'
-                  )
+                      title: 'Login')
                 ],
               )
             ],
           ),
-        )
-    );
+        ));
   }
 }

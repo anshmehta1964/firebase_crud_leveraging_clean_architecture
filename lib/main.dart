@@ -11,26 +11,28 @@ import 'package:api_handling/firebaseCRUD/features/crud/data/datasource/crud_rem
 import 'package:api_handling/firebaseCRUD/networkController/dependency_injection.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter_localization/flutter_localization.dart';
-import 'package:get/get.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_localization/flutter_localization.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
 import 'firebaseCRUD/core/localization/languages.dart';
 import 'firebaseCRUD/core/routes/routes.dart';
 import 'firebaseCRUD/core/routes/routes_name.dart';
 import 'firebaseCRUD/core/theme/theme_provider.dart';
+import 'firebaseCRUD/features/Auth/presentation/bloc/login/login_bloc.dart';
 import 'firebaseCRUD/features/crud/data/repository/crud_repository_impl.dart';
 import 'firebaseCRUD/features/crud/domain/usecase/crud_usecase.dart';
 import 'firebaseCRUD/features/crud/presentation/bloc/crud_bloc.dart';
-import 'firebaseCRUD/features/Auth/presentation/bloc/login/login_bloc.dart';
 import 'firebase_options.dart';
 
 late SharedPreferences prefs;
 late final FlutterLocalization localization;
 late Locale deviceLocale;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await SingletonSharedPreference.instance.init();
@@ -39,7 +41,7 @@ void main() async {
   log("Device Language: ${deviceLocale.languageCode}");
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // final internetServices = await InternetServices.createInstance();
-  // await NotificationService.instance.intialize();
+  // await NotificationService.instance.intialize();t
   // PostRepository postRepository = PostRepository();
   // List<PostModel> postModels = await postRepository.fetchPosts();
   prefs = await SharedPreferences.getInstance();
@@ -74,11 +76,13 @@ class _MyAppState extends State<MyApp> {
     localization.onTranslatedLanguage = _onTranslatedLanguage;
     super.initState();
   }
+
   void _onTranslatedLanguage(Locale? locale) {
     setState(() {
       print('set state called');
     });
   }
+
   // SharedPreferences prefs;
   @override
   Widget build(BuildContext context) {
@@ -111,11 +115,14 @@ class _MyAppState extends State<MyApp> {
                   CrudRemoteDataSourceImpl(FirebaseFirestore.instance),
                   CrudLocalDatasourceImpl(prefs))),
               insertoffDUC: InsertingOfflineData(CrudRepositoryImpl(
-                CrudRemoteDataSourceImpl(FirebaseFirestore.instance),
-                CrudLocalDatasourceImpl(prefs))),
-              updateDataDUC: UpdateDataUseCase(CrudRepositoryImpl(
-                CrudRemoteDataSourceImpl(FirebaseFirestore.instance),
-                CrudLocalDatasourceImpl(prefs))),
+                  CrudRemoteDataSourceImpl(FirebaseFirestore.instance),
+                  CrudLocalDatasourceImpl(prefs))),
+              updateDataDUC: UpdateDataUseCase(
+                CrudRepositoryImpl(
+                  CrudRemoteDataSourceImpl(FirebaseFirestore.instance),
+                  CrudLocalDatasourceImpl(prefs),
+                ),
+              ),
             ),
           ),
           BlocProvider<TempSignUpBloc>(

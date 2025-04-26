@@ -32,7 +32,7 @@ class _CrudScreenState extends State<CrudScreen> {
 
   @override
   void initState() {
-    subscription = InternetServices.streamController.stream.listen((value){
+    subscription = InternetServices.streamController.stream.listen((value) {
       print('Stream listened : $value');
       isConnected = value;
       print('Value of isConnected variable is: $isConnected');
@@ -56,7 +56,8 @@ class _CrudScreenState extends State<CrudScreen> {
                       TextStyle(color: Theme.of(context).colorScheme.secondary),
                 ),
                 onTap: () {
-                  Provider.of<ThemeProvider>(context, listen: false).toggleTheme();
+                  Provider.of<ThemeProvider>(context, listen: false)
+                      .toggleTheme();
                 },
               )
             ],
@@ -65,8 +66,7 @@ class _CrudScreenState extends State<CrudScreen> {
         backgroundColor: Theme.of(context).colorScheme.surface,
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.secondary,
-          title:
-          MyTitle(title: 'Firebase Crud',size: 20),
+          title: MyTitle(title: 'Firebase Crud', size: 20),
         ),
         body: SafeArea(
           child: Padding(
@@ -78,9 +78,13 @@ class _CrudScreenState extends State<CrudScreen> {
                     builder: (context, state) {
                   if (state is DataValidState && isConnected) {
                     // print('Insert data called from blocBuilder');
-                    FirebaseServices.insertData(nameController.text, emailController.text, phoneController.text);
+                    FirebaseServices.insertData(nameController.text,
+                        emailController.text, phoneController.text);
                     return SizedBox();
-                  } else if (state is FetchingDataState || state is FirebaseCrudInitialState || state is InternetConnectedState || state is InternetLostState) {
+                  } else if (state is FetchingDataState ||
+                      state is FirebaseCrudInitialState ||
+                      state is InternetConnectedState ||
+                      state is InternetLostState) {
                     return SizedBox();
                   } else {
                     return Text(
@@ -92,22 +96,34 @@ class _CrudScreenState extends State<CrudScreen> {
                 MyTextFormField(
                     controller: nameController,
                     hintText: "Name",
-                    onTextChanged: (val){
-                      BlocProvider.of<FirebaseCrudBloc>(context).add(TextChangedEvent(name: nameController.text, email: emailController.text, phone: phoneController.text));
+                    onTextChanged: (val) {
+                      BlocProvider.of<FirebaseCrudBloc>(context).add(
+                          TextChangedEvent(
+                              name: nameController.text,
+                              email: emailController.text,
+                              phone: phoneController.text));
                     }),
                 MyTextFormField(
                     controller: emailController,
                     hintText: "Email",
-                    onTextChanged: (val){
-                      BlocProvider.of<FirebaseCrudBloc>(context).add(TextChangedEvent(name: nameController.text, email: emailController.text, phone: phoneController.text));
+                    onTextChanged: (val) {
+                      BlocProvider.of<FirebaseCrudBloc>(context).add(
+                          TextChangedEvent(
+                              name: nameController.text,
+                              email: emailController.text,
+                              phone: phoneController.text));
                     }),
                 MyTextFormField(
                     type: TextInputType.number,
                     controller: phoneController,
                     hintText: "Phone",
                     formatter: FilteringTextInputFormatter.digitsOnly,
-                    onTextChanged: (val){
-                      BlocProvider.of<FirebaseCrudBloc>(context).add(TextChangedEvent(name: nameController.text, email: emailController.text, phone: phoneController.text));
+                    onTextChanged: (val) {
+                      BlocProvider.of<FirebaseCrudBloc>(context).add(
+                          TextChangedEvent(
+                              name: nameController.text,
+                              email: emailController.text,
+                              phone: phoneController.text));
                     }),
                 // CREATE BUTTON
                 Row(
@@ -116,18 +132,23 @@ class _CrudScreenState extends State<CrudScreen> {
                   children: [
                     MyCupertinoButton(
                         onPress: () async {
-                      if (isConnected) {
-                        BlocProvider.of<FirebaseCrudBloc>(context).add(InsertDataEvent(
-                        name: nameController.text,
-                        email: emailController.text,
-                        phone: phoneController.text));
-                      } else {
-                        // print('calling saveUserData');
-                        hasData = await FirebaseServices.saveUserData(nameController.text, emailController.text, phoneController.text);
-                        }
-                      }, title: 'Create' ),
+                          if (isConnected) {
+                            BlocProvider.of<FirebaseCrudBloc>(context).add(
+                                InsertDataEvent(
+                                    name: nameController.text,
+                                    email: emailController.text,
+                                    phone: phoneController.text));
+                          } else {
+                            // print('calling saveUserData');
+                            hasData = await FirebaseServices.saveUserData(
+                                nameController.text,
+                                emailController.text,
+                                phoneController.text);
+                          }
+                        },
+                        title: 'Create'),
                     MyCupertinoButton(
-                        onPress: (){
+                        onPress: () {
                           BlocProvider.of<FirebaseCrudBloc>(context)
                               .add(DataFetchEvent());
                         },
@@ -138,13 +159,14 @@ class _CrudScreenState extends State<CrudScreen> {
                             color: state is ValidTextState
                                 ? Theme.of(context).colorScheme.primary
                                 : Colors.grey,
-                              onPress: (){ if (state is ValidTextState) {
-                          // updateData();
-                                FirebaseServices.updateData(nameController.text, emailController.text, phoneController.text);
-                              } else { }
+                            onPress: () {
+                              if (state is ValidTextState) {
+                                // updateData();
+                                FirebaseServices.updateData(nameController.text,
+                                    emailController.text, phoneController.text);
+                              } else {}
                             },
-                              title: 'Update'
-                          );
+                            title: 'Update');
                       },
                     ),
                   ],
@@ -169,11 +191,13 @@ class _CrudScreenState extends State<CrudScreen> {
                                           context: context,
                                           builder: (context) => Mydialogbox(
                                               title: "Confirm Delete",
-                                              content: "Are you sure to delete the data?",
+                                              content:
+                                                  "Are you sure to delete the data?",
                                               btnText1: "Yes",
                                               btnText2: "No",
                                               onBtn1pressed: () {
-                                                FirebaseServices.deleteData(state.nameList[index]);
+                                                FirebaseServices.deleteData(
+                                                    state.nameList[index]);
                                                 // print('Data deleted fired from alert');
                                                 Navigator.pop(context);
                                               },
@@ -191,7 +215,11 @@ class _CrudScreenState extends State<CrudScreen> {
                                   nameController.text = state.nameList[index];
                                   emailController.text = state.emailList[index];
                                   phoneController.text = state.phoneList[index];
-                                  BlocProvider.of<FirebaseCrudBloc>(context).add(TextChangedEvent(name: nameController.text, email: emailController.text, phone: phoneController.text));
+                                  BlocProvider.of<FirebaseCrudBloc>(context)
+                                      .add(TextChangedEvent(
+                                          name: nameController.text,
+                                          email: emailController.text,
+                                          phone: phoneController.text));
                                 },
                                 child: Card(
                                   color:
@@ -226,7 +254,8 @@ class _CrudScreenState extends State<CrudScreen> {
                           context: context,
                           builder: (context) => Mydialogbox(
                               title: "Lost Connection!",
-                              content: "Data will be stored offline without connection",
+                              content:
+                                  "Data will be stored offline without connection",
                               btnText1: "Yes",
                               btnText2: "No",
                               onBtn1pressed: () {
@@ -235,8 +264,8 @@ class _CrudScreenState extends State<CrudScreen> {
                               onBtn2pressed: () {
                                 Navigator.of(context).pop();
                               }));
-                        }
-                      },
+                    }
+                  },
                   child: SizedBox(),
                 ),
               ],

@@ -32,4 +32,4 @@ class TempInvalidTextState extends TempCrudState {}
 
 class TempDataValidAndConnectedState extends TempCrudState {}
 
-class DataUpdatedState extends TempCrudState{}
+class DataUpdatedState extends TempCrudState {}

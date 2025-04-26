@@ -22,9 +22,9 @@ class _FbLoginState extends State<TempLogin> {
 
   @override
   void dispose() {
-    super.dispose();
     emailController.dispose();
     passController.dispose();
+    super.dispose();
   }
 
   @override
@@ -34,19 +34,16 @@ class _FbLoginState extends State<TempLogin> {
         body: SafeArea(
           child: Container(
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [
-                    // Color(0xfffdfbfb),
-                    Colors.white,
-                    Colors.grey.shade300,
-                    Colors.grey.shade500,
-                    Colors.grey.shade900
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  transform: GradientRotation(5.80)
-              )
-            ),
+                gradient: LinearGradient(
+                    colors: [
+                  Colors.white,
+                  Colors.grey.shade300,
+                  Colors.grey.shade500,
+                  Colors.grey.shade900
+                ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    transform: GradientRotation(5.80))),
             child: Padding(
               padding: const EdgeInsets.only(left: 15, right: 15),
               child: Column(
@@ -88,15 +85,14 @@ class _FbLoginState extends State<TempLogin> {
                             TempLogInPasswordChangedEvent(
                                 email: emailController.text,
                                 password: passController.text,
-                                context: context
-                            ));
+                                context: context));
                       }),
                   SizedBox(height: 20),
                   BlocListener<TempLogInBloc, TempLogInState>(
                     listener: (context, state) {
                       if (state is TempCredentialsVerifiedState) {
-
-                        Navigator.pushNamedAndRemoveUntil(context, RoutesName.tempCrudScreen,(route)=> false );
+                        Navigator.pushNamedAndRemoveUntil(context,
+                            RoutesName.tempCrudScreen, (route) => false);
                         emailController.clear();
                         passController.clear();
                       }
@@ -104,25 +100,27 @@ class _FbLoginState extends State<TempLogin> {
                     child: BlocBuilder<TempLogInBloc, TempLogInState>(
                       builder: (context, state) {
                         return CupertinoButton(
+                          borderRadius: BorderRadius.circular(20),
                           onPressed: () {
-                            if(state is TempLogInValidState) {
+                            if (state is TempLogInValidState) {
                               BlocProvider.of<TempLogInBloc>(context).add(
                                   TempLogInSubmittedEvent(
                                       email: emailController.text,
                                       password: passController.text,
-                                      context: context
-                                  ));
+                                      context: context));
                               showDialog(
                                   context: context,
-                                  builder: (context){
-                                    return Center(child: CircularProgressIndicator());
+                                  builder: (context) {
+                                    return Center(
+                                        child: CircularProgressIndicator());
                                   });
-                              Future.delayed(Duration(milliseconds: 1000),(){
+                              Future.delayed(Duration(milliseconds: 1000), () {
                                 Navigator.pop(context);
                               });
                             }
                           },
-                          color: (state is TempLogInInvalidState || state is TempLogInInitialState)
+                          color: (state is TempLogInInvalidState ||
+                                  state is TempLogInInitialState)
                               ? Colors.grey
                               : Theme.of(context).colorScheme.primary,
                           child: Text(

@@ -15,7 +15,6 @@ class FbLogin extends StatefulWidget {
 }
 
 class _FbLoginState extends State<FbLogin> {
-
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
 
@@ -55,7 +54,7 @@ class _FbLoginState extends State<FbLogin> {
                 MyTextField(
                     controller: emailController,
                     hintText: 'Email',
-                    onTextChanged: (val){
+                    onTextChanged: (val) {
                       BlocProvider.of<FirebaseLoginBloc>(context).add(
                           LoginEmailChangedEvent(email: emailController.text));
                     }),
@@ -64,7 +63,7 @@ class _FbLoginState extends State<FbLogin> {
                     obscureText: true,
                     controller: passController,
                     hintText: 'Password',
-                    onTextChanged: (val){
+                    onTextChanged: (val) {
                       BlocProvider.of<FirebaseLoginBloc>(context).add(
                           LoginPasswordChangedEvent(
                               email: emailController.text,
@@ -88,12 +87,14 @@ class _FbLoginState extends State<FbLogin> {
                                   email: emailController.text,
                                   password: passController.text));
                         },
-                        color: (state is LoginInvalidState || state is LoginInitialState)
+                        color: (state is LoginInvalidState ||
+                                state is LoginInitialState)
                             ? Colors.grey
                             : Theme.of(context).colorScheme.primary,
                         child: Text(
                           'Log in',
-                          style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.secondary),
                         ),
                       );
                     },
@@ -102,8 +103,6 @@ class _FbLoginState extends State<FbLogin> {
               ],
             ),
           ),
-        )
-    );
+        ));
   }
-  
 }
